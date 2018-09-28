@@ -15,13 +15,16 @@ import {
 } from "react-native";
 import { Divider } from "react-native-material-ui";
 
-class Login extends Component {
+export default class Login extends Component {
   constructor() {
     super();
     this.state = { email: "", password: "" };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.loginSubmit = this.loginSubmit.bind(this);
   }
+  // static navigationOptions = {
+  //   header: null
+  // };
 
   handleSubmit() {
     // event.preventDefault();
@@ -58,8 +61,6 @@ class Login extends Component {
   render() {
     return (
       <View>
-        <Divider />
-
         <TextInput
           onChangeText={email => this.setState({ email })}
           title="email"
@@ -99,5 +100,3 @@ class Login extends Component {
     );
   }
 }
-
-export default Login;
