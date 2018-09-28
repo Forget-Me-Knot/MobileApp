@@ -32,15 +32,19 @@ export default class HomeScreen extends React.Component {
         >
           {/* <Navbar /> */}
           <View style={styles.welcomeContainer}>
-            <Text style={{ fontSize: 60 }}>🍕</Text>
             {/* <Image
-              source={
-                __DEV__
-                  ? require("../assets/images/robot-dev.png")
-                  : require("../assets/images/robot-prod.png")
-              }
-              style={styles.welcomeImage}
+              source={{
+                uri: "https://cdn141.picsart.com/273128257001201.png?c480x480"
+              }}
+              style={{ width: 400, height: 400 }}
             /> */}
+            <Image
+              source={{
+                uri: "https://cdn130.picsart.com/274260776006201.jpg?c480x480"
+              }}
+              style={{ width: 400, height: 400 }}
+            />
+            <Text style={{ fontSize: 60 }}>🍕</Text>
           </View>
 
           <View style={styles.getStartedContainer}>
