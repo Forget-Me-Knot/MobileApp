@@ -1,16 +1,18 @@
-// import React from "react";
-// import {
-//   Image,
-//   Platform,
-//   ScrollView,
-//   StyleSheet,
-//   Text,
-//   TouchableOpacity,
-//   View
-// } from "react-native";
-// import { WebBrowser } from "expo";
-// import Divider , Avatar,List, Listitem from "react-native-material-ui";
-// import PropTypes from "prop-types";
+import React, { Component } from "react";
+import {
+  Image,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  FlatList,
+  SectionList,
+  View
+} from "react-native";
+import { WebBrowser } from "expo";
+import { Divider, Avatar, List, Listitem } from "react-native-material-ui";
+import PropTypes from "prop-types";
 
 // // import List from "@material-ui/core/List";
 // // import ListItem from "@material-ui/core/ListItem";
@@ -28,6 +30,30 @@
 //   }
 // });
 
+class menuItems extends Component {
+  render() {
+    return (
+      <View>
+        <SectionList
+          renderItem={({ item, index, section }) => (
+            <Text key={index}>{item}</Text>
+          )}
+          renderSectionHeader={({ section: { title } }) => (
+            <Text style={{ fontWeight: "bold" }}>{title}</Text>
+          )}
+          sections={[
+            { title: "Title1", data: ["item1", "item2"] },
+            { title: "Title2", data: ["item3", "item4"] },
+            { title: "Title3", data: ["item5", "item6"] }
+          ]}
+          keyExtractor={(item, index) => item + index}
+        />
+      </View>
+    );
+  }
+}
+
+export default menuItems;
 // function InsetDividers(props) {
 //   const { classes } = props;
 //   return (
