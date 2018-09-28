@@ -11,8 +11,8 @@ import {
   View
 } from "react-native";
 import { WebBrowser } from "expo";
-import { Divider, Avatar, List, Listitem } from "react-native-material-ui";
-import PropTypes from "prop-types";
+// import { Divider, Avatar, List, Listitem } from "react-native-material-ui";
+// import PropTypes from "prop-types";
 import { MonoText } from "../components/StyledText";
 
 // // import List from "@material-ui/core/List";
@@ -31,7 +31,10 @@ import { MonoText } from "../components/StyledText";
 //   }
 // });
 
-class menuItems extends Component {
+class MenuItems extends Component {
+  static navigationOptions = {
+    header: null
+  };
   render() {
     return (
       <View style={styles.container}>
@@ -75,7 +78,7 @@ class menuItems extends Component {
   }
 }
 
-export default menuItems;
+export default MenuItems;
 // function InsetDividers(props) {
 //   const { classes } = props;
 //   return (

@@ -11,6 +11,9 @@ import {
 import { WebBrowser } from "expo";
 import { Card, CardMedia } from "react-native-material-ui";
 export default class MessageCard extends React.Component {
+  static navigationOptions = {
+    header: null
+  };
   render() {
     return (
       <View>
