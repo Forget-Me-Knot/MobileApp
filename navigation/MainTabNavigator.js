@@ -10,9 +10,9 @@ import HomeScreen from "../screens/HomeScreen";
 import LinksScreen from "../screens/LinksScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import QuickNotes from "../screens/QuickNotes";
-import { Navbar } from "../screens/NavbarNavigator";
 import DemoInfoScreen from "../screens/DemoInfo";
 import MessageCard from "../screens/Card";
+import MenuItems from "../screens/MenuItems";
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen
@@ -32,23 +32,23 @@ HomeStack.navigationOptions = {
   )
 };
 
-// const LinksStack = createStackNavigator({
-//   Links: LinksScreen
-// });
+const MenuStack = createStackNavigator({
+  MenuItems: MenuItems
+});
 
-// LinksStack.navigationOptions = {
-//   tabBarLabel: "Quick Notes",
-//   tabBarIcon: ({ focused }) => (
-//     <TabBarIcon
-//       focused={focused}
-//       name={
-//         Platform.OS === "ios"
-//           ? `ios-create${focused ? "" : "-outline"}`
-//           : "md-create"
-//       }
-//     />
-//   )
-// };
+MenuStack.navigationOptions = {
+  tabBarLabel: "Menu",
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={
+        Platform.OS === "ios"
+          ? `ios-menu${focused ? "" : "-outline"}`
+          : "md-menu"
+      }
+    />
+  )
+};
 const QuickNotesStack = createStackNavigator({
   QuickNotes: QuickNotes
 });
@@ -159,7 +159,7 @@ DemoStack.navigationOptions = {
 export default createBottomTabNavigator({
   HomeStack,
   //LinksStack,
-  // MenuStack,
+  MenuStack,
   MessagesStack,
   QuickNotesStack,
   // SettingsStack,
