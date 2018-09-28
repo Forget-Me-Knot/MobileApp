@@ -7,19 +7,18 @@ import {
 
 import TabBarIcon from "../components/TabBarIcon";
 import HomeScreen from "../screens/HomeScreen";
-import LinksScreen from "../screens/LinksScreen";
+// import LinksScreen from "../screens/LinksScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import QuickNotes from "../screens/QuickNotes";
 import DemoInfoScreen from "../screens/DemoInfo";
 import MessageCard from "../screens/Card";
 import MenuItems from "../screens/MenuItems";
 
-const HomeStack = createStackNavigator({
+const CalendarStack = createStackNavigator({
   Home: HomeScreen
 });
-
-HomeStack.navigationOptions = {
-  tabBarLabel: "Calender",
+CalendarStack.navigationOptions = {
+  tabBarLabel: "Calendar",
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -31,6 +30,9 @@ HomeStack.navigationOptions = {
     />
   )
 };
+// const CalendarStack = createStackNavigator({
+//   Home: HomeScreen
+// });
 
 const MenuStack = createStackNavigator({
   MenuItems: MenuItems
@@ -157,11 +159,9 @@ DemoStack.navigationOptions = {
 // };
 
 export default createBottomTabNavigator({
-  HomeStack,
-  //LinksStack,
+  CalendarStack,
   MenuStack,
   MessagesStack,
   QuickNotesStack,
-  // SettingsStack,
   DemoStack
 });
