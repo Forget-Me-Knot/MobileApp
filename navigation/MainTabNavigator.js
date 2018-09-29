@@ -160,8 +160,8 @@ DemoStack.navigationOptions = {
 
 export default createBottomTabNavigator({
   CalendarStack,
-  MenuStack,
   MessagesStack,
   QuickNotesStack,
-  DemoStack
+  DemoStack,
+  MenuStack
 });

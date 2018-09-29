@@ -4,7 +4,7 @@ import { Platform } from "react-native";
 import { Text, View, SectionList, Button } from "react-native";
 import { WebBrowser } from "expo";
 import menuItems from "./MenuItems";
-// import { MonoText } from "../components/StyledText";
+import Login from "./login";
 
 export default class Navbar extends React.Component {
   constructor() {
@@ -15,23 +15,17 @@ export default class Navbar extends React.Component {
     return (
       <View>
         <Toolbar
-          leftElement="menu"
-          // style={{ color: "grey" }}
-          //height="80px"
-          icon="menu"
-          // backgroundColor="grey"
-          // rightElement={{
-          //   menu: {
-          //     icon: "more-vert",
-          //     labels: ["item 1", "item 2"]
-          //   }
-          // }}
-          // onRightElementPress={label => {
-          //   console.log(label);
-          // }}
-        >
-          <Button title="menu" onPress={() => this.showMenu()} />
-        </Toolbar>
+          rightElement="account-circle"
+          icon="account-circle"
+          onRightElementPress={() => <Login />}
+        />
+        {/* <Button
+            title="profile"
+            onPress={() => {
+              return <Login />;
+            }}
+          /> */}
+        {/* </Toolbar> */}
       </View>
     );
   }
