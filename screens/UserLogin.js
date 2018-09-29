@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-// import  firebase  from "../firebase";
 var firebase = require("firebase");
 import mobileApp from "../firebase";
 import {
@@ -13,31 +12,17 @@ import {
   TextInput,
   Button
 } from "react-native";
-import { Divider } from "react-native-material-ui";
 
-export default class Login extends Component {
+export default class UserLogin extends Component {
   constructor() {
     super();
     this.state = { email: "", password: "" };
-    this.handleSubmit = this.handleSubmit.bind(this);
+
     this.loginSubmit = this.loginSubmit.bind(this);
   }
-  // static navigationOptions = {
-  //   header: null
-  // };
-
-  handleSubmit() {
-    // event.preventDefault();
-    const email = this.state.email;
-    const pass = this.state.password;
-    console.log(this.state);
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(email, pass)
-      .catch(function(error) {
-        console.error(error);
-      });
-  }
+  static navigationOptions = {
+    header: null
+  };
 
   loginSubmit() {
     const email = this.state.email;
@@ -61,24 +46,7 @@ export default class Login extends Component {
   render() {
     return (
       <View>
-        <TextInput
-          onChangeText={email => this.setState({ email })}
-          title="email"
-          style={{ height: 40, backgroundColor: "white" }}
-          placeholder="enter email here!"
-        />
-        <TextInput
-          title="password"
-          placeholder="enter password!"
-          style={{ height: 40, backgroundColor: "white" }}
-          onChangeText={password => this.setState({ password })}
-        />
-        <Button
-          title="signup"
-          //   onPress={() => console.log("this stuff", this.state)}
-          onPress={() => this.handleSubmit()}
-        />
-        <Divider />
+        <Text> Welcome back! </Text>
         <TextInput
           title="email"
           onChangeText={email => this.setState({ email })}

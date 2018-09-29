@@ -7,12 +7,13 @@ import {
 
 import TabBarIcon from "../components/TabBarIcon";
 import HomeScreen from "../screens/HomeScreen";
-// import LinksScreen from "../screens/LinksScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import QuickNotes from "../screens/QuickNotes";
-import DemoInfoScreen from "../screens/DemoInfo";
 import MessageCard from "../screens/Card";
 import MenuItems from "../screens/MenuItems";
+import Login from "../screens/LoginAll";
+import UserLogin from "../screens/UserLogin";
+import SignUp from "../screens/SignUp";
 
 const CalendarStack = createStackNavigator({
   Home: HomeScreen
@@ -30,9 +31,6 @@ CalendarStack.navigationOptions = {
     />
   )
 };
-// const CalendarStack = createStackNavigator({
-//   Home: HomeScreen
-// });
 
 const MenuStack = createStackNavigator({
   MenuItems: MenuItems
@@ -87,46 +85,11 @@ MessagesStack.navigationOptions = {
   )
 };
 
-// const SettingsStack = createStackNavigator({
-//   Settings: SettingsScreen
-// });
-
-// SettingsStack.navigationOptions = {
-//   tabBarLabel: "Home",
-//   tabBarIcon: ({ focused }) => (
-//     <TabBarIcon
-//       focused={focused}
-//       name={
-//         Platform.OS === "ios"
-//           ? `ios-home${focused ? "" : "-outline"}`
-//           : "md-home"
-//       }
-//     />
-//   )
-// };
-// const MenuStack = createStackNavigator({
-//   Navbar: Navbar
-// });
-
-// MenuStack.navigationOptions = {
-//   tabBarLabel: "menu",
-//   tabBarIcon: ({ focused }) => (
-//     <TabBarIcon
-//       focused={focused}
-//       name={
-//         Platform.OS === "ios"
-//           ? `ios-home${focused ? "" : "-outline"}`
-//           : "md-home"
-//       }
-//     />
-//   )
-// };
-
-const DemoStack = createStackNavigator({
-  Demo: DemoInfoScreen
+const LoginStack = createStackNavigator({
+  Login: Login
 });
 
-DemoStack.navigationOptions = {
+LoginStack.navigationOptions = {
   tabBarLabel: "login",
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
@@ -140,28 +103,10 @@ DemoStack.navigationOptions = {
   )
 };
 
-// const HomeStack = createStackNavigator({
-//   Home: DemoInfoScreen
-// });
-
-// HomeStack.navigationOptions = {
-//   tabBarLabel: "Home",
-//   tabBarIcon: ({ focused }) => (
-//     <TabBarIcon
-//       focused={focused}
-//       name={
-//         Platform.OS === "ios"
-//           ? `ios-home${focused ? "" : "-outline"}`
-//           : "md-home"
-//       }
-//     />
-//   )
-// };
-
 export default createBottomTabNavigator({
   CalendarStack,
   MessagesStack,
   QuickNotesStack,
-  DemoStack,
+  LoginStack,
   MenuStack
 });

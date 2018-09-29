@@ -1,9 +1,11 @@
 import React from "react";
 import { Platform, StatusBar, StyleSheet, View } from "react-native";
 import { AppLoading, Asset, Font, Icon } from "expo";
-import Navbar from "./screens/NavbarNavigator";
+import Navbar from "./screens/Navbar";
 import { SafeAreaView } from "react-navigation";
 import AppNavigator from "./navigation/AppNavigator";
+// import AppNav from "./navigation/AppNavigator";
+// import AppNav from "./navigation/Router";
 
 export default class App extends React.Component {
   state = {
@@ -27,6 +29,7 @@ export default class App extends React.Component {
             {Platform.OS === "ios" && <StatusBar barStyle="default" />}
 
             <AppNavigator />
+            {/* <AppNav /> */}
           </View>
         </SafeAreaView>
       );
