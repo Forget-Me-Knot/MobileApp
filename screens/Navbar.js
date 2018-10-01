@@ -25,7 +25,6 @@ export default class Navbar extends React.Component {
 
   render() {
     const nav = this.props.navigation;
-    console.log(nav);
     return (
       // <View>
       <Toolbar
