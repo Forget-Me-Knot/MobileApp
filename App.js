@@ -1,9 +1,12 @@
-import React from "react";
+import React, { Component } from "react";
 import { Platform, StatusBar, StyleSheet, View } from "react-native";
 import { AppLoading, Asset, Font, Icon } from "expo";
 import Navbar from "./screens/Navbar";
 import { SafeAreaView } from "react-navigation";
 import AppNavigator from "./navigation/AppNavigator";
+import { Router } from "./navigation/Router";
+
+import { Navigator, NativeModules } from "react-native";
 // import AppNav from "./navigation/AppNavigator";
 // import AppNav from "./navigation/Router";
 
@@ -24,12 +27,12 @@ export default class App extends React.Component {
     } else {
       return (
         <SafeAreaView style={styles.container}>
-          <Navbar />
+          {/* <Navbar navigation={Router} /> */}
           <View style={styles.container}>
             {Platform.OS === "ios" && <StatusBar barStyle="default" />}
 
+            <Navbar />
             <AppNavigator />
-            {/* <AppNav /> */}
           </View>
         </SafeAreaView>
       );

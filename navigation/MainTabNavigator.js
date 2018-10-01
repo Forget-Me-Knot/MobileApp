@@ -14,6 +14,34 @@ import MenuItems from "../screens/MenuItems";
 import Login from "../screens/LoginAll";
 import UserLogin from "../screens/UserLogin";
 import SignUp from "../screens/SignUp";
+import Navbar from "../screens/Navbar";
+
+// const stackNavigator = StackNavigator({
+//   Info: { screen: InfoView },
+//   Settings: {screen: SettingsView },
+//   Bookmark: {screen: BookmarkView },
+//   Calendar: {screen: CalendarView},
+//   Client: {screen: ClientView},
+// }, {
+//   headerMode: 'none'
+// });
+// const easyRNRoute = DrawerNavigator({
+//   Home: {
+//     screen: App,
+//   },
+//   Stack: {
+//     screen: stackNavigator
+//   }
+//   }, {
+//     contentComponent: DrawerMenu,
+//     contentOptions: {
+//     activeTintColor: ‘#e91e63’,
+//     style: {
+//       flex: 1,
+//       paddingTop: 15,
+//     }
+//   }
+// });
 
 const CalendarStack = createStackNavigator({
   Home: HomeScreen
@@ -33,7 +61,8 @@ CalendarStack.navigationOptions = {
 };
 
 const MenuStack = createStackNavigator({
-  MenuItems: MenuItems
+  MenuItems: MenuItems,
+  Login: Login
 });
 
 MenuStack.navigationOptions = {

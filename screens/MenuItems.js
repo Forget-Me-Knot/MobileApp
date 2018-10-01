@@ -89,7 +89,7 @@ class MenuItems extends Component {
               borderRadius: 3,
               marginBottom: 5
             }}
-            onPress={() => console.log(this.state.sections.personal)}
+            onPress={() => this.props.navigation.navigate("Login")}
           />
           <Button
             title="MASTER CALENDAR"

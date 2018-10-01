@@ -2,6 +2,26 @@
 // import { Router, Scene, Stack } from "react-native-router-flux";
 // import Login from "../screens/Login";
 // import MessageCard from "../screens/Card";
+import React, { PropTypes } from "react";
+import { Platform } from "react-native";
+import {
+  Text,
+  View,
+  SectionList,
+  Button,
+  TouchableHighlight,
+  Link
+} from "react-native";
+import { WebBrowser } from "expo";
+import Navbar from "../screens/Navbar";
+import Login from "../screens/LoginAll";
+import { createStackNavigator } from "react-navigation";
+
+export default createStackNavigator({
+  Login: { screen: Login }
+});
+
+// xs
 
 // const Root = () => (
 //   <Router>

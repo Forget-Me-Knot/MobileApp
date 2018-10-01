@@ -14,7 +14,7 @@ import {
 import { Button } from "react-native-elements";
 import { Divider } from "react-native-material-ui";
 
-export default class Login extends Component {
+export default class Login extends React.Component {
   constructor() {
     super();
     this.state = { email: "", password: "" };
