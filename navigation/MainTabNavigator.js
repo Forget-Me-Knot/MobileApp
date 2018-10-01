@@ -9,7 +9,7 @@ import TabBarIcon from "../components/TabBarIcon";
 import HomeScreen from "../screens/HomeScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import QuickNotes from "../screens/QuickNotes";
-import MessageCard from "../screens/Card";
+import MessageCard from "../screens/Entries";
 import MenuItems from "../screens/MenuItems";
 import Login from "../screens/LoginAll";
 import UserLogin from "../screens/UserLogin";
