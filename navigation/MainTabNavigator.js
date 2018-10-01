@@ -7,19 +7,47 @@ import {
 
 import TabBarIcon from "../components/TabBarIcon";
 import HomeScreen from "../screens/HomeScreen";
-import LinksScreen from "../screens/LinksScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import QuickNotes from "../screens/QuickNotes";
-import DemoInfoScreen from "../screens/DemoInfo";
 import MessageCard from "../screens/Entries";
 import MenuItems from "../screens/MenuItems";
+import Login from "../screens/LoginAll";
+import UserLogin from "../screens/UserLogin";
+import SignUp from "../screens/SignUp";
+import Navbar from "../screens/Navbar";
 
-const HomeStack = createStackNavigator({
+// const stackNavigator = StackNavigator({
+//   Info: { screen: InfoView },
+//   Settings: {screen: SettingsView },
+//   Bookmark: {screen: BookmarkView },
+//   Calendar: {screen: CalendarView},
+//   Client: {screen: ClientView},
+// }, {
+//   headerMode: 'none'
+// });
+// const easyRNRoute = DrawerNavigator({
+//   Home: {
+//     screen: App,
+//   },
+//   Stack: {
+//     screen: stackNavigator
+//   }
+//   }, {
+//     contentComponent: DrawerMenu,
+//     contentOptions: {
+//     activeTintColor: ‘#e91e63’,
+//     style: {
+//       flex: 1,
+//       paddingTop: 15,
+//     }
+//   }
+// });
+
+const CalendarStack = createStackNavigator({
   Home: HomeScreen
 });
-
-HomeStack.navigationOptions = {
-  tabBarLabel: "Calender",
+CalendarStack.navigationOptions = {
+  tabBarLabel: "Calendar",
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -33,7 +61,8 @@ HomeStack.navigationOptions = {
 };
 
 const MenuStack = createStackNavigator({
-  MenuItems: MenuItems
+  MenuItems: MenuItems,
+  Login: Login
 });
 
 MenuStack.navigationOptions = {
@@ -85,46 +114,11 @@ MessagesStack.navigationOptions = {
   )
 };
 
-// const SettingsStack = createStackNavigator({
-//   Settings: SettingsScreen
-// });
-
-// SettingsStack.navigationOptions = {
-//   tabBarLabel: "Home",
-//   tabBarIcon: ({ focused }) => (
-//     <TabBarIcon
-//       focused={focused}
-//       name={
-//         Platform.OS === "ios"
-//           ? `ios-home${focused ? "" : "-outline"}`
-//           : "md-home"
-//       }
-//     />
-//   )
-// };
-// const MenuStack = createStackNavigator({
-//   Navbar: Navbar
-// });
-
-// MenuStack.navigationOptions = {
-//   tabBarLabel: "menu",
-//   tabBarIcon: ({ focused }) => (
-//     <TabBarIcon
-//       focused={focused}
-//       name={
-//         Platform.OS === "ios"
-//           ? `ios-home${focused ? "" : "-outline"}`
-//           : "md-home"
-//       }
-//     />
-//   )
-// };
-
-const DemoStack = createStackNavigator({
-  Demo: DemoInfoScreen
+const LoginStack = createStackNavigator({
+  Login: Login
 });
 
-DemoStack.navigationOptions = {
+LoginStack.navigationOptions = {
   tabBarLabel: "login",
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
@@ -138,30 +132,10 @@ DemoStack.navigationOptions = {
   )
 };
 
-// const HomeStack = createStackNavigator({
-//   Home: DemoInfoScreen
-// });
-
-// HomeStack.navigationOptions = {
-//   tabBarLabel: "Home",
-//   tabBarIcon: ({ focused }) => (
-//     <TabBarIcon
-//       focused={focused}
-//       name={
-//         Platform.OS === "ios"
-//           ? `ios-home${focused ? "" : "-outline"}`
-//           : "md-home"
-//       }
-//     />
-//   )
-// };
-
 export default createBottomTabNavigator({
-  HomeStack,
-  //LinksStack,
-  MenuStack,
+  CalendarStack,
   MessagesStack,
   QuickNotesStack,
-  // SettingsStack,
-  DemoStack
+  LoginStack,
+  MenuStack
 });

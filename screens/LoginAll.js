@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-// import  firebase  from "../firebase";
 var firebase = require("firebase");
 import mobileApp from "../firebase";
 import {
@@ -10,24 +9,23 @@ import {
   Text,
   TouchableOpacity,
   View,
-  TextInput,
-  Button
+  TextInput
 } from "react-native";
+import { Button } from "react-native-elements";
 import { Divider } from "react-native-material-ui";
 
-export default class Login extends Component {
+export default class Login extends React.Component {
   constructor() {
     super();
     this.state = { email: "", password: "" };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.loginSubmit = this.loginSubmit.bind(this);
   }
-  // static navigationOptions = {
-  //   header: null
-  // };
+  static navigationOptions = {
+    header: null
+  };
 
   handleSubmit() {
-    // event.preventDefault();
     const email = this.state.email;
     const pass = this.state.password;
     console.log(this.state);
@@ -61,6 +59,48 @@ export default class Login extends Component {
   render() {
     return (
       <View>
+        <Text
+          style={{
+            backgroundColor: "rgba(127, 63, 191, 0.8)",
+            borderColor: "transparent",
+            borderWidth: 2,
+            borderRadius: 3,
+            marginBottom: 5,
+            fontSize: 30,
+            textAlign: "center"
+          }}
+        >
+          {" "}
+          Gotta Login!{" "}
+        </Text>
+        <Text
+          style={{
+            backgroundColor: "rgba(63, 191, 191, 0.8)",
+            borderColor: "transparent",
+            borderWidth: 2,
+            borderRadius: 3,
+            marginBottom: 5,
+            fontSize: 20,
+            textAlign: "center"
+          }}
+        >
+          {" "}
+          New here?
+        </Text>
+        <Text
+          style={{
+            backgroundColor: "rgba(191, 63, 191, 0.8)",
+            borderColor: "transparent",
+            borderWidth: 2,
+            borderRadius: 3,
+            marginBottom: 5,
+            fontSize: 20,
+            textAlign: "center"
+          }}
+        >
+          {" "}
+          sign-up!
+        </Text>
         <TextInput
           onChangeText={email => this.setState({ email })}
           title="email"
@@ -74,11 +114,42 @@ export default class Login extends Component {
           onChangeText={password => this.setState({ password })}
         />
         <Button
-          title="signup"
+          title="sign-up"
           //   onPress={() => console.log("this stuff", this.state)}
+          style={{
+            backgroundColor: "rgba(191, 63, 176, 0.4)"
+          }}
           onPress={() => this.handleSubmit()}
         />
         <Divider />
+        <Text
+          style={{
+            backgroundColor: "rgba(63, 191, 191, 0.8)",
+            borderColor: "transparent",
+            borderWidth: 2,
+            borderRadius: 3,
+            marginBottom: 5,
+            fontSize: 20,
+            textAlign: "center"
+          }}
+        >
+          {" "}
+          You look familiar.
+        </Text>
+        <Text
+          style={{
+            backgroundColor: "rgba(191, 63, 191, 0.8)",
+            borderColor: "transparent",
+            // borderWidth: 2,
+            // borderRadius: 3,
+            // marginBottom: 5,
+            fontSize: 20,
+            textAlign: "center"
+          }}
+        >
+          {" "}
+          Sign-in!
+        </Text>
         <TextInput
           title="email"
           onChangeText={email => this.setState({ email })}
@@ -92,7 +163,7 @@ export default class Login extends Component {
           placeholder="enter your password"
         />
         <Button
-          title="login"
+          title="Login"
           //   onPress={() => console.log("this stuff", this.state)}
           onPress={() => this.loginSubmit()}
         />
