@@ -26,7 +26,6 @@ export default class Entries extends React.Component {
 			for (var key in notes){
 				if (notes[key].author === user.uid) myNotes.push(notes[key])
 			}
-			console.log('inside didmount: ', self.state.notes)
 			self.setState({notes: myNotes})
 		})
 	}
@@ -41,7 +40,6 @@ export default class Entries extends React.Component {
 
   render() {
 		const notes = this.state.notes
-		console.log('inside render: ', notes)
     return (
 				notes !== undefined ?
 				<ScrollView>{this.makeList(notes)}</ScrollView>

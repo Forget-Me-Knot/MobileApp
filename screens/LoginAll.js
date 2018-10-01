@@ -13,7 +13,7 @@ export default class Login extends React.Component {
   }
   static navigationOptions = {
     header: null
-  };
+	};
 
   handleSubmit() {
     const email = this.state.email;
