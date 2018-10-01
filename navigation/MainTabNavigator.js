@@ -101,7 +101,7 @@ const MessagesStack = createStackNavigator({
 });
 
 MessagesStack.navigationOptions = {
-  tabBarLabel: "Messages",
+  tabBarLabel: "Entries",
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
