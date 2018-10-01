@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 var firebase = require("firebase");
-import {Image, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View, TextInput, Keyboard} from "react-native";
+import {View, Keyboard} from "react-native";
 import { Button, FormLabel, FormInput, FormValidationMessage } from "react-native-elements";
 import { Divider } from "react-native-material-ui";
 
@@ -27,6 +27,7 @@ export default class Login extends React.Component {
       });
 		}
 		this.setState = {email: "", pass: ""}
+		Keyboard.dismiss()
   }
 
   loginSubmit() {
@@ -41,12 +42,12 @@ export default class Login extends React.Component {
       });
 		}
 		this.setState = {email: "", pass: ""}
+		Keyboard.dismiss()
   }
 
   render() {
     return (
       <View>
-				<TouchableOpacity onPress={Keyboard.dismiss}>
 					<FormLabel>E-mail</FormLabel>
 					<FormInput onChangeText={email => this.setState({email})} />
 
@@ -68,7 +69,6 @@ export default class Login extends React.Component {
 						//   onPress={() => console.log("this stuff", this.state)}
 						onPress={() => this.loginSubmit}
 					/>
-				</TouchableOpacity>
       </View>
     );
   }
