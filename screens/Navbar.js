@@ -28,8 +28,12 @@ class Navbar extends Component {
   }
 
   render() {
+<<<<<<< HEAD
     // const nav = this.props.navigation;
     // console.log(nav);
+=======
+    const nav = this.props.navigation;
+>>>>>>> 24b81f300641edc4bf293542f62da0751989ab48
     return (
       <View>
         <Toolbar
