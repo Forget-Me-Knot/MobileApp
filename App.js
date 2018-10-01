@@ -4,7 +4,8 @@ import { AppLoading, Asset, Font, Icon } from "expo";
 import Navbar from "./screens/Navbar";
 import { SafeAreaView } from "react-navigation";
 import AppNavigator from "./navigation/AppNavigator";
-import { Router } from "./navigation/Router";
+//import MainTab from "./navigation/Router";
+import NavbarStack from "./navigation/Router";
 
 import { Navigator, NativeModules } from "react-native";
 // import AppNav from "./navigation/AppNavigator";
