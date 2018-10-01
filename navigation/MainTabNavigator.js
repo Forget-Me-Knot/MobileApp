@@ -11,7 +11,7 @@ import LinksScreen from "../screens/LinksScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import QuickNotes from "../screens/QuickNotes";
 import DemoInfoScreen from "../screens/DemoInfo";
-import MessageCard from "../screens/Card";
+import MessageCard from "../screens/Entries";
 import MenuItems from "../screens/MenuItems";
 
 const HomeStack = createStackNavigator({
@@ -72,7 +72,7 @@ const MessagesStack = createStackNavigator({
 });
 
 MessagesStack.navigationOptions = {
-  tabBarLabel: "Messages",
+  tabBarLabel: "Entries",
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
