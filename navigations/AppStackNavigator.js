@@ -4,6 +4,8 @@ import { Icon } from "react-native-elements";
 import { createStackNavigator } from "react-navigation";
 import AppTabNavigator from "./AppTabNavigator";
 import Login from "../screens/Login";
+import Todo from '../screens/ToDo';
+import Menu from '../screens/MenuItems';
 
 const AppStackNavigator = createStackNavigator({
   AppTabNavigator: {
@@ -21,7 +23,13 @@ const AppStackNavigator = createStackNavigator({
   },
   Login: {
     screen: Login
-  }
+	},
+	Todo: {
+		screen: Todo
+	},
+	Projects: {
+		screen: Menu
+	}
 });
 
 export default AppStackNavigator;

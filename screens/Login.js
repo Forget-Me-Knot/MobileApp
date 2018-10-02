@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import firebase from "../firebase";
-import { View, Keyboard, TouchableOpacity } from "react-native";
+import { View, Keyboard, Alert } from "react-native";
 import { Button, FormLabel, FormInput } from "react-native-elements";
 
 export default class Login extends Component {
   constructor() {
     super();
     this.state = {};
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.loginSubmit = this.loginSubmit.bind(this);
+		this.handleSubmit = this.handleSubmit.bind(this);
+		this.loginSubmit = this.loginSubmit.bind(this);
   }
 
   handleSubmit() {
@@ -22,26 +22,31 @@ export default class Login extends Component {
           console.error(error);
         });
     }
-    this.setState = { email: "", pass: "" };
+    this.setState = { email: '', pass: '' };
     Keyboard.dismiss();
-  }
+	}
 
-  loginSubmit() {
+  loginSubmit(nav) {
     const email = this.state.email;
-    const pass = this.state.pass;
+		const pass = this.state.pass;
     if (email && pass) {
       firebase
-        .auth()
-        .signInWithEmailAndPassword(email, pass)
+				.auth().signInWithEmailAndPassword(email, pass)
+				.then(function(user){
+					nav.navigate('Home')
+				})
         .catch(function(error) {
-          console.error(error);
-        });
+					console.log(error.message)
+				})
+				.finally(function() {
+				});
     }
-    this.setState = { email: "", pass: "" };
+    this.setState = { email: '', pass: '' };
     Keyboard.dismiss();
   }
 
   render() {
+		const nav = this.props.navigation
     return (
       <View>
         <FormLabel>E-mail</FormLabel>
@@ -63,9 +68,7 @@ export default class Login extends Component {
           secureTextEntry
         />
 
-        <TouchableOpacity>
-          <Button title="LOGIN" onPress={() => this.loginSubmit()} />
-        </TouchableOpacity>
+        <Button title="LOGIN" onPress={() => this.loginSubmit(nav)} />
       </View>
     );
   }
