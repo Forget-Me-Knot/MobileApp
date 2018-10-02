@@ -1,14 +1,35 @@
-import React from "react";
+import React, { Component } from "react";
 import firebase from "../firebase";
 import { StyleSheet, View, TextInput, Button, Keyboard } from "react-native";
 
-export default class QuickNotes extends React.Component {
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    marginTop: 15
+  },
+  welcomeContainer: {
+    alignItems: "center",
+    marginTop: 10,
+    marginBottom: 20
+  },
+  welcomeImage: {
+    width: 100,
+    height: 80,
+    resizeMode: "contain",
+    margin: 20,
+    alignContent: "center"
+  }
+});
+
+export default class Write extends Component {
   constructor(props) {
     super(props);
     this.state = { note: "" };
     this.handlePress = this.handlePress.bind(this);
   }
-  static navigationOptions = {
+
+  static navigatioOptions = {
     header: null
   };
 
@@ -49,24 +70,3 @@ export default class QuickNotes extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#E6E6FA",
-    alignItems: "center",
-    marginTop: 15
-  },
-  welcomeContainer: {
-    alignItems: "center",
-    marginTop: 10,
-    marginBottom: 20
-  },
-  welcomeImage: {
-    width: 100,
-    height: 80,
-    resizeMode: "contain",
-    margin: 20,
-    alignContent: "center"
-  }
-});

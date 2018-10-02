@@ -12,45 +12,45 @@
 
 // ----------------------- SEEDING PROJECT MODEL
 
-function writeProjectData(projectId, name, member) {
-  //   let members = {};
-  //   member.forEach(m => {
-  //     members[m] = true;
-  //   });
-  firebase
-    .database()
-    .ref("projects/" + projectId)
-    .set({
-      name: name,
-      members: members,
-      events: events,
-      todo: todo
-    });
-}
+// function writeProjectData(projectId, name, member) {
+//   //   let members = {};
+//   //   member.forEach(m => {
+//   //     members[m] = true;
+//   //   });
+//   firebase
+//     .database()
+//     .ref("projects/" + projectId)
+//     .set({
+//       name: name,
+//       members: members,
+//       events: events,
+//       todo: todo
+//     });
+// }
 
-writeProjectData(
-  "capstone",
-  "Capstone",
-  ["syun", "jdavis"],
-  [
-    {
-      codeReview: {
-        day: 2,
-        month: 10,
-        year: 2018,
-        timestamp: 1538512200000,
-        dateString: "2018-10-02"
-      },
-      testingCal: {
-        day: 1,
-        month: 10,
-        year: 2018,
-        timestamp: 1538420772,
-        dateString: "2018-10-01"
-      }
-    }
-  ]
-);
+// writeProjectData(
+//   "capstone",
+//   "Capstone",
+//   ["syun", "jdavis"],
+//   [
+//     {
+//       codeReview: {
+//         day: 2,
+//         month: 10,
+//         year: 2018,
+//         timestamp: 1538512200000,
+//         dateString: "2018-10-02"
+//       },
+//       testingCal: {
+//         day: 1,
+//         month: 10,
+//         year: 2018,
+//         timestamp: 1538420772,
+//         dateString: "2018-10-01"
+//       }
+//     }
+//   ]
+// );
 //writeProjectData("hackathon", "Hackathon", ["jdavis"]);
 
 // ----------------------- SEEDING NOTE MODEL
