@@ -9,6 +9,7 @@ import {
   View,
   TextInput
 } from "react-native";
+import firebase from "../firebase";
 
 import { WebBrowser } from "expo";
 

@@ -8,7 +8,8 @@ import {
   Text,
   TouchableOpacity,
   FlatList,
-  SectionList,
+	SectionList,
+	SafeAreaView,
   View
 } from "react-native";
 import { Button } from "react-native-elements";
@@ -17,6 +18,7 @@ import { Divider, Typography, Checkbox } from "react-native-material-ui";
 import { MonoText } from "../components/StyledText";
 import PersonalProjList from "./PersonalProjList";
 import GroupProjList from "./GroupProjList";
+
 const tasks = [
   "take out garbage",
   "get milk",
@@ -26,15 +28,13 @@ const tasks = [
 class ToDo extends Component {
   constructor(props) {
     super(props);
-    this.state = { checked: false };
-  }
-  static navigationOptions = {
-    header: null
-  };
+    this.state = { checked: false }
+	}
+
   //make outside funcition. then bind to item.
   render() {
     return (
-      <View style={{ marginTop: 10 }}>
+      <SafeAreaView style={{ marginTop: 10 }}>
         <ScrollView>
           {tasks.map(item => (
             <Checkbox
@@ -45,7 +45,7 @@ class ToDo extends Component {
             />
           ))}
         </ScrollView>
-      </View>
+      </SafeAreaView>
     );
   }
 }

@@ -1,8 +1,8 @@
-import React from "react";
-import { Calendar, Agenda } from "react-native-calendars"; // 1.5.3
-import { View, Text, StyleSheet } from "react-native";
-var firebase = require("firebase");
-import mobileApp from "../firebase";
+import React from 'react';
+import { Calendar, Agenda } from 'react-native-calendars'; // 1.5.3
+import { View, Text, StyleSheet } from 'react-native';
+var firebase = require('firebase');
+import mobileApp from '../firebase';
 
 export default class WeekCalendar extends React.Component {
   constructor(props) {
@@ -18,16 +18,16 @@ export default class WeekCalendar extends React.Component {
   componentDidMount() {
     // const user = firebase.auth().currentUser;
     var self = this;
-    var ref = firebase.database().ref("events");
-    ref.on("value", function(snapshot) {
+    var ref = firebase.database().ref('events');
+    ref.on('value', function(snapshot) {
       var myEvents = [];
       let events = snapshot.val();
       let singleEvent = {};
       // //   let eventsZ = events[events];
       //   console.log("eventsZero", eventsZ);
-      console.log("events", events);
+      //console.log("events", events);
       singleEvent[events.date.dateString] ==
-        { marked: true, dotColor: "blue", activeOpacity: 0 };
+        { marked: true, dotColor: 'blue', activeOpacity: 0 };
       //   singleEvent[events.date.dateString] = { marked: true, dotColor: "blue" };
       //   singleEvent.description = events.name;
       //   singleEvent.style = { marked: true, dotColor: "blue" };
@@ -36,7 +36,7 @@ export default class WeekCalendar extends React.Component {
       myEvents.push(events);
       //   for (var key in events) {
       //     if (events[key]) myEvents.push(events[key]);
-      console.log("my events", myEvents);
+      //console.log("my events", myEvents);
       //   }
       self.setState({ items: myEvents });
       self.setState({ selectedDates: singleEvent });
@@ -44,7 +44,6 @@ export default class WeekCalendar extends React.Component {
   }
 
   render() {
-    console.log("this state events", this.state);
     return (
       //   <Agenda
       //     minDate={"2018-07-21"}
@@ -78,17 +77,16 @@ export default class WeekCalendar extends React.Component {
       <Calendar
         // Collection of dates that have to be marked. Default = {}
         markedDates={{
-          "2018-10-02": {
+          '2018-10-02': {
             selected: true,
             marked: true,
-            selectedColor: "magenta"
+            selectedColor: 'magenta'
           },
-          "2018-09-17": { marked: true, dotColor: "turqoise" },
-          "2018-10-01": { marked: true, dotColor: "pink", activeOpacity: 0 },
-          "2018-10-01": { marked: true, dotColor: "purple", activeOpacity: 0 },
-          "2018-10-19": {
+          '2018-09-17': { marked: true, dotColor: 'turqoise' },
+          '2018-10-01': { marked: true, dotColor: 'pink', activeOpacity: 0 },
+          '2018-10-19': {
             marked: true,
-            dotColor: "orchid"
+            dotColor: 'orchid'
           }
         }}
       />
@@ -144,13 +142,13 @@ export default class WeekCalendar extends React.Component {
 
   timeToString(time) {
     const date = new Date(time);
-    return date.toISOString().split("T")[0];
+    return date.toISOString().split('T')[0];
   }
 }
 
 const styles = StyleSheet.create({
   item: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     flex: 1,
     borderRadius: 5,
     padding: 10,
