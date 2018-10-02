@@ -8,71 +8,89 @@ export default class WeekCalendar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: {}
+      items: [],
+      selectedDates: {}
     };
   }
   static navigationOptions = {
     header: null
   };
   componentDidMount() {
-    const user = firebase.auth().currentUser;
+    // const user = firebase.auth().currentUser;
     var self = this;
-    var ref = firebase.database().ref("projects/caps/events");
+    var ref = firebase.database().ref("events");
     ref.on("value", function(snapshot) {
       var myEvents = [];
       let events = snapshot.val();
+      let singleEvent = {};
       // //   let eventsZ = events[events];
       //   console.log("eventsZero", eventsZ);
       console.log("events", events);
-      //   events.forEach(item => {
-      //     myEvents.push(item);
-      //   });
+      singleEvent[events.date.dateString] ==
+        { marked: true, dotColor: "blue", activeOpacity: 0 };
+      //   singleEvent[events.date.dateString] = { marked: true, dotColor: "blue" };
+      //   singleEvent.description = events.name;
+      //   singleEvent.style = { marked: true, dotColor: "blue" };
+      //filter if memberId == thisuser.id
+
       myEvents.push(events);
       //   for (var key in events) {
       //     if (events[key]) myEvents.push(events[key]);
+      console.log("my events", myEvents);
       //   }
       self.setState({ items: myEvents });
+      self.setState({ selectedDates: singleEvent });
     });
   }
 
   render() {
-    console.log("this state events", this.state.items);
+    console.log("this state events", this.state);
     return (
-      <Agenda
-        items={this.state.items}
-        // loadItemsForMonth={this.loadItems.bind(this)}
-        selected={"2018-07-21"}
-        renderItem={this.renderItem.bind(this)}
-        renderEmptyDate={this.renderEmptyDate.bind(this)}
-        rowHasChanged={this.rowHasChanged.bind(this)}
-        onDayPress={day => {
-          console.log("selected day", day);
+      //   <Agenda
+      //     minDate={"2018-07-21"}
+      //     items={this.state.items}
+      //     // loadItemsForMonth={this.loadItems.bind(this)}
+      //     //   selectedDates={Date.now()}
+      //     renderItem={this.renderItem.bind(this)}
+      //     renderEmptyDate={this.renderEmptyDate.bind(this)}
+      //     rowHasChanged={this.rowHasChanged.bind(this)}
+      //     onDayPress={day => {
+      //       console.log("selected day", day);
+      //     }}
+      //     theme={{
+      //       dotColor: "#BF3FBF",
+      //       selectedDotColor: "#7F3FBF",
+      //       selectedDayBackgroundColor: "#7F3FBF"
+      //     }}
+      //     // onPressArrowLeft={substractMonth => substractMonth()}
+      //     // onPressArrowRight={addMonth => addMonth()}
+      //     // markingType={'period'}
+      //     // markedDates={{this.state.events}
+      //     // monthFormat={'yyyy'}
+      //     // theme={{calendarBackground: 'red', agendaKnobColor: 'green'}}
+      //     markedDates={this.state.selectedDates}
+      //     renderDay={(day, item) => <Text>{day ? day.day : "item"}</Text>}
+      //     // onPress={() => console.log(this)}
+      //     //         const vacation = {key:'vacation', color: 'red', selectedDotColor: 'blue'};
+      //     // const massage = {key:'massage', color: 'blue', selectedDotColor: 'blue'};
+      //     // const workout = {key:'workout', color: 'green'};
+      //   />
+      <Calendar
+        // Collection of dates that have to be marked. Default = {}
+        markedDates={{
+          "2018-10-02": {
+            selected: true,
+            marked: true,
+            selectedColor: "magenta"
+          },
+          "2018-09-17": { marked: true, dotColor: "turqoise" },
+          "2018-10-01": { marked: true, dotColor: "pink", activeOpacity: 0 },
+          "2018-10-01": { marked: true, dotColor: "purple", activeOpacity: 0 },
+          "2018-10-19": {
+            marked: true,
+            dotColor: "orchid"
+          }
         }}
-        theme={{
-          dotColor: "#BF3FBF",
-          selectedDotColor: "#7F3FBF",
-          selectedDayBackgroundColor: "#7F3FBF"
-        }}
-        // onPressArrowLeft={substractMonth => substractMonth()}
-        // onPressArrowRight={addMonth => addMonth()}
-        // markingType={'period'}
-        // markedDates={{this.state.events}
-        // monthFormat={'yyyy'}
-        // theme={{calendarBackground: 'red', agendaKnobColor: 'green'}}
-        renderDay={(day, item) => <Text>{day ? day.day : "item"}</Text>}
-        // onPress={() => console.log(this)}
-        //         const vacation = {key:'vacation', color: 'red', selectedDotColor: 'blue'};
-        // const massage = {key:'massage', color: 'blue', selectedDotColor: 'blue'};
-        // const workout = {key:'workout', color: 'green'};
-        //         <Calendar
-        //   // Collection of dates that have to be marked. Default = {}
-        //   markedDates={{
-        //     '2012-05-16': {selected: true, marked: true, selectedColor: 'blue'},
-        //     '2012-05-17': {marked: true},
-        //     '2012-05-18': {marked: true, dotColor: 'red', activeOpacity: 0},
-        //     '2012-05-19': {disabled: true, disableTouchEvent: true}
-        //   }}
-        // />
       />
     );
   }
@@ -146,44 +164,58 @@ const styles = StyleSheet.create({
   }
 });
 
-// function writeProjectData(projectId, name, members, events) {
+// function writeEventData(name, members, projectId, date) {
 //   //   let members = {};
 //   //   member.forEach(m => {
 //   //     members[m] = true;
 //   //   });
 //   firebase
 //     .database()
-//     .ref("projects/" + projectId)
+//     .ref("events")
 //     .set({
 //       name: name,
 //       members: members,
-//       events: events
+//       projectId: projectId,
+//       date: date
 //     });
 // }
-
-// writeProjectData(
-//   "caps",
-//   "Caps",
-//   ["syun", "jdavis"],
-//   [
-//     {
-//       event: "codeReview",
-//       day: 2,
-//       month: 10,
-//       year: 2018,
-//       timestamp: 1538512200000,
-//       dateString: "2018-10-02"
-//     },
-//     {
-//       event: "testingCal",
-//       day: 1,
-//       month: 10,
-//       year: 2018,
-//       timestamp: 1538420772,
-//       dateString: "2018-10-01"
-//     }
-//   ]
+// writeEventData("Capstone: CodeReview", ["syun", "jdavis"], "Capstone", {
+//   day: 2,
+//   month: 10,
+//   year: 2018,
+//   timestamp: 1538512200000,
+//   dateString: "2018-10-02"
+// });
+// // writeEventData("Capstone: CodeReview", ["syun", "jdavis"], "Capstone", {
+// //   day: 2,
+// //   month: 10,
+// //   year: 2018,
+// //   timestamp: 1538512200000,
+// //   dateString: "2018-10-02"
+// // });
+// writeEventData(
+//   "Capstone: Make Calendar Work!",
+//   ["syun", "kristin"],
+//   "Capstone",
+//   {
+//     day: 1,
+//     month: 10,
+//     year: 2018,
+//     timestamp: 1538512200000,
+//     dateString: "2018-10-01"
+//   }
 // );
+
+// PeRSWzFbHyYb3iPBOCD2CqnN12H3;
+
+// {
+//     event: "testingCal",
+//     day: 1,
+//     month: 10,
+//     year: 2018,
+//     timestamp: 1538420772,
+//     dateString: "2018-10-01"
+//   }
 // props to set on dates
 // const vacation = { key: "vacation", color: "red", selectedDotColor: "blue" };
 // const massage = { key: "massage", color: "blue", selectedDotColor: "blue" };

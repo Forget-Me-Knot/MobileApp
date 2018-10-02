@@ -16,6 +16,7 @@ import UserLogin from "../screens/UserLogin";
 import SignUp from "../screens/SignUp";
 import Navbar from "../screens/Navbar";
 import WeekCalendar from "../screens/Calendar";
+import ToDo from "../screens/ToDo";
 
 const CalendarStack = createStackNavigator({
   Calendar: WeekCalendar
@@ -36,7 +37,8 @@ CalendarStack.navigationOptions = {
 
 const MenuStack = createStackNavigator({
   MenuItems: MenuItems,
-  Login: Login
+  Login: Login,
+  ToDo: ToDo
 });
 
 MenuStack.navigationOptions = {

@@ -92,7 +92,7 @@ class MenuItems extends Component {
             onPress={() => this.props.navigation.navigate("Login")}
           />
           <Button
-            title="MASTER CALENDAR"
+            title="To Do List"
             titleStyle={{ fontWeight: "700", fontSize: "20" }}
             rightIcon={{ name: "arrow-drop-down-circle" }}
             buttonStyle={{
@@ -103,7 +103,7 @@ class MenuItems extends Component {
               padding: 10,
               marginBottom: 5
             }}
-            onPress={() => console.log(this.state.sections.personal)}
+            onPress={() => this.props.navigation.navigate("ToDo")}
           />
           <Button
             title="PERSONAL PROJECTS"
