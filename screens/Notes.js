@@ -17,19 +17,22 @@ export default class Notes extends Component {
   }
 
   componentDidMount() {
-    const user = firebase.auth().currentUser;
 		var self = this;
-		if (user) {
-			var ref = firebase.database().ref("notes");
-			ref.on("value", function(snapshot) {
-				var myNotes = [];
-				let notes = snapshot.val();
-				for (var key in notes) {
-					if (notes[key].author === user.uid) myNotes.push(notes[key]);
-				}
-				self.setState({ notes: myNotes });
-			});
-		}
+		firebase.auth().onAuthStateChanged(function(user) {
+			if (user) {
+				var ref = firebase.database().ref("notes");
+				ref.on("value", function(snapshot) {
+					var myNotes = [];
+					let notes = snapshot.val();
+					for (var key in notes) {
+						if (notes[key].author === user.uid) myNotes.push(notes[key]);
+					}
+					self.setState({ notes: myNotes });
+				});
+			} else {
+				console.log('not logged in')
+			}
+		});
   }
 
   makeList(notes) {

@@ -55,9 +55,6 @@ class MenuItems extends Component {
     this.groupList = this.groupList.bind(this);
   }
 
-  static navigationOptions = {
-    header: null
-  };
   personalList() {
     if (!this.state.personalClick) {
       this.setState({ personalClick: true });
