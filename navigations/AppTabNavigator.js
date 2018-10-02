@@ -3,7 +3,8 @@ import { Platform } from "react-native";
 import { createBottomTabNavigator } from "react-navigation";
 import TabBarIcon from "../components/TabBarIcon";
 import Home from "../screens/Home";
-import Calendar from "../screens/Calendar";
+import CalendarView from "../screens/Calendar";
+import DemoCalendar from "../screens/CalendarDemo";
 import Notes from "../screens/Notes";
 import Write from "../screens/Write";
 
@@ -24,7 +25,7 @@ const AppTabNavigator = createBottomTabNavigator({
     }
   },
   Calendar: {
-    screen: Calendar,
+    screen: CalendarView,
     navigationOptions: {
       tabBarIcon: ({ focused }) => (
         <TabBarIcon
