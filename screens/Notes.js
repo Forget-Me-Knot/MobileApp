@@ -13,7 +13,8 @@ export default class Notes extends Component {
     this.state = {
       notes: []
     };
-    this.makeList = this.makeList.bind(this);
+		this.makeList = this.makeList.bind(this);
+		this.deletenote = this.deletenote.bind(this)
   }
 
   componentDidMount() {
@@ -25,7 +26,9 @@ export default class Notes extends Component {
 					var myNotes = [];
 					let notes = snapshot.val();
 					for (var key in notes) {
-						if (notes[key].author === user.uid) myNotes.push(notes[key]);
+						if (notes[key].author === user.uid) {
+							myNotes.push({...notes[key], key: key});
+						}
 					}
 					self.setState({ notes: myNotes });
 				});
@@ -33,14 +36,21 @@ export default class Notes extends Component {
 				console.log('not logged in')
 			}
 		});
-  }
+	}
+
+	deletenote(key){
+		return firebase.database().ref('notes').child(key)
+			.remove();
+	}
 
   makeList(notes) {
     return notes.map(note => {
       return (
         <ListItem
           key={note.content + Math.random() * 1000}
-          title={note.content}
+					title={note.content}
+					rightIcon={{name: 'delete', style: {marginRight: 10}}}
+					onPressRightIcon={() => this.deletenote(note.key)}
         />
       );
     });
