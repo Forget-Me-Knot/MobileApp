@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import firebase from '../firebase';
-import { StyleSheet, View, TextInput, Button, Keyboard, Picker, Text } from 'react-native';
+import { StyleSheet, View, TextInput, Button, Keyboard, Picker } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -25,7 +25,11 @@ const styles = StyleSheet.create({
 export default class Write extends Component {
   constructor(props) {
     super(props);
-    this.state = { note: '', projects: [] };
+    this.state = {
+			note: '',
+			projects: [],
+			selectedProject: ''
+		};
     this.handlePress = this.handlePress.bind(this);
   }
 
@@ -37,35 +41,33 @@ export default class Write extends Component {
 		const self = this
 		firebase.auth().onAuthStateChanged(function(user) {
 			if (user) {
-				let userProject = []
+				let userProjects = []
 				var ref = firebase.database().ref('projects')
 				ref.on('value', function(snapshot){
 					let projects = snapshot.val()
 					for (let key in projects){
 						if ( projects[key].members ){
 							const members = projects[key].members
-							if ( members.includes(user.uid) ){
-								userProject.push(projects[key].name)
+							const name = projects[key].name
+							if ( members.includes(user.email) ){
+								userProjects.push({name, key})
 							}
 						}
 					}
-					self.setState({projects: userProject})
+					self.setState({projects: userProjects})
 				})
 			}
 		})
 	}
 
   handlePress() {
-    const user = firebase.auth().currentUser;
+		const user = firebase.auth().currentUser;
     const noteid = Math.floor(Math.random() * 100000);
-    firebase
-      .database()
-      .ref('notes/' + noteid)
+    firebase.database().ref('notes/' + noteid)
       .set({
         author: user.uid,
         content: this.state.note
-      });
-    Keyboard.dismiss();
+			});
   }
 
   render() {
@@ -73,13 +75,13 @@ export default class Write extends Component {
     return (
       <View style={styles.container}>
 				<Picker
-					selectedValue={this.state.project}
-					itemStyle={{ height: 50, width: 200 }}
-				  onValueChange={(project) => this.setState({project})}
+					selectedValue={this.state.selectedProject}
+					itemStyle={{ height: 80, width: 200 }}
+				  onValueChange={(selectedProject) => this.setState({selectedProject})}
 				>
 					{
 						projects.map(project => (
-							<Picker.Item label={project} value={project} key={project} />
+							<Picker.Item label={project.name} value={project.key} key={project.key} />
 						))
 					}
 				</Picker>
