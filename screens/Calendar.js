@@ -107,87 +107,60 @@ export default class CalendarView extends React.Component {
 //import mobileApp from "../firebase";
 
 // const listC = [
-//   {
-//     task: "Do All The THINGS!",
-//     members: ["stella@email.com", "kristin@email.com"],
-//     project: "Capstone",
-//     color: "pink",
-//     date: {
-//       day: 1,
-//       month: 10,
-//       year: 2018,
-//       timestamp: 1538512200000,
-//       dateString: "2018-10-01"
-//     }
-//   },
-//   {
-//     task: "Capstone: Make Calendar Work!",
-//     members: ["kristin@email.com", "kristin"],
-//     project: "Capstone",
-//     color: "green",
-//     date: {
-//       day: 1,
-//       month: 10,
-//       year: 2018,
-//       timestamp: 1538512200000,
-//       dateString: "2018-10-01"
-//     }
-//   },
-//   {
-//     task: "Code Review!",
-//     members: ["stella@email.com", "kristin@email.com", "katie@email.com"],
-//     project: "Capstone",
-//     color: "turqoise",
-//     date: {
-//       day: 2,
-//       month: 10,
-//       year: 2018,
-//       timestamp: 1538512200000,
-//       dateString: "2018-10-02"
-//     }
-//   },
-//   {
-//     task: "Capstone: Switch roles",
-//     members: ["stella@email.com", "kristin@email.com", "katie@email.com"],
-//     project: "Capstone",
-//     color: "purple",
-//     date: {
-//       day: 3,
-//       month: 10,
-//       year: 2018,
-//       timestamp: 1538512200000,
-//       dateString: "2018-10-03"
-//     }
-//   },
-//   {
-//     task: " Make Everything Work",
-//     members: ["stella@email.com", "kristin@email.com", "katie@email.com"],
-//     project: "Capstone",
-//     color: "pink",
-//     date: {
-//       day: 5,
-//       month: 10,
-//       year: 2018,
-//       timestamp: 1538512200000,
-//       dateString: "2018-10-05"
-//     }
-//   }
+//   // {
+//   name: "Capstone",
+//   members: ["stella@email.com", "kristin@email.com"],
+//   events: ["x"],
+//   color: "pink",
+//   notes: ["x"],
+//   todo: ["x"]
+// },
+// {
+//   name: "Life",
+//   members: ["stella@email.com", "kristin@email.com"],
+//   events: ["x"],
+//   color: "aqua",
+//   notes: ["x"],
+//   todo: ["x"]
+// },
+// {
+//   name: "Career",
+//   members: ["stella@email.com", "kristin@email.com"],
+//   events: ["x"],
+//   color: "plum",
+//   notes: ["x"],
+//   todo: ["x"]
+// },
+// {
+//   name: "Plan Event",
+//   members: ["stella@email.com", "kristin@email.com"],
+//   events: ["x"],
+//   color: "lightgreen",
+//   notes: ["x"],
+//   todo: ["x"]
+// },
+// {
+//   name: "Treat YO SELF",
+//   members: ["stella@email.com", "kristin@email.com"],
+//   events: ["x"],
+//   color: "pink",
+//   notes: ["x"],
+//   todo: ["x"]
+// }
 // ];
-// function writeEventData(obj) {
-//   const eventId = Math.floor(Math.random() * 1000);
-//   //   //   let members = {};
-//   //   //   member.forEach(m => {
-//   //   //     members[m] = true;
-//   //   //   });
+// function writeProjectData(obj) {
+//   const projectId = Math.floor(Math.random() * 1000);
+
 //   firebase
 //     .database()
-//     .ref("events/" + eventId)
+//     .ref("projects/" + projectId)
 //     .set({
-//       task: obj.task,
+//       name: obj.name,
 //       members: obj.members,
-//       project: obj.project,
+//       events: obj.events,
 //       color: obj.color,
-//       date: obj.date
+//       notes: obj.notes,
+//       todo: obj.todo
 //     });
 // }
-// listC.forEach(item => writeEventData(item));
+// listC.forEach(item => writeProjectData(item));
