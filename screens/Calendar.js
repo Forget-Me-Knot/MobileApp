@@ -6,117 +6,44 @@ var firebase = require("firebase");
 import mobileApp from "../firebase";
 import EventList from "./EventList";
 
-const listC = [
-  {
-    task: "Do All The THINGS!",
-    memebers: ["syun", "kristin"],
-    projects: "Capstone",
-    date: {
-      day: 1,
-      month: 10,
-      year: 2018,
-      timestamp: 1538512200000,
-      dateString: "2018-10-01"
-    }
-  },
-  {
-    task: "Capstone: Make Calendar Work!",
-    memebers: ["syun", "kristin"],
-    projects: "Capstone",
-    date: {
-      day: 1,
-      month: 10,
-      year: 2018,
-      timestamp: 1538512200000,
-      dateString: "2018-10-01"
-    }
-  },
-  {
-    task: "Code Review!",
-    memebers: ["syun", "kristin"],
-    projects: "Capstone",
-    date: {
-      day: 2,
-      month: 10,
-      year: 2018,
-      timestamp: 1538512200000,
-      dateString: "2018-10-02"
-    }
-  },
-  {
-    task: "Capstone: Switch roles",
-    memebers: ["syun", "kristin"],
-    projects: "Capstone",
-    date: {
-      day: 3,
-      month: 10,
-      year: 2018,
-      timestamp: 1538512200000,
-      dateString: "2018-10-03"
-    }
-  },
-  {
-    task: " Make Everything Work",
-    memebers: ["syun", "kristin"],
-    projects: "Capstone",
-    date: {
-      day: 5,
-      month: 10,
-      year: 2018,
-      timestamp: 1538512200000,
-      dateString: "2018-10-05"
-    }
-  }
-];
 export default class CalendarView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: {
-        "2018-10-01": [
-          {
-            height: 100,
-            name: "item for a test event1 if this ie being cut off tell me "
-          },
-          { height: 800, name: "item for a test event2 what about this one ?" }
-        ],
-        "2018-10-02": []
-      } // nothing happens here, empty date will be rendered
+      items: [],
+      selected: {} // nothing happens here, empty date will be rendered
     };
   }
   static navigationOptions = {
     header: null
   };
-  // componentDidMount() {
-  //   // const user = firebase.auth().currentUser;
-  //   var self = this;
-  //   var ref = firebase.database().ref("events");
-  //   ref.on("value", function(snapshot) {
-  //     var myEvents = [];
-  //     let events = snapshot.val();
-  //     let singleEvent = {};
-  //     // //   let eventsZ = events[events];
-  //     //   console.log("eventsZero", eventsZ);
-  //     console.log("events", events);
-  //     singleEvent[events.date.dateString] = {
-  //       marked: true,
-  //       dotColor: "blue",
-  //       activeOpacity: 0
-  //     };
-  //     //   singleEvent[events.date.dateString] = { marked: true, dotColor: "blue" };
-  //     //   singleEvent.description = events.name;
-  //     //   singleEvent.style = { marked: true, dotColor: "blue" };
-  //     //filter if memberId == thisuser.id
+  componentDidMount() {
+    const user = firebase.auth().currentUser;
+    var self = this;
+    var ref = firebase.database().ref("events");
+    ref.on("value", function(snapshot) {
+      var myEvents = [];
+      let marked = {};
+      let events = snapshot.val();
 
-  //     myEvents.push(events);
-  //     //   for (var key in events) {
-  //     //     if (events[key]) myEvents.push(events[key]);
-  //     console.log("my events", myEvents);
-  //     //   }
-  //     self.setState({ items: myEvents });
-  //     self.setState({ selectedDates: singleEvent });
-  //   });
-  // }
+      for (var key in events) {
+        let people = events[key].members.includes(user.email);
+
+        if (people) {
+          myEvents.push(events[key]);
+          let marker = {};
+          // console.log("my events", myEvents);
+          // console.log("this user id", user.email);
+          let { color } = events[key];
+          let str = events[key].date.dateString;
+          marked[str] = { selectedColor: color, selected: "true" };
+          console.log("marker", marker);
+        }
+      }
+      self.setState({ items: myEvents });
+      self.setState({ selected: marked });
+    });
+  }
 
   render() {
     console.log("this state events", this.state);
@@ -139,24 +66,14 @@ export default class CalendarView extends React.Component {
           rowHasChanged={(r1, r2) => {
             return r1.name !== r2.name;
           }}
-          markedDates={{
-            "2018-10-20": { textColor: "green" },
-            "2018-10-22": { startingDay: true, color: "turquoise" },
-            "2018-10-23": {
-              selected: true,
-              endingDay: true,
-              color: "turquoise"
-            },
-            "2018-10-04": {
-              startingDay: true,
-              color: "pink",
-              endingDay: true
-            }
-          }}
-          markingType={"period"}
+          markedDates={this.state.selected}
+
+          // markingType={"period"}
         />
         <Text style={{ fontSize: 20 }}>Event List!</Text>
-        <EventList events={listC} />
+        return this.state.items.length?(
+        <EventList events={this.state.items} />
+        ):()
       </View>
     );
   }
@@ -186,3 +103,64 @@ export default class CalendarView extends React.Component {
 //     paddingTop: 30
 //   }
 // });
+// var firebase = require("firebase");
+//import mobileApp from "../firebase";
+
+// const listC = [
+//   // {
+//   name: "Capstone",
+//   members: ["stella@email.com", "kristin@email.com"],
+//   events: ["x"],
+//   color: "pink",
+//   notes: ["x"],
+//   todo: ["x"]
+// },
+// {
+//   name: "Life",
+//   members: ["stella@email.com", "kristin@email.com"],
+//   events: ["x"],
+//   color: "aqua",
+//   notes: ["x"],
+//   todo: ["x"]
+// },
+// {
+//   name: "Career",
+//   members: ["stella@email.com", "kristin@email.com"],
+//   events: ["x"],
+//   color: "plum",
+//   notes: ["x"],
+//   todo: ["x"]
+// },
+// {
+//   name: "Plan Event",
+//   members: ["stella@email.com", "kristin@email.com"],
+//   events: ["x"],
+//   color: "lightgreen",
+//   notes: ["x"],
+//   todo: ["x"]
+// },
+// {
+//   name: "Treat YO SELF",
+//   members: ["stella@email.com", "kristin@email.com"],
+//   events: ["x"],
+//   color: "pink",
+//   notes: ["x"],
+//   todo: ["x"]
+// }
+// ];
+// function writeProjectData(obj) {
+//   const projectId = Math.floor(Math.random() * 1000);
+
+//   firebase
+//     .database()
+//     .ref("projects/" + projectId)
+//     .set({
+//       name: obj.name,
+//       members: obj.members,
+//       events: obj.events,
+//       color: obj.color,
+//       notes: obj.notes,
+//       todo: obj.todo
+//     });
+// }
+// listC.forEach(item => writeProjectData(item));

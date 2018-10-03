@@ -10,94 +10,25 @@ import {
 } from "react-native";
 import { Button } from "react-native-elements";
 import { WebBrowser } from "expo";
-import { Divider, Typography } from "react-native-material-ui";
+import { Divider, Typography, Avatar } from "react-native-material-ui";
 import { MonoText } from "../components/StyledText";
 import { List, ListItem } from "react-native-elements";
 
-// class GroupPojList extends Component {
-//   constructor() {
-//     super();
-//     this.state = {
-
-//         static navigationOptions = {
-//             header: null
-//           };
-
-// const listC = [
-//   {
-//     task: "Do All The THINGS!",
-//     memebers: ["syun", "kristin"],
-//     projects: "Capstone",
-//     date: {
-//       day: 1,
-//       month: 10,
-//       year: 2018,
-//       timestamp: 1538512200000,
-//       dateString: "2018-10-01"
-//     }
-//   },
-//   {
-//     task: "Capstone: Make Calendar Work!",
-//     memebers: ["syun", "kristin"],
-//     projects: "Capstone",
-//     date: {
-//       day: 1,
-//       month: 10,
-//       year: 2018,
-//       timestamp: 1538512200000,
-//       dateString: "2018-10-01"
-//     }
-//   },
-//   {
-//     task: "Code Review!",
-//     memebers: ["syun", "kristin"],
-//     projects: "Capstone",
-//     date: {
-//       day: 2,
-//       month: 10,
-//       year: 2018,
-//       timestamp: 1538512200000,
-//       dateString: "2018-10-02"
-//     }
-//   },
-//   {
-//     task: "Capstone: Switch roles",
-//     memebers: ["syun", "kristin"],
-//     projects: "Capstone",
-//     date: {
-//       day: 3,
-//       month: 10,
-//       year: 2018,
-//       timestamp: 1538512200000,
-//       dateString: "2018-10-03"
-//     }
-//   },
-//   {
-//     task: " Make Everything Work",
-//     memebers: ["syun", "kristin"],
-//     projects: "Capstone",
-//     date: {
-//       day: 5,
-//       month: 10,
-//       year: 2018,
-//       timestamp: 1538512200000,
-//       dateString: "2018-10-05"
-//     }
-//   }
-// ];
-
 // render() {
 const EventList = props => {
+  console.log("props in eventList", props.events);
+
   return (
     <ScrollView>
       <View>
         <List containerStyle={{ marginBottom: 20 }}>
           {props.events.map(l => (
             <ListItem
-              roundAvatar
-              avatar={{ uri: l.avatar_url }}
+              leftIcon={{ name: "lens", color: `${l.color}` }}
               key={l.task}
               title={l.task}
+              children={"x"}
+              hideChevron
             />
           ))}
         </List>
