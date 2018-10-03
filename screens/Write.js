@@ -68,6 +68,7 @@ export default class Write extends Component {
         author: user.uid,
         content: this.state.note
 			});
+		Keyboard.dismiss()
   }
 
   render() {
