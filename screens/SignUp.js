@@ -19,8 +19,14 @@ export default class SignUp extends Component {
         .createUserWithEmailAndPassword(email, pass)
         .catch(function(error) {
           console.error(error);
-        });
-    }
+				});
+			const userid = firebase.auth().currentUser.uid
+			firebase.database().ref('users/' + userid)
+				.set({
+					displayName: this.state.name,
+					email: email
+				})
+		}
     this.setState = { email: '', pass: '' };
 		Keyboard.dismiss();
 		nav.navigate('Login')
@@ -31,6 +37,9 @@ export default class SignUp extends Component {
 		return (
 			<View style={{flexDirection: 'column', flex: 1, justifyContent: 'center', alignContent: 'center'}}>
 				<Card title="Sign up as a new user" style={{justifyContent: 'center', alignContent: 'center'}}>
+					<FormLabel>Name</FormLabel>
+					<FormInput onChangeText={name => this.setState({ name })} />
+
 					<FormLabel>E-mail</FormLabel>
 					<FormInput onChangeText={email => this.setState({ email })} />
 

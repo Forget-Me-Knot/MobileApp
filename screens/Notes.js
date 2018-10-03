@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import firebase from "../firebase";
-import { ScrollView } from "react-native";
-import { ListItem } from "react-native-elements";
+import React, { Component } from 'react';
+import firebase from '../firebase';
+import { ScrollView } from 'react-native';
+import { ListItem } from 'react-native-elements';
 
 export default class Notes extends Component {
   static navigationOptions = {
@@ -21,8 +21,8 @@ export default class Notes extends Component {
 		var self = this;
 		firebase.auth().onAuthStateChanged(function(user) {
 			if (user) {
-				var ref = firebase.database().ref("notes");
-				ref.on("value", function(snapshot) {
+				var ref = firebase.database().ref('notes');
+				ref.on('value', function(snapshot) {
 					var myNotes = [];
 					let notes = snapshot.val();
 					for (var key in notes) {
@@ -40,7 +40,7 @@ export default class Notes extends Component {
 
 	deletenote(key){
 		return firebase.database().ref('notes').child(key)
-			.remove();
+			.remove()
 	}
 
   makeList(notes) {
