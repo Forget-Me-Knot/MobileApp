@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { Button } from "react-native-elements";
 import { WebBrowser } from "expo";
-import { Divider, Typography } from "react-native-material-ui";
+import { Divider, Typography, Avatar } from "react-native-material-ui";
 import { MonoText } from "../components/StyledText";
 import { List, ListItem } from "react-native-elements";
 
@@ -24,10 +24,11 @@ const EventList = props => {
         <List containerStyle={{ marginBottom: 20 }}>
           {props.events.map(l => (
             <ListItem
-              roundAvatar
-              avatar={{ uri: l.avatar_url }}
+              leftIcon={{ name: "lens", color: `${l.color}` }}
               key={l.task}
               title={l.task}
+              children={"x"}
+              hideChevron
             />
           ))}
         </List>
