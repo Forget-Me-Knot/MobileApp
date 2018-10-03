@@ -96,7 +96,7 @@ const EventList = props => {
             <ListItem
               roundAvatar
               avatar={{ uri: l.avatar_url }}
-              key={l.name}
+              key={l.task}
               title={l.task}
             />
           ))}

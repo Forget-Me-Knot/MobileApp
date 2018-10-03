@@ -1,30 +1,14 @@
-import React, { Component } from "react";
-import firebase from "../firebase";
-import { View, Keyboard, Alert } from "react-native";
-import { Button, FormLabel, FormInput } from "react-native-elements";
+import React, { Component } from 'react';
+import firebase from '../firebase';
+import { View, Keyboard } from 'react-native';
+import { Card, Button, FormLabel, FormInput } from 'react-native-elements';
 
 export default class Login extends Component {
   constructor() {
     super();
     this.state = {};
-		this.handleSubmit = this.handleSubmit.bind(this);
 		this.loginSubmit = this.loginSubmit.bind(this);
   }
-
-  handleSubmit() {
-    const email = this.state.email;
-    const pass = this.state.pass;
-    if (email && pass) {
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(email, pass)
-        .catch(function(error) {
-          console.error(error);
-        });
-    }
-    this.setState = { email: '', pass: '' };
-    Keyboard.dismiss();
-	}
 
   loginSubmit(nav) {
     const email = this.state.email;
@@ -33,7 +17,7 @@ export default class Login extends Component {
       firebase
 				.auth().signInWithEmailAndPassword(email, pass)
 				.then(function(user){
-					nav.navigate('Home')
+					nav.navigate('App')
 				})
         .catch(function(error) {
 					console.log(error.message)
@@ -48,28 +32,22 @@ export default class Login extends Component {
   render() {
 		const nav = this.props.navigation
     return (
-      <View>
-        <FormLabel>E-mail</FormLabel>
-        <FormInput onChangeText={email => this.setState({ email })} />
+			<View style={{flexDirection: 'column', flex: 1, justifyContent: 'center', alignContent: 'center'}}>
+				<Card title="Forget-Me-Knot" style={{justifyContent: 'center', alignContent: 'center'}}>
+						<FormLabel>E-mail</FormLabel>
+						<FormInput onChangeText={email => this.setState({ email })} />
 
-        <FormLabel>Password</FormLabel>
-        <FormInput
-          onChangeText={pass => this.setState({ pass })}
-          secureTextEntry
-        />
+						<FormLabel>Password</FormLabel>
+						<FormInput
+							onChangeText={pass => this.setState({ pass })}
+							secureTextEntry
+						/>
 
-        <Button title="SIGNUP" onPress={() => this.handleSubmit()} />
-        <FormLabel>E-mail</FormLabel>
-        <FormInput onChangeText={email => this.setState({ email })} />
-
-        <FormLabel>Password</FormLabel>
-        <FormInput
-          onChangeText={pass => this.setState({ pass })}
-          secureTextEntry
-        />
-
-        <Button title="LOGIN" onPress={() => this.loginSubmit(nav)} />
-      </View>
+						<Button title="LOGIN" onPress={() => this.loginSubmit(nav)} />
+						<Button title="Sign up as a new user" onPress={() => nav.navigate('Signup')} />
+						<Button title="Home" onPress={() => nav.navigate('App')} />
+				</Card>
+			</View>
     );
   }
 }

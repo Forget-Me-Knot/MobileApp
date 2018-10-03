@@ -5,6 +5,7 @@ import { Divider, Typography } from "react-native-material-ui";
 var firebase = require("firebase");
 import mobileApp from "../firebase";
 import EventList from "./EventList";
+
 const listC = [
   {
     task: "Do All The THINGS!",
