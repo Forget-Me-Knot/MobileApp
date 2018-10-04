@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import firebase from "../firebase";
-import { ScrollView } from "react-native";
-import { ListItem } from "react-native-elements";
+import React, { Component } from 'react';
+import firebase from '../firebase';
+import { ScrollView } from 'react-native';
+import { ListItem } from 'react-native-elements';
 
 export default class Notes extends Component {
   static navigationOptions = {
@@ -21,17 +21,22 @@ export default class Notes extends Component {
 		var self = this;
 		firebase.auth().onAuthStateChanged(function(user) {
 			if (user) {
-				var ref = firebase.database().ref("notes");
-				ref.on("value", function(snapshot) {
+				var ref = firebase.database().ref('notes');
+				ref.on('value', function(snapshot) {
 					var myNotes = [];
 					let notes = snapshot.val();
 					for (var key in notes) {
 						if (notes[key].author === user.uid) {
-							myNotes.push({...notes[key], key: key});
+							myNotes.push({...notes[key], key: key, projectId: notes[key].projectId});
 						}
 					}
 					self.setState({ notes: myNotes });
 				});
+
+				firebase.database().ref('projects')
+				.on('value', function(snapshot) {
+
+				})
 			} else {
 				console.log('not logged in')
 			}
@@ -40,7 +45,7 @@ export default class Notes extends Component {
 
 	deletenote(key){
 		return firebase.database().ref('notes').child(key)
-			.remove();
+			.remove()
 	}
 
   makeList(notes) {
@@ -51,13 +56,15 @@ export default class Notes extends Component {
 					title={note.content}
 					rightIcon={{name: 'delete', style: {marginRight: 10}}}
 					onPressRightIcon={() => this.deletenote(note.key)}
+					leftIcon={{ name: 'lens', color: 'plum' }}
         />
       );
     });
   }
 
   render() {
-    const notes = this.state.notes;
+		const notes = this.state.notes;
+		console.log(notes)
     return notes !== undefined ? (
       <ScrollView>{this.makeList(notes)}</ScrollView>
     ) : null;
