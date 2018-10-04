@@ -15,16 +15,6 @@ import { WebBrowser } from 'expo';
 import { Divider, Typography } from 'react-native-material-ui';
 import { MonoText } from '../components/StyledText';
 
-// class GroupPojList extends Component {
-//   constructor() {
-//     super();
-//     this.state = {
-
-//         static navigationOptions = {
-//             header: null
-//           };
-
-// render() {
 const GroupProjList = props => {
   const groupProjects = props.groupProjects;
   return (
