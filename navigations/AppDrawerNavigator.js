@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image } from 'react-native';
 import { createDrawerNavigator, DrawerItems } from 'react-navigation';
-import { Container, Header, Content, Body, Button, Text } from 'native-base';
+import { Container, Header, Content, Body, Button, List, ListItem, Text } from 'native-base';
 import AppStackNavigator from './AppStackNavigator';
 import Login from '../screens/Login';
 import Notes from '../screens/Notes';
@@ -38,7 +38,20 @@ const CustomDrawer = props => (
       </Body>
     </Header>
     <Content>
-      <DrawerItems {...props} />
+      <List>
+				<ListItem style={{marginLeft: 0, paddingLeft: 10, backgroundColor: 'pink'}} onPress={() => props.navigation.navigate('Login')}>
+					<Text>Login</Text>
+				</ListItem>
+				<ListItem style={{marginLeft: 0, paddingLeft: 10, backgroundColor: 'plum'}} onPress={() => props.navigation.navigate('Projects')}>
+					<Text>Projects</Text>
+				</ListItem>
+				<ListItem style={{marginLeft: 0, paddingLeft: 10, backgroundColor: 'aqua'}} onPress={() => props.navigation.navigate('Todo')}>
+					<Text>Todo</Text>
+				</ListItem>
+				<ListItem style={{marginLeft: 0, paddingLeft: 10, backgroundColor: 'yellow'}} onPress={() => props.navigation.navigate('Notes')}>
+					<Text>Notes</Text>
+				</ListItem>
+			</List>
 			<LogoutButton />
     </Content>
   </Container>
