@@ -10,7 +10,7 @@ const EventList = props => {
         <List containerStyle={{ marginBottom: 20 }}>
           {props.events.map(l => (
             <ListItem
-              leftIcon={{ name: 'lens', color: `${l.color}` }}
+              leftIcon={{ name: 'lens', color: `#${l.color}` }}
               key={l.key}
               title={l.name}
               hideChevron

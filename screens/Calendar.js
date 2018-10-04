@@ -42,7 +42,7 @@ export default class CalendarView extends React.Component {
 					}
 					const color = events[id].color
 					const date = events[id].date.dateString
-					marked[date] = { selectedColor: color, selected: true}
+					marked[date] = { selectedColor: '#' + color, selected: true}
 				}
 			}
 			self.setState({ items: userEvents });

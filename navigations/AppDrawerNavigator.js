@@ -56,9 +56,6 @@ const CustomDrawer = props => (
 					<ListItem style={{marginLeft: 0, paddingLeft: 10, backgroundColor: 'yellow'}} onPress={() => props.navigation.navigate('Notes')}>
 						<Text>Notes</Text>
 					</ListItem>
-					<ListItem style={{marginLeft: 0, paddingLeft: 10, backgroundColor: 'gray'}} onPress={() => props.navigation.navigate('CreateProject')}>
-						<Text>Create Project</Text>
-					</ListItem>
 				</List>
 				<LogoutButton navigation={props.navigation} />
     </Content>

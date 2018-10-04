@@ -71,6 +71,7 @@ export default class Write extends Component {
 				projectId: proj
 			});
 		Keyboard.dismiss()
+		this.setState({note: ''})
   }
 
   render() {
