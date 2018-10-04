@@ -35,10 +35,11 @@ export default class Login extends Component {
 			<View style={{flexDirection: 'column', flex: 1, justifyContent: 'center', alignContent: 'center'}}>
 				<Card title="Forget-Me-Knot" style={{justifyContent: 'center', alignContent: 'center'}}>
 						<FormLabel>E-mail</FormLabel>
-						<FormInput onChangeText={email => this.setState({ email })} />
+						<FormInput onChangeText={email => this.setState({ email })} inputStyle={{width: undefined}} />
 
 						<FormLabel>Password</FormLabel>
 						<FormInput
+							inputStyle={{width: undefined}}
 							onChangeText={pass => this.setState({ pass })}
 							secureTextEntry
 						/>

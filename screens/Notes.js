@@ -59,7 +59,7 @@ export default class Notes extends Component {
 					title={note.content}
 					rightIcon={{name: 'delete', style: {marginRight: 10}}}
 					onPressRightIcon={() => this.deletenote(note.key)}
-					leftIcon={{ name: 'lens', color: note.color }}
+					leftIcon={{ name: 'lens', color: '#' + note.color }}
         />
       );
     });

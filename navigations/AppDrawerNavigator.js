@@ -1,3 +1,7 @@
+import React, { Component } from 'react'
+import { Image } from 'react-native';
+import { createDrawerNavigator } from 'react-navigation';
+import { Container, Header, Content, Body, Button, Text, View, List, ListItem } from 'native-base';
 import AppStackNavigator from './AppStackNavigator';
 import Login from '../screens/Login';
 import Todo from '../screens/ToDo';
@@ -19,11 +23,16 @@ const logOut = function() {
     );
 };
 
-const LogoutButton = () => {
+const LogoutButton = (props) => {
   return firebase.auth().currentUser ? (
-    <Button full light onPress={() => logOut()}>
-      <Text>LOGOUT</Text>
-    </Button>
+		<View>
+			<Button full light onPress={() => props.navigation.navigate('Create')}>
+				<Text>Create Project</Text>
+			</Button>
+			<Button full light onPress={() => logOut()}>
+				<Text>LOGOUT</Text>
+			</Button>
+		</View>
   ) : null;
 };
 
@@ -53,7 +62,7 @@ class CustomDrawer extends Component {
               if (members.includes(user.email) && members.length > 1) {
                 groupProjects.push({ name, key, color });
               }
-              if (members[0] === user.email) {
+              else if (members[0] === user.email) {
                 userProjects.push({ name, key, color });
               }
               self.setState({
@@ -78,7 +87,7 @@ class CustomDrawer extends Component {
             />
           </Body>
         </Header>
-        <Content>
+        <Content contentContainerStyle={{flex: 1,  flexDirection: 'column', justifyContent: 'space-between' }}>
           <List>
             <ListItem
               style={{
@@ -122,7 +131,7 @@ class CustomDrawer extends Component {
                         backgroundColor: color,
                       }}
                       onPress={() =>
-                        props.navigation.navigate('PersonalProjList')
+                        this.props.navigation.navigate('PersonalProjList')
                       }
                     >
                       {' '}
@@ -142,7 +151,7 @@ class CustomDrawer extends Component {
                         paddingLeft: 10,
                         backgroundColor: color,
                       }}
-                      onPress={() => props.navigation.navigate('GroupProjList')}
+                      onPress={() => this.props.navigation.navigate('GroupProjList')}
                     >
                       {' '}
                       <Text>{project.name}</Text>
@@ -151,7 +160,7 @@ class CustomDrawer extends Component {
                 })
               : null}
           </List>
-          <LogoutButton />
+          <LogoutButton navigation={this.props.navigation} />
         </Content>
       </Container>
     );
@@ -163,7 +172,8 @@ const AppDrawerNavigator = createDrawerNavigator(
     Home: AppStackNavigator,
     Login: Login,
     Todo: Todo,
-    Projects: Menu,
+		Projects: Menu,
+		Create: CreateProject
   },
   {
     initialRouteName: 'Home',

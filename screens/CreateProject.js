@@ -31,7 +31,7 @@ export default class CreateProject extends Component {
 				.set({
 					name,
 					color,
-					members: member ? [currentUser, member] : [currentUser]
+					members: member ? [currentUser, ...member.split(',')] : [currentUser]
 				})
 		})
 		Keyboard.dismiss()
@@ -45,8 +45,8 @@ export default class CreateProject extends Component {
 					<FormLabel>Project Name</FormLabel>
 					<FormInput onChangeText={name => this.setState({name})} />
 
-					<FormLabel>Members</FormLabel>
-					<FormInput onChangeText={member => this.setState({member})} />
+					<FormLabel>Members (use "," to add more than one)</FormLabel>
+					<FormInput onChangeText={member => this.setState({member})} inputStyle={{width: undefined}} multiline />
 				</Card>
 				<Button
 						title="CREATE"
