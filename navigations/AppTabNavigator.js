@@ -4,7 +4,6 @@ import { createBottomTabNavigator } from "react-navigation";
 import TabBarIcon from "../components/TabBarIcon";
 import Home from "../screens/Home";
 import CalendarView from "../screens/Calendar";
-import DemoCalendar from "../screens/CalendarDemo";
 import Notes from "../screens/Notes";
 import Write from "../screens/Write";
 
