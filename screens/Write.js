@@ -63,19 +63,13 @@ export default class Write extends Component {
   handlePress() {
 		const user = firebase.auth().currentUser;
 		const proj = this.state.selectedProject
-		const newKey = firebase.database().ref('projects/' + proj)
-		.child('notes')
-		.push().key
+		const newKey = firebase.database().ref('notes/').push().key
     firebase.database().ref('notes/' + newKey)
       .set({
         author: user.uid,
-        content: this.state.note
+				content: this.state.note,
+				projectId: proj
 			});
-		let updates = {}
-		updates['/' + newKey] = this.state.note
-		firebase.database().ref('projects/' + proj)
-			.child('notes')
-			.update(updates);
 		Keyboard.dismiss()
   }
 

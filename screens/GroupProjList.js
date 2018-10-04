@@ -1,30 +1,10 @@
 import React, { Component } from "react";
-import {
-  Image,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  FlatList,
-  SectionList,
-  View
-} from "react-native";
+import { Image, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, FlatList, SectionList, View } from "react-native";
 import { Button } from "react-native-elements";
 import { WebBrowser } from "expo";
 import { Divider, Typography } from "react-native-material-ui";
 import { MonoText } from "../components/StyledText";
 
-// class GroupPojList extends Component {
-//   constructor() {
-//     super();
-//     this.state = {
-
-//         static navigationOptions = {
-//             header: null
-//           };
-
-// render() {
 const GroupProjList = props => {
   return (
     <View>
