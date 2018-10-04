@@ -24,7 +24,7 @@ export default class Home extends Component {
 		const hour = date.getHours()
 		if ( hour >= 6 && hour < 12 ) {
 			message = 'Good morning.'
-		} else if ( hour >= 12 && hour < 14) {
+		} else if ( hour >= 12 && hour <= 14) {
 			message = 'Lunch time!'
 		} else if ( hour > 14 && hour <= 17 ) {
 			message = 'Good afternoon.'

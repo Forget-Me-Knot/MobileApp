@@ -6,6 +6,7 @@ import AppTabNavigator from './AppTabNavigator';
 import Login from '../screens/Login';
 import Todo from '../screens/ToDo';
 import Menu from '../screens/MenuItems';
+import CreateProject from '../screens/CreateProject'
 
 const AppStackNavigator = createStackNavigator({
   AppTabNavigator: {
@@ -36,7 +37,7 @@ const AppStackNavigator = createStackNavigator({
   },
   Projects: {
     screen: Menu,
-  },
+  }
 });
 
 export default AppStackNavigator;
