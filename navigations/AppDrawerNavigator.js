@@ -7,25 +7,29 @@ import Login from '../screens/Login';
 import Notes from '../screens/Notes';
 import Todo from '../screens/ToDo';
 import Menu from '../screens/MenuItems';
-import firebase from '../firebase'
+import firebase from '../firebase';
 
-const logOut = function(){
-	firebase.auth().signOut().then(function(){
-		console.log('Sign out complete.')
-	}, function(error){
-		console.error(error)
-	})
-}
+const logOut = function() {
+  firebase
+    .auth()
+    .signOut()
+    .then(
+      function() {
+        console.log('Sign out complete.');
+      },
+      function(error) {
+        console.error(error);
+      }
+    );
+};
 
 const LogoutButton = () => {
-	return (
-		firebase.auth().currentUser ?
-		<Button full light onPress={() => logOut()}>
-			<Text>LOGOUT</Text>
-		</Button> :
-		null
-	)
-}
+  return firebase.auth().currentUser ? (
+    <Button full light onPress={() => logOut()}>
+      <Text>LOGOUT</Text>
+    </Button>
+  ) : null;
+};
 
 const CustomDrawer = props => (
   <Container>
@@ -39,7 +43,7 @@ const CustomDrawer = props => (
     </Header>
     <Content>
       <DrawerItems {...props} />
-			<LogoutButton />
+      <LogoutButton />
     </Content>
   </Container>
 );
@@ -50,12 +54,12 @@ const AppDrawerNavigator = createDrawerNavigator(
     Login: Login,
     Notes: Notes,
     Todo: Todo,
-    Projects: Menu
+    Projects: Menu,
   },
   {
     initialRouteName: 'Home',
     drawerPosition: 'left',
-    contentComponent: CustomDrawer
+    contentComponent: CustomDrawer,
   }
 );
 
