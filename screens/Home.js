@@ -1,65 +1,55 @@
-import React from "react";
-import {
-  Image,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  TextInput
-} from "react-native";
-import firebase from "../firebase";
+import React, { Component } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import firebase from '../firebase';
 
-import { WebBrowser } from "expo";
+const styles = StyleSheet.create({
+  container: {
+		alignItems: 'center'
+  }
+});
 
-import { MonoText } from "../components/StyledText";
-
-export default class Home extends React.Component {
+export default class Home extends Component {
   static navigationOptions = {
     header: null
   };
 
+	constructor(){
+		super()
+		this.state = {}
+	}
+
+	componentDidMount(){
+		let message
+		const date = new Date()
+		const hour = date.getHours()
+		if ( hour >= 6 && hour < 12 ) {
+			message = 'Good morning.'
+		} else if ( hour >= 12 && hour < 14) {
+			message = 'Lunch time!'
+		} else if ( hour > 14 && hour <= 17 ) {
+			message = 'Good afternoon.'
+		} else if ( hour >= 18 ) {
+			message = 'Good night.'
+		}
+		this.setState({message})
+
+		const self = this
+		const user = firebase.auth().currentUser
+				const ref = firebase.database().ref('users/')
+				ref.on('value', function(snapshot) {
+					const users = snapshot.val()
+					for (var key in users) {
+						if (key === user.uid) self.setState({user: users[key].displayName})
+					}
+				})
+	}
+
   render() {
-    return (
+		return (
       <View style={styles.container}>
-        <ScrollView
-          style={styles.container}
-          contentContainerStyle={styles.contentContainer}
-        >
-          <View style={styles.welcomeContainer}>
-            <Image
-              source={{
-                uri: "https://cdn141.picsart.com/273128257001201.png?c480x480"
-              }}
-              style={{ width: 400, height: 400 }}
-            />
-          </View>
-        </ScrollView>
+				<Text>{this.state.message}</Text>
+				<Text>{this.state.user}</Text>
       </View>
     );
   }
 }
-
-//   _handleHelpPress = () => {
-//     WebBrowser.openBrowserAsync(
-//       "https://docs.expo.io/versions/latest/guides/up-and-running.html#can-t-see-your-changes"
-//     );
-//   };
-// }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#E6E6FA"
-  },
-
-  contentContainer: {
-    paddingTop: 30
-  },
-  welcomeContainer: {
-    alignItems: "center",
-    marginTop: 10,
-    marginBottom: 20
-  }
-});
