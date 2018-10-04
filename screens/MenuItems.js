@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   Image,
   Platform,
@@ -8,14 +8,15 @@ import {
   TouchableOpacity,
   FlatList,
   SectionList,
-  View
-} from "react-native";
-import { Button } from "react-native-elements";
-import { WebBrowser } from "expo";
-import { Divider, Typography } from "react-native-material-ui";
-import { MonoText } from "../components/StyledText";
-import PersonalProjList from "./PersonalProjList";
-import GroupProjList from "./GroupProjList";
+  View,
+} from 'react-native';
+import { Button } from 'react-native-elements';
+import { WebBrowser } from 'expo';
+import { Divider, Typography } from 'react-native-material-ui';
+import { MonoText } from '../components/StyledText';
+import PersonalProjList from './PersonalProjList';
+import GroupProjList from './GroupProjList';
+import firebase from '../firebase';
 
 class MenuItems extends Component {
   constructor() {
@@ -23,36 +24,66 @@ class MenuItems extends Component {
     this.state = {
       sections: {
         groups: [
-          {
-            title: "IF ya can't love yo self",
-            data: ["CAN I GET AN AMEN?"]
-          },
-          {
-            title: "How the hell ya gonna ",
-            data: ["CAN I GET AN AMEN?"]
-            // data: ["item3", "item4"]
-          },
-          {
-            title: "Love somebody else?",
-            data: ["CAN I GET AN AMEN?"]
-          }
+          //   {
+          //     title: "IF ya can't love yo self",
+          //     data: ["CAN I GET AN AMEN?"]
+          //   },
+          //   {
+          //     title: "How the hell ya gonna ",
+          //     data: ["CAN I GET AN AMEN?"]
+          //     // data: ["item3", "item4"]
+          //   },
+          //   {
+          //     title: "Love somebody else?",
+          //     data: ["CAN I GET AN AMEN?"]
+          //   }
         ],
         personal: [
-          {
-            title: "Capstone",
-            data: ["item7"]
-          },
-          {
-            title: "MAKE IT WORK!",
-            data: ["item7"]
-          }
-        ]
+          //   {
+          //     title: "Capstone",
+          //     data: ["item7"]
+          //   },
+          //   {
+          //     title: "MAKE IT WORK!",
+          //     data: ["item7"]
+          //   }
+        ],
       },
       personalClick: false,
-      groupClick: false
+      groupClick: false,
     };
     this.personalList = this.personalList.bind(this);
     this.groupList = this.groupList.bind(this);
+  }
+
+  //gets personal projects and group projects
+  componentDidMount() {
+    const self = this;
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        let groupProjects = [];
+        let userProjects = [];
+        var ref = firebase.database().ref('projects');
+        ref.on('value', function(snapshot) {
+          let projects = snapshot.val();
+          for (let key in projects) {
+            if (projects[key].members) {
+              const members = projects[key].members;
+              const name = projects[key].name;
+              if (members.includes(user.email) && members.length > 1) {
+                groupProjects.push({ name, key });
+              }
+              if (members[0] === user.email) {
+                userProjects.push({ name, key });
+              }
+              self.setState({
+                sections: { groups: groupProjects, personal: userProjects },
+              });
+            }
+          }
+        });
+      }
+    });
   }
 
   personalList() {
@@ -78,59 +109,59 @@ class MenuItems extends Component {
         <ScrollView>
           <Button
             title="Profile"
-            titleStyle={{ fontWeight: "700", fontSize: "20" }}
+            titleStyle={{ fontWeight: '700', fontSize: '20' }}
             buttonStyle={{
-              backgroundColor: "rgba(127, 63, 191, 0.8)",
-              borderColor: "transparent",
+              backgroundColor: 'rgba(127, 63, 191, 0.8)',
+              borderColor: 'transparent',
               borderWidth: 0,
               borderRadius: 3,
-              marginBottom: 5
+              marginBottom: 5,
             }}
-            onPress={() => this.props.navigation.navigate("Login")}
+            onPress={() => this.props.navigation.navigate('Login')}
           />
           <Button
             title="To Do List"
-            titleStyle={{ fontWeight: "700", fontSize: "20" }}
-            rightIcon={{ name: "arrow-drop-down-circle" }}
+            titleStyle={{ fontWeight: '700', fontSize: '20' }}
+            rightIcon={{ name: 'arrow-drop-down-circle' }}
             buttonStyle={{
-              backgroundColor: "rgba(63, 191, 191, 0.8)",
-              borderColor: "transparent",
+              backgroundColor: 'rgba(63, 191, 191, 0.8)',
+              borderColor: 'transparent',
               borderWidth: 0,
               borderRadius: 3,
               padding: 10,
-              marginBottom: 5
+              marginBottom: 5,
             }}
-            onPress={() => this.props.navigation.navigate("ToDo")}
+            onPress={() => this.props.navigation.navigate('ToDo')}
           />
           <Button
             title="PERSONAL PROJECTS"
-            titleStyle={{ fontWeight: "700", fontSize: "20" }}
+            titleStyle={{ fontWeight: '700', fontSize: '20' }}
             buttonStyle={{
-              backgroundColor: "rgba(191, 63, 191, 0.8)",
-              borderColor: "transparent",
+              backgroundColor: 'rgba(191, 63, 191, 0.8)',
+              borderColor: 'transparent',
               borderWidth: 2,
               borderRadius: 3,
-              marginBottom: 5
+              marginBottom: 5,
             }}
-            rightIcon={{ name: "keyboard-arrow-down" }}
+            rightIcon={{ name: 'keyboard-arrow-down' }}
             onPress={() => {
               this.personalList();
             }}
           />
           {this.state.personalClick ? (
             <PersonalProjList personalProjects={personalProjects} />
-          ) : null}{" "}
+          ) : null}{' '}
           */}
           <Button
             title="GROUP PROJECTS"
-            titleStyle={{ fontWeight: "700", fontSize: "20" }}
-            rightIcon={{ name: "keyboard-arrow-down" }}
+            titleStyle={{ fontWeight: '700', fontSize: '20' }}
+            rightIcon={{ name: 'keyboard-arrow-down' }}
             buttonStyle={{
-              backgroundColor: "rgba(63, 191, 63, 0.8)",
-              borderColor: "transparent",
+              backgroundColor: 'rgba(63, 191, 63, 0.8)',
+              borderColor: 'transparent',
               borderWidth: 2,
               borderRadius: 3,
-              marginBottom: 5
+              marginBottom: 5,
             }}
             onPress={() => {
               this.groupList();
