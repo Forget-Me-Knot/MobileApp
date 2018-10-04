@@ -21,21 +21,24 @@ export default class Notes extends Component {
 		var self = this;
 		firebase.auth().onAuthStateChanged(function(user) {
 			if (user) {
-				var ref = firebase.database().ref('notes');
+				const ref = firebase.database().ref()
 				ref.on('value', function(snapshot) {
-					var myNotes = [];
-					let notes = snapshot.val();
+					let myNotes = []
+					const notes = snapshot.val().notes
+					const projects = snapshot.val().projects
+
 					for (var key in notes) {
-						if (notes[key].author === user.uid) {
-							myNotes.push({...notes[key], key: key, projectId: notes[key].projectId});
+						if ( notes[key].author === user.uid ) {
+							const projectId = notes[key].projectId
+							for (var id in projects) {
+								if ( id === projectId ) {
+									const color = projects[id].color
+									myNotes.push({...notes[key], key, color})
+								}
+							}
 						}
 					}
 					self.setState({ notes: myNotes });
-				});
-
-				firebase.database().ref('projects')
-				.on('value', function(snapshot) {
-
 				})
 			} else {
 				console.log('not logged in')
@@ -52,11 +55,11 @@ export default class Notes extends Component {
     return notes.map(note => {
       return (
         <ListItem
-          key={note.content + Math.random() * 1000}
+          key={note.key}
 					title={note.content}
 					rightIcon={{name: 'delete', style: {marginRight: 10}}}
 					onPressRightIcon={() => this.deletenote(note.key)}
-					leftIcon={{ name: 'lens', color: 'plum' }}
+					leftIcon={{ name: 'lens', color: note.color }}
         />
       );
     });
@@ -64,7 +67,6 @@ export default class Notes extends Component {
 
   render() {
 		const notes = this.state.notes;
-		console.log(notes)
     return notes !== undefined ? (
       <ScrollView>{this.makeList(notes)}</ScrollView>
     ) : null;
