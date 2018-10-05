@@ -66,7 +66,7 @@ export default class SignUp extends Component {
           />
 
           <Button
-            title="SIGNUP"
+            title="SIGN UP"
             buttonStyle={{
               width: '100%',
               height: 45,
@@ -76,7 +76,7 @@ export default class SignUp extends Component {
             onPress={() => this.handleSubmit(nav)}
           />
           <Button
-            title="Back to Login"
+            title="BACK TO LOGIN"
             buttonStyle={{
               width: '100%',
               height: 45,

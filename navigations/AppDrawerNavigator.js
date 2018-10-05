@@ -112,7 +112,7 @@ class CustomDrawer extends Component {
               }}
               onPress={() => this.props.navigation.navigate('Login')}
             >
-              <Text>Login</Text>
+              <Text>LOG IN</Text>
             </ListItem>
             {/* <ListItem
               style={{
@@ -132,7 +132,7 @@ class CustomDrawer extends Component {
               }}
               onPress={() => this.props.navigation.navigate('Todo')}
             >
-              <Text>Todo</Text>
+              <Text>TO DO</Text>
             </ListItem>
             {this.state.personal
               ? this.state.personal.map(project => {

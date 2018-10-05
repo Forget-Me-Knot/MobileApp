@@ -58,7 +58,7 @@ export default class Login extends Component {
           />
 
           <Button
-            title="Login"
+            title="LOGIN"
             buttonStyle={{
               width: '100%',
               height: 45,
@@ -74,11 +74,11 @@ export default class Login extends Component {
               borderRadius: 5,
               marginTop: 10,
             }}
-            title="Sign up as a new user"
+            title="SIGN UP AS NEW USER"
             onPress={() => nav.navigate('Signup')}
           />
           <Button
-            title="Home"
+            title="HOME"
             buttonStyle={{
               width: '100%',
               height: 45,
