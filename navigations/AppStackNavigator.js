@@ -37,7 +37,10 @@ const AppStackNavigator = createStackNavigator({
   },
   Projects: {
     screen: Menu,
-  }
+	},
+	Create: {
+		screen: CreateProject
+	}
 });
 
 export default AppStackNavigator;

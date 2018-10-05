@@ -54,13 +54,14 @@ export default class Write extends Component {
 							}
 						}
 					}
-					self.setState({projects: userProjects})
+					self.setState({projects: userProjects, selectedProject: userProjects[0].key})
 				})
 			}
 		})
 	}
 
   handlePress() {
+		const self = this
 		const user = firebase.auth().currentUser;
 		const proj = this.state.selectedProject
 		const newKey = firebase.database().ref('notes/').push().key
@@ -69,9 +70,11 @@ export default class Write extends Component {
         author: user.uid,
 				content: this.state.note,
 				projectId: proj
+			})
+			.then(function(){
+				self.setState({note: ''})
 			});
 		Keyboard.dismiss()
-		this.setState({note: ''})
   }
 
   render() {
