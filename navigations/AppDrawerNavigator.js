@@ -12,6 +12,7 @@ import {
   List,
   ListItem,
 } from 'native-base';
+import { Avatar } from 'react-native-elements';
 import AppStackNavigator from './AppStackNavigator';
 import Login from '../screens/Login';
 import Todo from '../screens/ToDo';
@@ -108,42 +109,40 @@ class CustomDrawer extends Component {
               style={{
                 marginLeft: 0,
                 paddingLeft: 10,
-                backgroundColor: 'pink',
+                backgroundColor: '#DCDCDC',
               }}
               onPress={() => this.props.navigation.navigate('Login')}
             >
               <Text>LOG IN</Text>
             </ListItem>
-            {/* <ListItem
-              style={{
-                marginLeft: 0,
-                paddingLeft: 10,
-                backgroundColor: 'plum',
-              }}
-              onPress={() => this.props.navigation.navigate('Projects')}
-            >
-              <Text>Projects</Text>
-            </ListItem> */}
             <ListItem
               style={{
                 marginLeft: 0,
                 paddingLeft: 10,
-                backgroundColor: 'aqua',
+                backgroundColor: '#C0C0C0',
               }}
               onPress={() => this.props.navigation.navigate('Todo')}
             >
               <Text>TO DO</Text>
             </ListItem>
+            <ListItem
+              style={{
+                marginLeft: 0,
+                paddingLeft: 10,
+              }}
+            >
+              <Text>PERSONAL PROJECTS:</Text>
+            </ListItem>
             {this.state.personal
               ? this.state.personal.map(project => {
-                  const color = '#' + project.color;
                   return (
                     <ListItem
                       key={project.key}
+                      title={project.name}
+                      rightIcon={{ name: 'lens', color: 'black' }}
                       style={{
                         marginLeft: 0,
                         paddingLeft: 10,
-                        backgroundColor: color,
                       }}
                       onPress={() =>
                         this.props.navigation.navigate('PersonalProjList')
@@ -151,20 +150,35 @@ class CustomDrawer extends Component {
                     >
                       {' '}
                       <Text>{project.name}</Text>
+                      <Avatar
+                        rounded
+                        size="xsmall"
+                        overlayContainerStyle={{
+                          backgroundColor: `#${project.color}`,
+                        }}
+                      />
                     </ListItem>
                   );
                 })
               : null}
+
+            <ListItem
+              style={{
+                marginLeft: 0,
+                paddingLeft: 10,
+                backgroundColor: 'white',
+              }}
+            >
+              <Text>GROUP PROJECTS:</Text>
+            </ListItem>
             {this.state.groups
               ? this.state.groups.map(project => {
-                  const color = '#' + project.color;
                   return (
                     <ListItem
                       key={project.key}
                       style={{
                         marginLeft: 0,
                         paddingLeft: 10,
-                        backgroundColor: color,
                       }}
                       onPress={() =>
                         this.props.navigation.navigate('GroupProjList')
@@ -172,6 +186,13 @@ class CustomDrawer extends Component {
                     >
                       {' '}
                       <Text>{project.name}</Text>
+                      <Avatar
+                        rounded
+                        size="xsmall"
+                        overlayContainerStyle={{
+                          backgroundColor: `#${project.color}`,
+                        }}
+                      />
                     </ListItem>
                   );
                 })
