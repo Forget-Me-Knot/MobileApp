@@ -1,105 +1,137 @@
-import React, { Component } from "react";
-import { PropTypes } from "prop-types";
-import {
-  Image,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  FlatList,
-	SectionList,
-	SafeAreaView,
-  View
-} from "react-native";
-import { Button } from "react-native-elements";
-import { WebBrowser } from "expo";
-import { Divider, Typography, Checkbox } from "react-native-material-ui";
-import { MonoText } from "../components/StyledText";
-import PersonalProjList from "./PersonalProjList";
-import GroupProjList from "./GroupProjList";
+import React, { Component } from 'react';
+import { ScrollView, SafeAreaView, Text } from 'react-native';
+import { Button, Avatar, CheckBox, List } from 'react-native-elements';
+var firebase = require('firebase');
 
-const tasks = [
-  "take out garbage",
-  "get milk",
-  "pay rent",
-  "code something fabulous!"
-];
 class ToDo extends Component {
   constructor(props) {
     super(props);
-    this.state = { checked: false }
-	}
+    this.state = {};
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleCheck = this.handleCheck.bind(this);
+  }
+
+  componentDidMount() {
+    var self = this;
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        const ref = firebase.database().ref();
+        ref.on('value', function(snapshot) {
+          const tasks = snapshot.val().tasks;
+          const projects = snapshot.val().projects;
+
+          let myProjects = [];
+          let colors = {};
+          let myTasks = [];
+          for (var key in projects) {
+            if (projects[key].members.includes(user.email)) {
+              myProjects.push(key);
+              colors[key] = projects[key].color;
+            }
+          }
+          for (var id in tasks) {
+            if (myProjects.includes(tasks[id].projectId + '')) {
+              myTasks.push({
+                ...tasks[id],
+                key: id,
+                color: colors[tasks[id].projectId],
+              });
+              self.setState({ [id]: tasks[id].completed });
+            }
+          }
+          self.setState({ tasks: myTasks });
+        });
+      }
+    });
+  }
+
+  handleSubmit() {
+    const state = this.state;
+    const deleted = [];
+    for (var key in state) {
+      if (state[key] === true) {
+        deleted.push(key);
+      }
+    }
+    deleted.map(todo => {
+      return firebase
+        .database()
+        .ref('tasks')
+        .child(todo)
+        .remove();
+    });
+  }
+
+  handleCheck(key) {
+    firebase
+      .database()
+      .ref('tasks/' + key)
+      .update({
+        completed: !this.state[key],
+      });
+    this.setState({ [key]: !this.state[key] });
+  }
 
   //make outside funcition. then bind to item.
   render() {
+    const nav = this.props.navigation;
+    const tasks = this.state.tasks;
     return (
       <SafeAreaView style={{ marginTop: 10 }}>
         <ScrollView>
-          {tasks.map(item => (
-            <Checkbox
-              label={item}
-              checked={this.state.checked}
-              value="agree"
-              onCheck={checked => this.setState({ checked })}
-            />
-          ))}
+          {tasks
+            ? tasks.map(task => {
+                return (
+                  <List key={task.key}>
+                    <CheckBox
+                      title={task.content}
+                      checkedIcon="dot-circle-o"
+                      uncheckedIcon="circle-o"
+                      containerStyle={{ backgroundColor: 'transparent' }}
+                      checked={this.state[task.key]}
+                      onPress={() => this.handleCheck(task.key)}
+                    />
+                    <Text>Assigned: {task.assigned}</Text>
+                    <Avatar
+                      rounded
+                      containerStyle={{ marginRight: 0 }}
+                      overlayContainerStyle={{
+                        backgroundColor: `#${task.color}`,
+                      }}
+                    />
+                  </List>
+                );
+              })
+            : null}
+
+          <Button
+            title="NEW TO DO"
+            buttonStyle={{
+              width: '100%',
+              height: 45,
+              borderRadius: 5,
+              marginTop: 10,
+            }}
+            onPress={() => {
+              nav.navigate('CreateTodo');
+            }}
+          />
+          <Button
+            title="DELETE SELECTED"
+            buttonStyle={{
+              width: '100%',
+              height: 45,
+              borderRadius: 5,
+              marginTop: 10,
+            }}
+            onPress={() => {
+              this.handleSubmit();
+            }}
+          />
         </ScrollView>
       </SafeAreaView>
     );
   }
 }
 
-const propTypes = {
-  /**
-   * Text will be shown after Icon
-   */
-  label: PropTypes.string,
-  /**
-   * Value will be returned when onCheck is fired
-   */
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  /**
-   * True if it's check
-   */
-  checked: PropTypes.bool,
-  /**
-   * Is checkbox active
-   */
-  disabled: PropTypes.bool,
-  /**
-   * Will be shown when checked is false
-   */
-  uncheckedIcon: PropTypes.string,
-  /**
-   * Will be shown when checked is true
-   */
-  checkedIcon: PropTypes.string,
-  /**
-   * Event that is called when state is changed
-   */
-  onCheck: PropTypes.func
-};
-
-const defaultProps = {
-  checkedIcon: "check-box",
-  uncheckedIcon: "check-box-outline-blank",
-  disabled: false,
-  style: {}
-};
-
 export default ToDo;
-
-// import { ListItem } from 'react-native-material-ui';
-
-// render() {
-//     <View>
-//       <ListItem
-//         divider
-//         centerElement={{
-//           primaryText: 'Primary text',
-//         }}
-//         onPress={() => {}}
-//       />
-//     </View>
-// }
