@@ -6,7 +6,7 @@ import AppTabNavigator from './AppTabNavigator';
 import Login from '../screens/Login';
 import Todo from '../screens/ToDo';
 import Menu from '../screens/MenuItems';
-import CreateProject from '../screens/CreateProject'
+import CreateEvent from '../screens/CreateEvent';
 
 const AppStackNavigator = createStackNavigator({
   AppTabNavigator: {
@@ -21,7 +21,7 @@ const AppStackNavigator = createStackNavigator({
         </TouchableOpacity>
       ),
       headerRight: (
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('CreateEvent')}>
           <View style={{ paddingHorizontal: 10 }}>
             <Icon name="add" />
           </View>
@@ -31,13 +31,19 @@ const AppStackNavigator = createStackNavigator({
   },
   Login: {
     screen: Login,
+    headerRight: null,
   },
   Todo: {
     screen: Todo,
+    headerRight: null,
   },
   Projects: {
     screen: Menu,
-  }
+    headerRight: null,
+  },
+  CreateEvent: {
+    screen: CreateEvent,
+  },
 });
 
 export default AppStackNavigator;
