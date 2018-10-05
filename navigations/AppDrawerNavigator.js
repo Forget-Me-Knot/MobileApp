@@ -1,12 +1,22 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import { Image } from 'react-native';
 import { createDrawerNavigator } from 'react-navigation';
-import { Container, Header, Content, Body, Button, Text, View, List, ListItem } from 'native-base';
+import {
+  Container,
+  Header,
+  Content,
+  Body,
+  Button,
+  Text,
+  View,
+  List,
+  ListItem,
+} from 'native-base';
 import AppStackNavigator from './AppStackNavigator';
 import Login from '../screens/Login';
 import Todo from '../screens/ToDo';
 import Menu from '../screens/MenuItems';
-import firebase from '../firebase'
+import firebase from '../firebase';
 import CreateProject from '../screens/CreateProject';
 
 const logOut = function() {
@@ -23,16 +33,16 @@ const logOut = function() {
     );
 };
 
-const LogoutButton = (props) => {
+const LogoutButton = props => {
   return firebase.auth().currentUser ? (
-		<View>
-			<Button full light onPress={() => props.navigation.navigate('Create')}>
-				<Text>Create Project</Text>
-			</Button>
-			<Button full light onPress={() => logOut()}>
-				<Text>LOGOUT</Text>
-			</Button>
-		</View>
+    <View>
+      <Button full light onPress={() => props.navigation.navigate('Create')}>
+        <Text>Create Project</Text>
+      </Button>
+      <Button full light onPress={() => logOut()}>
+        <Text>LOGOUT</Text>
+      </Button>
+    </View>
   ) : null;
 };
 
@@ -61,8 +71,7 @@ class CustomDrawer extends Component {
               const color = projects[key].color;
               if (members.includes(user.email) && members.length > 1) {
                 groupProjects.push({ name, key, color });
-              }
-              else if (members[0] === user.email) {
+              } else if (members[0] === user.email) {
                 userProjects.push({ name, key, color });
               }
               self.setState({
@@ -87,7 +96,13 @@ class CustomDrawer extends Component {
             />
           </Body>
         </Header>
-        <Content contentContainerStyle={{flex: 1,  flexDirection: 'column', justifyContent: 'space-between' }}>
+        <Content
+          contentContainerStyle={{
+            flex: 1,
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+          }}
+        >
           <List>
             <ListItem
               style={{
@@ -97,9 +112,9 @@ class CustomDrawer extends Component {
               }}
               onPress={() => this.props.navigation.navigate('Login')}
             >
-              <Text>Login</Text>
+              <Text>LOG IN</Text>
             </ListItem>
-            <ListItem
+            {/* <ListItem
               style={{
                 marginLeft: 0,
                 paddingLeft: 10,
@@ -108,7 +123,7 @@ class CustomDrawer extends Component {
               onPress={() => this.props.navigation.navigate('Projects')}
             >
               <Text>Projects</Text>
-            </ListItem>
+            </ListItem> */}
             <ListItem
               style={{
                 marginLeft: 0,
@@ -117,7 +132,7 @@ class CustomDrawer extends Component {
               }}
               onPress={() => this.props.navigation.navigate('Todo')}
             >
-              <Text>Todo</Text>
+              <Text>TO DO</Text>
             </ListItem>
             {this.state.personal
               ? this.state.personal.map(project => {
@@ -151,7 +166,9 @@ class CustomDrawer extends Component {
                         paddingLeft: 10,
                         backgroundColor: color,
                       }}
-                      onPress={() => this.props.navigation.navigate('GroupProjList')}
+                      onPress={() =>
+                        this.props.navigation.navigate('GroupProjList')
+                      }
                     >
                       {' '}
                       <Text>{project.name}</Text>
@@ -172,8 +189,8 @@ const AppDrawerNavigator = createDrawerNavigator(
     Home: AppStackNavigator,
     Login: Login,
     Todo: Todo,
-		Projects: Menu,
-		Create: CreateProject
+    Projects: Menu,
+    Create: CreateProject,
   },
   {
     initialRouteName: 'Home',

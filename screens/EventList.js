@@ -2,7 +2,6 @@ import React from 'react';
 import { ScrollView, View } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
 
-// render() {
 const EventList = props => {
   return (
     <ScrollView>
@@ -10,6 +9,7 @@ const EventList = props => {
         <List containerStyle={{ marginBottom: 20 }}>
           {props.events.map(l => (
             <ListItem
+              //needs delete button
               leftIcon={{ name: 'lens', color: `#${l.color}` }}
               key={l.key}
               title={l.name}
