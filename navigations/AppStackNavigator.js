@@ -9,6 +9,7 @@ import Menu from '../screens/MenuItems';
 import CreateProject from '../screens/CreateProject';
 import CreateEvent from '../screens/CreateEvent';
 import CreateTodo from '../screens/CreateTodo';
+import ProjectHome from '../screens/ProjectHome';
 
 const AppStackNavigator = createStackNavigator({
   AppTabNavigator: {
@@ -39,17 +40,25 @@ const AppStackNavigator = createStackNavigator({
     screen: Todo,
     headerRight: null,
   },
-  Projects: {
-    screen: Menu,
-  },
+  // Projects: {
+  //   screen: Menu,
+  //   headerRight: null,
+  // },
   Create: {
     screen: CreateProject,
+    headerRight: null,
   },
   CreateEvent: {
     screen: CreateEvent,
+    headerRight: null,
   },
   CreateTodo: {
     screen: CreateTodo,
+    headerRight: null,
+  },
+  ProjectHome: {
+    screen: ProjectHome,
+    headerRight: null,
   },
 });
 
