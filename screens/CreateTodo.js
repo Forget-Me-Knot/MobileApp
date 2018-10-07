@@ -28,7 +28,7 @@ export default class CreateEvent extends Component {
         }
         self.setState({
           projects: myProjects,
-          selectedProject: myProjects[0].key,
+          selectedProject: myProjects[0].name,
           members: myProjects[0].members,
           selectedMember: members[0],
         });
@@ -40,15 +40,22 @@ export default class CreateEvent extends Component {
     const nav = this.props.navigation;
     const self = this;
     const assigned = this.state.selectedMember;
-    const projectId = parseInt(this.state.selectedProject);
+    const projectName = this.state.selectedProject;
+    let projectId;
     const content = this.state.name;
     const newKey = firebase
       .database()
       .ref('tasks/')
       .push().key;
-    const ref = firebase.database().ref('users');
+    const ref = firebase.database().ref();
     ref.on('value', function(snapshot) {
-      const users = snapshot.val();
+      const users = snapshot.val().users;
+      const projects = snapshot.val().projects;
+      for (var key in projects) {
+        if (projects[key].name === projectName) {
+          projectId = key;
+        }
+      }
       let task;
       for (var key in users) {
         if (users[key].email === assigned) {
@@ -101,6 +108,7 @@ export default class CreateEvent extends Component {
             selectedValue={this.state.selectedProject}
             itemStyle={{ height: 80, width: 200 }}
             onValueChange={selectedProject => {
+              console.log(selectedProject);
               self.getMembers(selectedProject);
               self.setState({ selectedProject });
             }}

@@ -11,31 +11,41 @@ const styles = StyleSheet.create({
 export default class Home extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      members: [],
+      project: {},
+    };
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     const { navigation } = this.props;
+    const self = this;
     const project = navigation.getParam('project');
     const ref = firebase.database().ref();
-    let curProject;
+    console.log('MEMBERS', project.members);
     ref.on('value', function(snapshot) {
-      const projects = snapshot.val().projects;
-      for (var key in projects) {
-        console.log(projects[key]);
-        if (projects[key] === project.key) {
-          curProject = projects[key];
+      const users = snapshot.val().users;
+      let projectMembers = [];
+      for (var key in users) {
+        if (project.members.includes(users[key].email)) {
+          projectMembers.push(users[key]);
         }
       }
-      console.log('CUR', curProject);
+      self.setState({ members: projectMembers, project: project });
     });
   }
 
   render() {
+    //console.log('PROJ', this.state);
     const project = this.state.project;
+    const members = this.state.members;
     return (
       <View style={styles.container}>
         {project ? <Text>{project.name}</Text> : null}
+        <Text>MEMBERS:</Text>
+        {members.map(member => (
+          <Text key={member.email}>{member.displayName}</Text>
+        ))}
       </View>
     );
   }

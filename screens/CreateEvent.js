@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import firebase from '../firebase';
-import { View, Keyboard, Text, TouchableOpacity, Picker } from 'react-native';
+import { View, Text, TouchableOpacity, Picker } from 'react-native';
 import { Card, Button, FormLabel, FormInput } from 'react-native-elements';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 

@@ -6,7 +6,9 @@ import { Card, Button, FormLabel, FormInput } from 'react-native-elements';
 export default class CreateProject extends Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      member: [],
+    };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.randomColor = this.randomColor.bind(this);
   }
@@ -34,12 +36,16 @@ export default class CreateProject extends Component {
   }
 
   handleSubmit() {
+    const nav = this.props.navigation;
     const name = this.state.name;
     const member = this.state.member;
     const color = this.randomColor();
+    let newKey;
+    let currentUser;
     firebase.auth().onAuthStateChanged(function(user) {
-      const currentUser = user.email;
-      const newKey = firebase
+      currentUser = user.email;
+      console.log('CUR', currentUser);
+      newKey = firebase
         .database()
         .ref('projects/')
         .push().key;
@@ -49,8 +55,20 @@ export default class CreateProject extends Component {
         .set({
           name,
           color,
-          members: member ? [currentUser, ...member.split(',')] : [currentUser],
+          members: member.length
+            ? [currentUser, ...member.toLowerCase().split(',')]
+            : [currentUser],
         });
+      nav.navigate('ProjectHome', {
+        project: {
+          name: name,
+          key: newKey,
+          color: color,
+          members: member.length
+            ? [currentUser, ...member.toLowerCase().split(',')]
+            : [currentUser],
+        },
+      });
     });
     Keyboard.dismiss();
     this.setState({ name: '', member: '' });
@@ -78,7 +96,9 @@ export default class CreateProject extends Component {
             borderRadius: 5,
             marginTop: 10,
           }}
-          onPress={() => this.handleSubmit()}
+          onPress={() => {
+            this.handleSubmit();
+          }}
         />
       </View>
     );

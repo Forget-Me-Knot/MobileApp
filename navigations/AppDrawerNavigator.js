@@ -20,6 +20,7 @@ import Menu from '../screens/MenuItems';
 import firebase from '../firebase';
 import CreateProject from '../screens/CreateProject';
 import ProjectHome from '../screens/ProjectHome';
+import Profile from '../screens/Profile';
 
 const logOut = function() {
   firebase
@@ -77,16 +78,16 @@ class CustomDrawer extends Component {
               const name = projects[key].name;
               const color = projects[key].color;
               if (members.includes(user.email) && members.length > 1) {
-                groupProjects.push({ name, key, color });
+                groupProjects.push({ name, key, color, members });
               } else if (members[0] === user.email) {
-                userProjects.push({ name, key, color });
+                userProjects.push({ name, key, color, members });
               }
-              self.setState({
-                groups: groupProjects,
-                personal: userProjects,
-              });
             }
           }
+          self.setState({
+            groups: groupProjects,
+            personal: userProjects,
+          });
         });
       }
     });
@@ -117,9 +118,9 @@ class CustomDrawer extends Component {
                 marginLeft: 0,
                 paddingLeft: 10,
               }}
-              onPress={() => nav.navigate('Login')}
+              onPress={() => nav.navigate('Profile')}
             >
-              <Text>LOG IN</Text>
+              <Text>PROFILE</Text>
             </ListItem>
             <ListItem
               style={{
@@ -194,7 +195,11 @@ class CustomDrawer extends Component {
                         marginLeft: 0,
                         paddingLeft: 10,
                       }}
-                      onPress={() => nav.navigate('GroupProjList')}
+                      onPress={() =>
+                        nav.navigate('ProjectHome', {
+                          project: project,
+                        })
+                      }
                     >
                       {' '}
                       <Avatar
@@ -229,6 +234,7 @@ const AppDrawerNavigator = createDrawerNavigator(
     // Projects: Menu,
     Create: CreateProject,
     ProjectHome: ProjectHome,
+    Profile: Profile,
   },
   {
     initialRouteName: 'Home',

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { ScrollView, SafeAreaView, Text } from 'react-native';
-import { Button, Avatar, CheckBox, List } from 'react-native-elements';
+import { Button, CheckBox, ListItem, List } from 'react-native-elements';
 var firebase = require('firebase');
 
 class ToDo extends Component {
@@ -79,31 +79,36 @@ class ToDo extends Component {
     return (
       <SafeAreaView style={{ marginTop: 10 }}>
         <ScrollView>
-          {tasks
-            ? tasks.map(task => {
-                return (
-                  <List key={task.key}>
-                    <CheckBox
+          <List>
+            {tasks
+              ? tasks.map(task => {
+                  return (
+                    <ListItem
+                      rightIcon={{ name: 'lens', color: '#' + task.color }}
+                      key={task.key}
                       title={task.content}
-                      checkedIcon="dot-circle-o"
-                      uncheckedIcon="circle-o"
-                      containerStyle={{ backgroundColor: 'transparent' }}
-                      checked={this.state[task.key]}
-                      onPress={() => this.handleCheck(task.key)}
+                      subtitle={`Assigned: ${task.assigned}`}
+                      leftIcon={
+                        <CheckBox
+                          containerStyle={{
+                            marginLeft: 0,
+                            marginRight: 0,
+                            borderWidth: 0,
+                            backgroundColor: 'white',
+                          }}
+                          checkedColor={'#' + task.color}
+                          checked={this.state.checked}
+                          checkedIcon="dot-circle-o"
+                          uncheckedIcon="circle-o"
+                          checked={this.state[task.key]}
+                          onPress={() => this.handleCheck(task.key)}
+                        />
+                      }
                     />
-                    <Text>Assigned: {task.assigned}</Text>
-                    <Avatar
-                      rounded
-                      containerStyle={{ marginRight: 0 }}
-                      overlayContainerStyle={{
-                        backgroundColor: `#${task.color}`,
-                      }}
-                    />
-                  </List>
-                );
-              })
-            : null}
-
+                  );
+                })
+              : null}
+          </List>
           <Button
             title="NEW TO DO"
             buttonStyle={{

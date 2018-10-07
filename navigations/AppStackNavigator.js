@@ -10,6 +10,7 @@ import CreateProject from '../screens/CreateProject';
 import CreateEvent from '../screens/CreateEvent';
 import CreateTodo from '../screens/CreateTodo';
 import ProjectHome from '../screens/ProjectHome';
+import Profile from '../screens/Profile';
 
 const AppStackNavigator = createStackNavigator({
   AppTabNavigator: {
@@ -58,6 +59,10 @@ const AppStackNavigator = createStackNavigator({
   },
   ProjectHome: {
     screen: ProjectHome,
+    headerRight: null,
+  },
+  Profile: {
+    screen: Profile,
     headerRight: null,
   },
 });
