@@ -83,9 +83,9 @@ export default class CreateEvent extends Component {
         color: project.color,
         date: {
           dateString: this.state.date.dateString,
-          day: this.state.date.day,
-          month: this.state.date.month,
-          year: this.state.date.year,
+          day: parseInt(this.state.date.day),
+          month: parseInt(this.state.date.month),
+          year: parseInt(this.state.date.year),
         },
         name: this.state.name,
         projectId: projId,

@@ -11,8 +11,9 @@ export default class SignUp extends Component {
   }
 
   handleSubmit(nav) {
-    const email = this.state.email;
+    const email = this.state.email.toLowerCase();
     const pass = this.state.pass;
+    const displayName = this.state.name;
     if (email && pass) {
       firebase
         .auth()
@@ -20,14 +21,18 @@ export default class SignUp extends Component {
         .catch(function(error) {
           console.error(error);
         });
-      const user = firebase.auth().currentUser;
-      firebase
-        .database()
-        .ref('users/' + user.uid)
-        .set({
-          displayName: this.state.name,
-          email: email.toLowerCase(),
-        });
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          const uid = user.uid;
+          firebase
+            .database()
+            .ref('users/' + uid)
+            .set({
+              displayName,
+              email,
+            });
+        }
+      });
     }
     this.setState = { email: '', pass: '' };
     Keyboard.dismiss();

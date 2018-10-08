@@ -7,11 +7,13 @@ class ToDo extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this._mounted = false;
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCheck = this.handleCheck.bind(this);
   }
 
   componentDidMount() {
+    this._mounted = true;
     var self = this;
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
@@ -45,6 +47,20 @@ class ToDo extends Component {
     });
   }
 
+  // componentDidUpdate(prevProps) {
+  //   const props = this.props;
+  //   if (prevProps !== props.tasks || prevProps.projects !== props.projects) {
+  //     this.setState({
+  //       projects: props.projects,
+  //       tasks: props.tasks,
+  //     });
+  //   }
+  // }
+
+  componentWillMount() {
+    this._mounted = false;
+  }
+
   handleSubmit() {
     const state = this.state;
     const deleted = [];
@@ -63,6 +79,7 @@ class ToDo extends Component {
   }
 
   handleCheck(key) {
+    this._mounted = true;
     firebase
       .database()
       .ref('tasks/' + key)

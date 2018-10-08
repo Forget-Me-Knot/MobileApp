@@ -11,8 +11,8 @@ export default class Login extends Component {
   }
 
   loginSubmit(nav) {
-    const email = this.state.email;
-    const pass = this.state.pass;
+    const email = this.state.email.toLowerCase();
+    const pass = this.state.pass.toLowerCase();
     if (email && pass) {
       firebase
         .auth()
