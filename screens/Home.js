@@ -34,12 +34,18 @@ export default class Home extends Component {
     this.setState({ message });
 
     const self = this;
-    const user = firebase.auth().currentUser;
-    const ref = firebase.database().ref('users/');
-    ref.on('value', function(snapshot) {
-      const users = snapshot.val();
-      for (var key in users) {
-        if (key === user.uid) self.setState({ user: users[key].displayName });
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        const ref = firebase.database().ref('users/');
+        ref.on('value', function(snapshot) {
+          const users = snapshot.val();
+          for (var key in users) {
+            if (key === user.uid) {
+              self.setState({ user: users[key].displayName });
+            }
+          }
+          console.log('STATE', self.state);
+        });
       }
     });
   }

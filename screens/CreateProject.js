@@ -44,7 +44,6 @@ export default class CreateProject extends Component {
     let currentUser;
     firebase.auth().onAuthStateChanged(function(user) {
       currentUser = user.email;
-      console.log('CUR', currentUser);
       newKey = firebase
         .database()
         .ref('projects/')

@@ -20,13 +20,13 @@ export default class SignUp extends Component {
         .catch(function(error) {
           console.error(error);
         });
-      const userid = firebase.auth().currentUser.uid;
+      const user = firebase.auth().currentUser;
       firebase
         .database()
-        .ref('users/' + userid)
+        .ref('users/' + user.uid)
         .set({
           displayName: this.state.name,
-          email: email,
+          email: email.toLowerCase(),
         });
     }
     this.setState = { email: '', pass: '' };

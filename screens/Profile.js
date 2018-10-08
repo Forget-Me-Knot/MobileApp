@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, ScrollView } from 'react-native';
+import { ScrollView } from 'react-native';
 import firebase from '../firebase';
-import { Card, Button, ListItem, List } from 'react-native-elements';
+import { Card, Button, ListItem, List, Text } from 'react-native-elements';
 
 // const styles = StyleSheet.create({
 //   container: {
@@ -10,10 +10,6 @@ import { Card, Button, ListItem, List } from 'react-native-elements';
 // });
 
 export default class Profile extends Component {
-  static navigationOptions = {
-    header: null,
-  };
-
   constructor(props) {
     super(props);
     this.state = {};
@@ -38,11 +34,12 @@ export default class Profile extends Component {
 
   getProjects() {
     const self = this;
-    let allProjects = [];
+    let allProjects;
     const email = this.state.user.email;
     var ref = firebase.database().ref('projects');
     ref.on('value', function(snapshot) {
       let projects = snapshot.val();
+      allProjects = [];
       for (let key in projects) {
         if (projects[key].members) {
           const members = projects[key].members;
@@ -74,7 +71,7 @@ export default class Profile extends Component {
     return (
       <ScrollView>
         <Card>
-          <Text>PROFILE:</Text>
+          <Text h4>PROFILE:</Text>
           {user ? (
             <Card>
               <Text>NAME:</Text>
@@ -83,6 +80,7 @@ export default class Profile extends Component {
               <Text>{user.email}</Text>
             </Card>
           ) : null}
+          <Text h4>{`\nPROJECTS:`}</Text>
           {projects ? (
             <List>
               {projects.map(project => (
