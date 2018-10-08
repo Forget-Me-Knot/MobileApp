@@ -44,7 +44,6 @@ export default class Home extends Component {
               self.setState({ user: users[key].displayName });
             }
           }
-          console.log('STATE', self.state);
         });
       }
     });

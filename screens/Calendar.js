@@ -13,11 +13,13 @@ export default class CalendarView extends React.Component {
       curMonth: 0,
       curItems: [],
     };
+    this._mounted = false;
   }
   static navigationOptions = {
     header: null,
   };
   componentDidMount() {
+    this._mounted = true;
     const user = firebase.auth().currentUser;
     var self = this;
     const ref = firebase.database().ref();
@@ -42,7 +44,6 @@ export default class CalendarView extends React.Component {
             userEvents.push({ ...events[id], key: id });
             const color = events[id].color;
             const date = events[id].date.dateString;
-
             marked[date] = { selectedColor: '#' + color, selected: true };
           }
         }
@@ -62,6 +63,10 @@ export default class CalendarView extends React.Component {
         curItems,
       });
     });
+  }
+
+  componentWillMount() {
+    this._mounted = false;
   }
 
   handleMonthChange(date) {
@@ -109,12 +114,12 @@ export default class CalendarView extends React.Component {
           markedDates={this.state.selected}
           onMonthChange={date => this.handleMonthChange(date)}
         />
-        return this.state.items.length?(
-        <EventList
-          curMonth={this.getMonth(this.state.curMonth)}
-          curEvents={this.state.curItems}
-        />
-        ):()
+        {this.state.items.length ? (
+          <EventList
+            curMonth={this.getMonth(this.state.curMonth)}
+            curEvents={this.state.curItems}
+          />
+        ) : null}
       </View>
     );
   }
