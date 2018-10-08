@@ -22,8 +22,7 @@ export default class Login extends Component {
         })
         .catch(function(error) {
           console.log(error.message);
-        })
-        .finally(function() {});
+        });
     }
     this.setState = { email: '', pass: '' };
     Keyboard.dismiss();

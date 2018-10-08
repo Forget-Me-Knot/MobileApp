@@ -20,23 +20,27 @@ export default class Home extends Component {
   componentDidMount() {
     const { navigation } = this.props;
     const self = this;
-    const project = navigation.getParam('project');
-    const ref = firebase.database().ref();
-    console.log('MEMBERS', project.members);
-    ref.on('value', function(snapshot) {
-      const users = snapshot.val().users;
-      let projectMembers = [];
-      for (var key in users) {
-        if (project.members.includes(users[key].email)) {
-          projectMembers.push(users[key]);
-        }
+    firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        const project = navigation.getParam('project');
+        const ref = firebase.database().ref();
+        ref.on('value', function(snapshot) {
+          const users = snapshot.val().users;
+          let projectMembers = [];
+          for (var key in users) {
+            if (project.members.includes(users[key].email)) {
+              projectMembers.push(users[key]);
+            }
+          }
+          self.setState({ members: projectMembers, project: project });
+        });
+      } else {
+        console.log('not logged in');
       }
-      self.setState({ members: projectMembers, project: project });
     });
   }
 
   render() {
-    //console.log('PROJ', this.state);
     const project = this.state.project;
     const members = this.state.members;
     return (

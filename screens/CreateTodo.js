@@ -108,7 +108,6 @@ export default class CreateEvent extends Component {
             selectedValue={this.state.selectedProject}
             itemStyle={{ height: 80, width: 200 }}
             onValueChange={selectedProject => {
-              console.log(selectedProject);
               self.getMembers(selectedProject);
               self.setState({ selectedProject });
             }}

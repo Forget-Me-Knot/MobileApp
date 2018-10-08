@@ -5,12 +5,13 @@ import { createStackNavigator } from 'react-navigation';
 import AppTabNavigator from './AppTabNavigator';
 import Login from '../screens/Login';
 import Todo from '../screens/ToDo';
-import Menu from '../screens/MenuItems';
 import CreateProject from '../screens/CreateProject';
 import CreateEvent from '../screens/CreateEvent';
 import CreateTodo from '../screens/CreateTodo';
 import ProjectHome from '../screens/ProjectHome';
 import Profile from '../screens/Profile';
+import Photos from '../screens/Photos';
+import CreatePhoto from '../screens/CreatePhoto';
 
 const AppStackNavigator = createStackNavigator({
   AppTabNavigator: {
@@ -41,10 +42,6 @@ const AppStackNavigator = createStackNavigator({
     screen: Todo,
     headerRight: null,
   },
-  // Projects: {
-  //   screen: Menu,
-  //   headerRight: null,
-  // },
   Create: {
     screen: CreateProject,
     headerRight: null,
@@ -63,6 +60,14 @@ const AppStackNavigator = createStackNavigator({
   },
   Profile: {
     screen: Profile,
+    headerRight: null,
+  },
+  Photos: {
+    screen: Photos,
+    headerRight: null,
+  },
+  CreatePhoto: {
+    screen: CreatePhoto,
     headerRight: null,
   },
 });

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, SafeAreaView, Text } from 'react-native';
+import { ScrollView, SafeAreaView } from 'react-native';
 import { Button, CheckBox, ListItem, List } from 'react-native-elements';
 var firebase = require('firebase');
 

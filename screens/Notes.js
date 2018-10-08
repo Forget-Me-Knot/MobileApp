@@ -23,22 +23,36 @@ export default class Notes extends Component {
       if (user) {
         const ref = firebase.database().ref();
         ref.on('value', function(snapshot) {
-          let myNotes = [];
-          const notes = snapshot.val().notes;
+          let notes = [];
+          let userProjects = [];
+          colors = {};
+          const allNotes = snapshot.val().notes;
           const projects = snapshot.val().projects;
-
-          for (var key in notes) {
-            if (notes[key].author === user.uid) {
-              const projectId = notes[key].projectId;
-              for (var id in projects) {
-                if (id === projectId) {
-                  const color = projects[id].color;
-                  myNotes.push({ ...notes[key], key, color });
-                }
-              }
+          const users = snapshot.val().users;
+          for (var key in projects) {
+            if (projects[key].members.includes(user.email)) {
+              userProjects.push(key);
+              colors[key] = projects[key].color;
             }
           }
-          self.setState({ notes: myNotes });
+          for (var key in allNotes) {
+            if (userProjects.includes(allNotes[key].projectId + '')) {
+              let userName = '';
+              for (var id in users) {
+                if (id === allNotes[key].author) {
+                  userName = users[id].displayName;
+                }
+              }
+              notes.push({
+                ...notes[key],
+                content: allNotes[key].content,
+                author: userName,
+                key: key,
+                color: colors[allNotes[key].projectId],
+              });
+            }
+          }
+          self.setState({ notes: notes });
         });
       } else {
         console.log('not logged in');
@@ -60,6 +74,8 @@ export default class Notes extends Component {
         <ListItem
           key={note.key}
           title={note.content}
+          subtitle={`Author: ${note.author}`}
+          titleNumberOfLines={0}
           rightIcon={{ name: 'delete', style: { marginRight: 10 } }}
           onPressRightIcon={() => this.deletenote(note.key)}
           leftIcon={{ name: 'lens', color: '#' + note.color }}
