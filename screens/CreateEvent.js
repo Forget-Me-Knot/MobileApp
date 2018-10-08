@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import firebase from '../firebase';
-import { View, Keyboard, Text, TouchableOpacity, Picker } from 'react-native';
+import { View, Text, TouchableOpacity, Picker } from 'react-native';
 import { Card, Button, FormLabel, FormInput } from 'react-native-elements';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 
@@ -40,7 +40,10 @@ export default class CreateEvent extends Component {
               }
             }
           }
-          self.setState({ projects: userProjects });
+          self.setState({
+            projects: userProjects,
+            selectedProject: userProjects[0].key,
+          });
         });
       }
     });
@@ -54,7 +57,7 @@ export default class CreateEvent extends Component {
     this.setState({
       isDateTimePickerVisible: false,
       date: {
-        dateString: dateString[0],
+        dateString: dateString,
         day: splitDate[2],
         month: splitDate[1],
         year: splitDate[0],
@@ -95,6 +98,7 @@ export default class CreateEvent extends Component {
     return (
       <View>
         <Card>
+          <FormLabel>SELECT PROJECT: </FormLabel>
           <Picker
             selectedValue={this.state.selectedProject}
             itemStyle={{ height: 80, width: 200 }}
@@ -151,7 +155,7 @@ export default class CreateEvent extends Component {
           <DateTimePicker
             isVisible={this.state.isDateTimePickerVisible}
             onConfirm={this._handleDatePicked}
-            onCancel={this._hideDateTimePicker}
+            onCancel={() => this.setState({ isDateTimePickerVisible: false })}
           />
         </View>
       </View>

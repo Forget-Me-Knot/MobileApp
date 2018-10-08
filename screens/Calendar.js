@@ -9,45 +9,88 @@ export default class CalendarView extends React.Component {
     super(props);
     this.state = {
       items: [],
-      selected: {}
+      selected: {},
+      curMonth: 0,
+      curItems: [],
     };
   }
   static navigationOptions = {
-    header: null
+    header: null,
   };
   componentDidMount() {
     const user = firebase.auth().currentUser;
-		var self = this;
+    var self = this;
+    const ref = firebase.database().ref();
+    ref.on('value', function(snapshot) {
+      const projects = snapshot.val().projects;
+      let userProjects = [];
+      for (var key in projects) {
+        if (projects[key].members) {
+          const members = projects[key].members;
+          if (members.includes(user.email)) {
+            userProjects.push('' + key);
+          }
+        }
+      }
+      const events = snapshot.val().events;
+      let userEvents = [];
+      let marked = {};
+      for (var id in events) {
+        if (events[id]) {
+          const projectId = '' + events[id].projectId;
+          if (userProjects.includes(projectId)) {
+            userEvents.push({ ...events[id], key: id });
+            const color = events[id].color;
+            const date = events[id].date.dateString;
 
-		const ref = firebase.database().ref()
-		ref.on('value', function(snapshot) {
-			const projects = snapshot.val().projects
-			let userProjects = []
-			for (var key in projects) {
-				if ( projects[key].members ) {
-					const members = projects[key].members
-					if ( members.includes(user.email) ) {
-						userProjects.push('' + key)
-					}
-				}
-			}
-			const events = snapshot.val().events
-			let userEvents = []
-			let marked = {}
-			for (var id in events ) {
-				if (events[id]) {
-					const projectId = '' + events[id].projectId
-					if (userProjects.includes(projectId)) {
-						userEvents.push({...events[id], key: id})
-					}
-					const color = events[id].color
-					const date = events[id].date.dateString
-					marked[date] = { selectedColor: '#' + color, selected: true}
-				}
-			}
-			self.setState({ items: userEvents });
-      self.setState({ selected: marked });
-		})
+            marked[date] = { selectedColor: '#' + color, selected: true };
+          }
+        }
+      }
+      const now = new Date();
+      const curMonth = now.getMonth() + 1;
+      let curItems = [];
+      userEvents.map(event => {
+        if (event.date.month === curMonth) {
+          curItems.push(event);
+        }
+      });
+      self.setState({
+        items: userEvents,
+        selected: marked,
+        curMonth,
+        curItems,
+      });
+    });
+  }
+
+  handleMonthChange(date) {
+    let curItems = [];
+    this.state.items.map(item => {
+      if ('' + item.date.month === '' + date.month) {
+        curItems.push(item);
+      }
+    });
+    this.setState({ curMonth: date.month, curItems });
+  }
+
+  getMonth(num) {
+    const months = [
+      'nothing',
+      'January',
+      'February',
+      'March',
+      'April',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'October',
+      'November',
+      'December',
+    ];
+    return months[num];
   }
 
   render() {
@@ -64,9 +107,13 @@ export default class CalendarView extends React.Component {
             return r1.name !== r2.name;
           }}
           markedDates={this.state.selected}
+          onMonthChange={date => this.handleMonthChange(date)}
         />
         return this.state.items.length?(
-        <EventList events={this.state.items} />
+        <EventList
+          curMonth={this.getMonth(this.state.curMonth)}
+          curEvents={this.state.curItems}
+        />
         ):()
       </View>
     );

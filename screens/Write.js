@@ -1,33 +1,7 @@
 import React, { Component } from 'react';
 import firebase from '../firebase';
-import {
-  StyleSheet,
-  View,
-  TextInput,
-  Button,
-  Keyboard,
-  Picker,
-} from 'react-native';
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    marginTop: 15,
-  },
-  welcomeContainer: {
-    alignItems: 'center',
-    marginTop: 10,
-    marginBottom: 20,
-  },
-  welcomeImage: {
-    width: 100,
-    height: 80,
-    resizeMode: 'contain',
-    margin: 20,
-    alignContent: 'center',
-  },
-});
+import { View, TextInput, Keyboard, Picker } from 'react-native';
+import { Card, Button, FormLabel } from 'react-native-elements';
 
 export default class Write extends Component {
   constructor(props) {
@@ -96,40 +70,50 @@ export default class Write extends Component {
     const projects = this.state.projects;
     const nav = this.props.navigation;
     return (
-      <View style={styles.container}>
-        <Picker
-          selectedValue={this.state.selectedProject}
-          itemStyle={{ height: 80, width: 200 }}
-          onValueChange={selectedProject => this.setState({ selectedProject })}
-        >
-          {projects.map(project => (
-            <Picker.Item
-              label={project.name}
-              value={project.key}
-              key={project.key}
-            />
-          ))}
-        </Picker>
-        <TextInput
-          style={{
-            width: '100%',
-            height: 200,
-            backgroundColor: 'white',
-            marginBottom: 20,
-            padding: 5,
-          }}
-          onChangeText={text => this.setState({ note: text })}
-          value={this.state.note}
-          multiline={true}
-        />
-        <Button
-          title="POST"
-          color="#841584"
-          onPress={() => {
-            this.handlePress();
-            nav.navigate('Notes');
-          }}
-        />
+      <View>
+        <Card>
+          <FormLabel>SELECT PROJECT: </FormLabel>
+          <Picker
+            selectedValue={this.state.selectedProject}
+            itemStyle={{ height: 80, width: 200 }}
+            onValueChange={selectedProject =>
+              this.setState({ selectedProject })
+            }
+          >
+            {projects.map(project => (
+              <Picker.Item
+                label={project.name}
+                value={project.key}
+                key={project.key}
+              />
+            ))}
+          </Picker>
+          <TextInput
+            style={{
+              width: '100%',
+              height: 200,
+              backgroundColor: 'white',
+              marginBottom: 20,
+              padding: 5,
+            }}
+            onChangeText={text => this.setState({ note: text })}
+            value={this.state.note}
+            multiline={true}
+          />
+          <Button
+            title="POST"
+            buttonStyle={{
+              width: '100%',
+              height: 45,
+              borderRadius: 5,
+              marginTop: 10,
+            }}
+            onPress={() => {
+              this.handlePress();
+              nav.navigate('Notes');
+            }}
+          />
+        </Card>
       </View>
     );
   }

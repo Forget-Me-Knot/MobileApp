@@ -19,6 +19,8 @@ import Todo from '../screens/ToDo';
 import Menu from '../screens/MenuItems';
 import firebase from '../firebase';
 import CreateProject from '../screens/CreateProject';
+import ProjectHome from '../screens/ProjectHome';
+import Profile from '../screens/Profile';
 
 const logOut = function() {
   firebase
@@ -40,7 +42,12 @@ const LogoutButton = props => {
       <Button full light onPress={() => props.navigation.navigate('Create')}>
         <Text>Create Project</Text>
       </Button>
-      <Button full light onPress={() => logOut()}>
+      <Button
+        // style={{ backgroundColor: '#F2F2F2' }}
+        full
+        light
+        onPress={() => logOut()}
+      >
         <Text>LOGOUT</Text>
       </Button>
     </View>
@@ -71,22 +78,23 @@ class CustomDrawer extends Component {
               const name = projects[key].name;
               const color = projects[key].color;
               if (members.includes(user.email) && members.length > 1) {
-                groupProjects.push({ name, key, color });
+                groupProjects.push({ name, key, color, members });
               } else if (members[0] === user.email) {
-                userProjects.push({ name, key, color });
+                userProjects.push({ name, key, color, members });
               }
-              self.setState({
-                groups: groupProjects,
-                personal: userProjects,
-              });
             }
           }
+          self.setState({
+            groups: groupProjects,
+            personal: userProjects,
+          });
         });
       }
     });
   }
 
   render() {
+    const nav = this.props.navigation;
     return (
       <Container>
         <Header style={{ height: 80 }}>
@@ -109,19 +117,17 @@ class CustomDrawer extends Component {
               style={{
                 marginLeft: 0,
                 paddingLeft: 10,
-                backgroundColor: '#DCDCDC',
               }}
-              onPress={() => this.props.navigation.navigate('Login')}
+              onPress={() => nav.navigate('Profile')}
             >
-              <Text>LOG IN</Text>
+              <Text>PROFILE</Text>
             </ListItem>
             <ListItem
               style={{
                 marginLeft: 0,
                 paddingLeft: 10,
-                backgroundColor: '#C0C0C0',
               }}
-              onPress={() => this.props.navigation.navigate('Todo')}
+              onPress={() => nav.navigate('Todo')}
             >
               <Text>TO DO</Text>
             </ListItem>
@@ -129,6 +135,7 @@ class CustomDrawer extends Component {
               style={{
                 marginLeft: 0,
                 paddingLeft: 10,
+                backgroundColor: '#F2F2F2',
               }}
             >
               <Text>PERSONAL PROJECTS:</Text>
@@ -139,24 +146,32 @@ class CustomDrawer extends Component {
                     <ListItem
                       key={project.key}
                       title={project.name}
-                      rightIcon={{ name: 'lens', color: 'black' }}
                       style={{
                         marginLeft: 0,
                         paddingLeft: 10,
                       }}
+                      container={{
+                        flex: 1,
+                      }}
                       onPress={() =>
-                        this.props.navigation.navigate('PersonalProjList')
+                        nav.navigate('ProjectHome', {
+                          project: project,
+                        })
                       }
                     >
                       {' '}
-                      <Text>{project.name}</Text>
                       <Avatar
                         rounded
+                        icon={{ name: 'user', type: 'font-awesome' }}
                         size="xsmall"
+                        containerStyle={{
+                          marginRight: 20,
+                        }}
                         overlayContainerStyle={{
                           backgroundColor: `#${project.color}`,
                         }}
                       />
+                      <Text>{project.name}</Text>
                     </ListItem>
                   );
                 })
@@ -166,7 +181,7 @@ class CustomDrawer extends Component {
               style={{
                 marginLeft: 0,
                 paddingLeft: 10,
-                backgroundColor: 'white',
+                backgroundColor: '#F2F2F2',
               }}
             >
               <Text>GROUP PROJECTS:</Text>
@@ -181,24 +196,30 @@ class CustomDrawer extends Component {
                         paddingLeft: 10,
                       }}
                       onPress={() =>
-                        this.props.navigation.navigate('GroupProjList')
+                        nav.navigate('ProjectHome', {
+                          project: project,
+                        })
                       }
                     >
                       {' '}
-                      <Text>{project.name}</Text>
                       <Avatar
                         rounded
-                        size="xsmall"
+                        icon={{ name: 'users', type: 'font-awesome' }}
+                        size={50}
+                        containerStyle={{
+                          marginRight: 20,
+                        }}
                         overlayContainerStyle={{
                           backgroundColor: `#${project.color}`,
                         }}
                       />
+                      <Text>{project.name}</Text>
                     </ListItem>
                   );
                 })
               : null}
           </List>
-          <LogoutButton navigation={this.props.navigation} />
+          <LogoutButton navigation={nav} />
         </Content>
       </Container>
     );
@@ -210,8 +231,10 @@ const AppDrawerNavigator = createDrawerNavigator(
     Home: AppStackNavigator,
     Login: Login,
     Todo: Todo,
-    Projects: Menu,
+    // Projects: Menu,
     Create: CreateProject,
+    ProjectHome: ProjectHome,
+    Profile: Profile,
   },
   {
     initialRouteName: 'Home',

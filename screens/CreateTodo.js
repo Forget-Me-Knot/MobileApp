@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 import firebase from '../firebase';
-import { View, Keyboard, Text, TouchableOpacity, Picker } from 'react-native';
+import { View, Picker } from 'react-native';
 import { Card, Button, FormLabel, FormInput } from 'react-native-elements';
-import DateTimePicker from 'react-native-modal-datetime-picker';
 
 export default class CreateEvent extends Component {
   constructor() {
     super();
-    this.state = {
-      loadMembers: false,
-    };
+    this.state = {};
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getMembers = this.getMembers.bind(this);
   }
@@ -21,14 +18,20 @@ export default class CreateEvent extends Component {
       ref.on('value', function(snapshot) {
         const projects = snapshot.val().projects;
         let myProjects = [];
+        let members = [];
         for (var key in projects) {
           if (projects[key].members.includes(user.email)) {
             const name = projects[key].name;
-            const members = projects[key].members;
+            members = projects[key].members;
             myProjects.push({ name, members, key });
           }
         }
-        self.setState({ projects: myProjects });
+        self.setState({
+          projects: myProjects,
+          selectedProject: myProjects[0].name,
+          members: myProjects[0].members,
+          selectedMember: members[0],
+        });
       });
     });
   }
@@ -37,15 +40,22 @@ export default class CreateEvent extends Component {
     const nav = this.props.navigation;
     const self = this;
     const assigned = this.state.selectedMember;
-    const projectId = parseInt(this.state.assignProjectId);
+    const projectName = this.state.selectedProject;
+    let projectId;
     const content = this.state.name;
     const newKey = firebase
       .database()
       .ref('tasks/')
       .push().key;
-    const ref = firebase.database().ref('users');
+    const ref = firebase.database().ref();
     ref.on('value', function(snapshot) {
-      const users = snapshot.val();
+      const users = snapshot.val().users;
+      const projects = snapshot.val().projects;
+      for (var key in projects) {
+        if (projects[key].name === projectName) {
+          projectId = key;
+        }
+      }
       let task;
       for (var key in users) {
         if (users[key].email === assigned) {
@@ -59,7 +69,7 @@ export default class CreateEvent extends Component {
       }
       firebase
         .database()
-        .ref('tasks')
+        .ref('tasks/')
         .child(newKey)
         .set(task);
       self.setState({
@@ -72,7 +82,6 @@ export default class CreateEvent extends Component {
   }
 
   getMembers(project) {
-    this.setState({ loadMembers: true });
     this.setState({ assignProject: project });
     const self = this;
     let members;
@@ -81,7 +90,7 @@ export default class CreateEvent extends Component {
     projects.forEach(project => {
       if (name === project.name) {
         members = project.members;
-        self.setState({ assignProjectId: project.key });
+        self.setState({ selectedProject: project.key });
       }
     });
     this.setState({ members });
@@ -94,10 +103,12 @@ export default class CreateEvent extends Component {
     return (
       <View>
         <Card>
+          <FormLabel>SELECT PROJECT: </FormLabel>
           <Picker
             selectedValue={this.state.selectedProject}
             itemStyle={{ height: 80, width: 200 }}
             onValueChange={selectedProject => {
+              console.log(selectedProject);
               self.getMembers(selectedProject);
               self.setState({ selectedProject });
             }}
@@ -112,21 +123,19 @@ export default class CreateEvent extends Component {
                 ))
               : null}
           </Picker>
-          {this.state.loadMembers ? (
-            <Picker
-              selectedValue={this.state.selectedMember}
-              itemStyle={{ height: 80, width: 200 }}
-              onValueChange={selectedMember =>
-                this.setState({ selectedMember })
-              }
-            >
-              {members
-                ? members.map(member => (
-                    <Picker.Item label={member} value={member} key={member} />
-                  ))
-                : null}
-            </Picker>
-          ) : null}
+          <FormLabel>ASSIGN TO: </FormLabel>
+          <Picker
+            selectedValue={this.state.selectedMember}
+            itemStyle={{ height: 80, width: 200 }}
+            onValueChange={selectedMember => this.setState({ selectedMember })}
+          >
+            {members
+              ? members.map(member => (
+                  <Picker.Item label={member} value={member} key={member} />
+                ))
+              : null}
+          </Picker>
+
           <FormLabel>Event Name</FormLabel>
           <FormInput onChangeText={name => this.setState({ name })} />
         </Card>
