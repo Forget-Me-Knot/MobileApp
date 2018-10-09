@@ -6,7 +6,12 @@ import { Card, Button, FormLabel, FormInput } from 'react-native-elements';
 export default class CreateEvent extends Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      projects: [],
+      selectedProject: '',
+      members: [],
+      selectedMember: '',
+    };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getMembers = this.getMembers.bind(this);
   }
@@ -42,22 +47,23 @@ export default class CreateEvent extends Component {
     const assigned = this.state.selectedMember;
     const projectName = this.state.selectedProject;
     let projectId;
+    let newTask;
     const content = this.state.name;
     const newKey = firebase
       .database()
       .ref('tasks/')
       .push().key;
     const ref = firebase.database().ref();
-    ref.on('value', function(snapshot) {
+    ref.on('value', async function(snapshot) {
       const users = snapshot.val().users;
       const projects = snapshot.val().projects;
-      for (var key in projects) {
+      for (let key in projects) {
         if (projects[key].name === projectName) {
           projectId = key;
         }
       }
       let task;
-      for (var key in users) {
+      for (let key in users) {
         if (users[key].email === assigned) {
           task = {
             projectId,
@@ -67,18 +73,26 @@ export default class CreateEvent extends Component {
           };
         }
       }
-      firebase
+      self.props.addTodo({ ...task, key: newKey });
+      //await and addtodo function
+      await firebase
         .database()
         .ref('tasks/')
         .child(newKey)
         .set(task);
-      self.setState({
-        todo: '',
-        assignMember: '',
-        assignProject: '',
-      });
+      //.then(val => nav.navigate('Todo'));
+      // const newTask = await firebase
+      //   .database()
+      //   .ref(`/tasks/${newKey}`)
+      //   .once('value')
+      //   .then(snapshot => snapshot.val());
+      // self.setState({
+      //   todo: '',
+      //   assignMember: '',
+      //   assignProject: '',
+      // });
     });
-    nav.navigate('Todo');
+    this.props.showFormChange();
   }
 
   getMembers(project) {
@@ -97,9 +111,10 @@ export default class CreateEvent extends Component {
   }
 
   render() {
+    const nav = this.props.navigation;
     const projects = this.state.projects;
     const members = this.state.members;
-    const self = this;
+    // const self = this;
     return (
       <View>
         <Card>
@@ -108,8 +123,8 @@ export default class CreateEvent extends Component {
             selectedValue={this.state.selectedProject}
             itemStyle={{ height: 80, width: 200 }}
             onValueChange={selectedProject => {
-              self.getMembers(selectedProject);
-              self.setState({ selectedProject });
+              this.getMembers(selectedProject);
+              this.setState({ selectedProject });
             }}
           >
             {projects

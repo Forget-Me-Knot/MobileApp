@@ -15,9 +15,11 @@ export default class Home extends Component {
       members: [],
       project: {},
     };
+    this._mounted = false;
   }
 
   componentDidMount() {
+    this._mounted = true;
     const { navigation } = this.props;
     const self = this;
     firebase.auth().onAuthStateChanged(function(user) {
@@ -38,6 +40,10 @@ export default class Home extends Component {
         console.log('not logged in');
       }
     });
+  }
+
+  componentWillMount() {
+    this._mounted = false;
   }
 
   render() {

@@ -94,6 +94,11 @@ export default class Profile extends Component {
                     marginLeft: 0,
                     paddingLeft: 10,
                   }}
+                  onPress={() =>
+                    nav.navigate('ProjectHome', {
+                      project: project,
+                    })
+                  }
                   container={{
                     flex: 1,
                   }}

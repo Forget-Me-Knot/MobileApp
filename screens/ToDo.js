@@ -2,62 +2,74 @@ import React, { Component } from 'react';
 import { ScrollView, SafeAreaView } from 'react-native';
 import { Button, CheckBox, ListItem, List } from 'react-native-elements';
 var firebase = require('firebase');
+import CreateTodo from './CreateTodo';
 
 class ToDo extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
-    this._mounted = false;
+    this.state = {
+      tasks: [],
+      showForm: false,
+    };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCheck = this.handleCheck.bind(this);
+    this.showFormChange = this.showFormChange.bind(this);
+    this.addTodo = this.addTodo.bind(this);
   }
 
-  async componentDidMount() {
-    this._mounted = true;
-    var self = this;
-    await firebase.auth().onAuthStateChanged(function(user) {
-      if (user) {
-        const ref = firebase.database().ref();
-        ref.on('value', function(snapshot) {
-          const tasks = snapshot.val().tasks;
-          const projects = snapshot.val().projects;
+  addTodo(task) {
+    this.setState(prevState => ({ tasks: [...prevState, task] }));
+  }
 
-          let myProjects = [];
-          let colors = {};
-          let myTasks = [];
-          for (var key in projects) {
-            if (projects[key].members.includes(user.email)) {
-              myProjects.push(key);
-              colors[key] = projects[key].color;
-            }
+  componentDidMount() {
+    var self = this;
+    firebase.auth().onAuthStateChanged(async function(user) {
+      if (user) {
+        const projects = await firebase
+          .database()
+          .ref('/projects')
+          .once('value')
+          .then(snap => snap.val());
+
+        const tasks = await firebase
+          .database()
+          .ref('/tasks')
+          .once('value')
+          .then(snap => snap.val());
+        let myProjects = new Set();
+        let colors = {};
+        let myTasks = [];
+        for (let key in projects) {
+          if (projects[key].members.includes(user.email)) {
+            myProjects.add(key);
+            colors[key] = projects[key].color;
           }
-          for (var id in tasks) {
-            if (myProjects.includes(tasks[id].projectId + '')) {
-              myTasks.push({
-                ...tasks[id],
-                key: id,
-                color: colors[tasks[id].projectId],
-              });
-              self.setState({ [id]: tasks[id].completed });
-            }
+        }
+        for (let id in tasks) {
+          if (myProjects.has(tasks[id].projectId + '')) {
+            myTasks.push({
+              ...tasks[id],
+              key: id,
+              color: colors[tasks[id].projectId],
+            });
+            self.setState({ [id]: tasks[id].completed });
           }
-          self.setState({ tasks: myTasks });
-        });
+        }
+        self.setState({ tasks: myTasks });
       }
     });
-  }
-
-  componentWillUnmount() {
-    this._mounted = false;
   }
 
   handleSubmit() {
     const state = this.state;
     const deleted = [];
-    for (var key in state) {
+    for (let key in state) {
       if (state[key] === true) {
         deleted.push(key);
-        this.setState({ [key]: !this.state[key] });
+        this.setState(prevState => ({
+          [key]: !this.state[key],
+          tasks: prevState.tasks.filter(task => task.key !== key),
+        }));
       }
     }
     deleted.map(todo => {
@@ -69,15 +81,26 @@ class ToDo extends Component {
     });
   }
 
-  handleCheck(key) {
-    this._mounted = true;
-    firebase
+  showFormChange() {
+    this.setState(prevState => ({ showForm: !prevState.showForm }));
+  }
+
+  async handleCheck(key) {
+    const opposite = !this.state[key];
+    const task = await firebase
       .database()
-      .ref('tasks/' + key)
-      .update({
-        completed: !this.state[key],
-      })
-      .then(this.setState({ [key]: !this.state[key] }));
+      .ref(`tasks/${key}`)
+      .once('value')
+      .then(snap => snap.val());
+    const taskUpdate = {
+      ...task,
+      completed: opposite,
+    };
+    await firebase
+      .database()
+      .ref(`tasks/${key}`)
+      .set(taskUpdate);
+    this.setState({ [key]: opposite });
   }
 
   //make outside funcition. then bind to item.
@@ -86,6 +109,12 @@ class ToDo extends Component {
     const tasks = this.state.tasks;
     return (
       <SafeAreaView style={{ marginTop: 10 }}>
+        {this.state.showForm ? (
+          <CreateTodo
+            addTodo={this.addTodo}
+            showFormChange={this.showFormChange}
+          />
+        ) : null}
         <ScrollView>
           <List>
             {tasks
@@ -126,7 +155,8 @@ class ToDo extends Component {
               marginTop: 10,
             }}
             onPress={() => {
-              nav.navigate('CreateTodo');
+              this.setState({ showForm: true });
+              // nav.navigate('CreateTodo');
             }}
           />
           <Button

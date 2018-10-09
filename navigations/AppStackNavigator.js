@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
-import { createStackNavigator } from 'react-navigation';
+import { createStackNavigator, createSwitchNavigator } from 'react-navigation';
 import AppTabNavigator from './AppTabNavigator';
 import Login from '../screens/Login';
 import Todo from '../screens/ToDo';
@@ -13,7 +13,7 @@ import Profile from '../screens/Profile';
 import Photos from '../screens/Photos';
 import CreatePhoto from '../screens/CreatePhoto';
 
-const AppStackNavigator = createStackNavigator({
+const AppStackNavigator = createSwitchNavigator({
   AppTabNavigator: {
     screen: AppTabNavigator,
     navigationOptions: ({ navigation }) => ({

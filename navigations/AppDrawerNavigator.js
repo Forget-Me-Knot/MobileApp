@@ -252,7 +252,7 @@ const AppDrawerNavigator = createDrawerNavigator(
     Photos: Photos,
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'Todo',
     drawerPosition: 'left',
     contentComponent: CustomDrawer,
   }
