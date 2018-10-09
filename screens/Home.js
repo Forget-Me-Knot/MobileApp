@@ -15,7 +15,7 @@ class FadeView extends Component {
 			this.state.fade,
 			{
 				toValue: 1,
-				duration: 10000,
+				duration: 7000,
 			}
 		).start()
 	}
@@ -32,7 +32,9 @@ class FadeView extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
+		flex: 1,
+		alignItems: 'center',
+		justifyContent: 'center',
   },
 });
 
@@ -83,8 +85,8 @@ export default class Home extends Component {
     return (
       <View style={styles.container}>
 				<FadeView>
-							<Text style={{fontSize: 20, textAlign: 'center', margin: 10}}>{this.state.message}</Text>
-							<Text style={{fontSize: 20, textAlign: 'center', margin: 10}}>{user}</Text>
+							<Text style={{fontFamily: 'Abril', fontSize: 35, textAlign: 'center', margin: 5}}>{this.state.message}</Text>
+							<Text style={{fontFamily: 'Abril', fontSize: 20, textAlign: 'center', margin: 5}}>{user}</Text>
 				</FadeView>
       </View>
     );
