@@ -14,7 +14,7 @@ class ToDo extends Component {
 
   componentDidMount() {
     this._mounted = true;
-    var self = this;
+    const self = this;
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         const ref = firebase.database().ref();
