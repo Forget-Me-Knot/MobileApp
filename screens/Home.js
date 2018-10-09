@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import firebase from '../firebase';
+//import ReactRevealText from 'react-reveal-text';
 
 const styles = StyleSheet.create({
   container: {
@@ -15,7 +16,7 @@ export default class Home extends Component {
 
   constructor() {
     super();
-    this.state = {};
+    this.state = { show: false };
   }
 
   componentDidMount() {
@@ -32,7 +33,9 @@ export default class Home extends Component {
       message = 'Good night.';
     }
     this.setState({ message });
-
+    // setTimeout(() => {
+    //   this.setState({ show: true });
+    // }, 1000);
     const self = this;
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
@@ -52,8 +55,18 @@ export default class Home extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>{this.state.message}</Text>
-        <Text>{this.state.user}</Text>
+        {this.state.user ? (
+          <View style={styles.container}>
+            <Text>{this.state.message}</Text>
+            <Text>{this.state.user}</Text>
+            {/* <ReactRevealText style={{ fontSize: '4em' }} show={this.state.show}>
+              {this.state.message}
+            </ReactRevealText>
+            <ReactRevealText style={{ fontSize: '3em' }} show={this.state.show}>
+              {this.state.user}
+            </ReactRevealText> */}
+          </View>
+        ) : null}
       </View>
     );
   }
