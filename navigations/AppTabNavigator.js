@@ -68,6 +68,10 @@ const AppTabNavigator = createBottomTabNavigator({
       )
     }
   }
+},{
+	tabBarOptions: {
+		showLabel: false
+	}
 });
 
 export default AppTabNavigator;

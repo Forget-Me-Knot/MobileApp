@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image } from 'react-native';
+import { Image, ScrollView } from 'react-native';
 import { createDrawerNavigator } from 'react-navigation';
 import {
   Container,
@@ -10,7 +10,7 @@ import {
   Text,
   View,
   List,
-  ListItem,
+	ListItem,
 } from 'native-base';
 import { Avatar } from 'react-native-elements';
 import AppStackNavigator from './AppStackNavigator';
@@ -40,7 +40,7 @@ const LogoutButton = props => {
   return firebase.auth().currentUser ? (
     <View>
       <Button full light onPress={() => props.navigation.navigate('Create')}>
-        <Text>Create Project</Text>
+        <Text style={{fontFamily: 'Oxygen'}}>Create Project</Text>
       </Button>
       <Button
         // style={{ backgroundColor: '#F2F2F2' }}
@@ -51,7 +51,7 @@ const LogoutButton = props => {
           props.navigation.navigate('Login');
         }}
       >
-        <Text>LOGOUT</Text>
+        <Text style={{fontFamily: 'Oxygen'}}>LOGOUT</Text>
       </Button>
     </View>
   ) : null;
@@ -102,6 +102,7 @@ class CustomDrawer extends Component {
     const nav = this.props.navigation;
     return (
       <Container>
+				<ScrollView>
         <Header style={{ height: 80 }}>
           <Body>
             <Image
@@ -125,7 +126,7 @@ class CustomDrawer extends Component {
               }}
               onPress={() => nav.navigate('Profile')}
             >
-              <Text>PROFILE</Text>
+              <Text style={{fontFamily: 'Oxygen'}}>Profile</Text>
             </ListItem>
             <ListItem
               style={{
@@ -134,7 +135,7 @@ class CustomDrawer extends Component {
               }}
               onPress={() => nav.navigate('Todo')}
             >
-              <Text>TO DO</Text>
+              <Text style={{fontFamily: 'Oxygen'}}>To-do</Text>
             </ListItem>
             <ListItem
               style={{
@@ -143,7 +144,7 @@ class CustomDrawer extends Component {
               }}
               onPress={() => nav.navigate('Photos')}
             >
-              <Text>PHOTOS</Text>
+              <Text style={{fontFamily: 'Oxygen'}}>Photos</Text>
             </ListItem>
             <ListItem
               style={{
@@ -152,7 +153,7 @@ class CustomDrawer extends Component {
                 backgroundColor: '#F2F2F2',
               }}
             >
-              <Text>PERSONAL PROJECTS:</Text>
+              <Text style={{fontFamily: 'Oxygen'}}>Personal projects</Text>
             </ListItem>
 
             {this.state.personal
@@ -186,7 +187,7 @@ class CustomDrawer extends Component {
                           backgroundColor: `#${project.color}`,
                         }}
                       />
-                      <Text>{project.name}</Text>
+                      <Text style={{fontFamily: 'Oxygen'}}>{project.name}</Text>
                     </ListItem>
                   );
                 })
@@ -199,7 +200,7 @@ class CustomDrawer extends Component {
                 backgroundColor: '#F2F2F2',
               }}
             >
-              <Text>GROUP PROJECTS:</Text>
+              <Text style={{fontFamily: 'Oxygen'}}>Group projects</Text>
             </ListItem>
             {this.state.groups
               ? this.state.groups.map(project => {
@@ -228,7 +229,7 @@ class CustomDrawer extends Component {
                           backgroundColor: `#${project.color}`,
                         }}
                       />
-                      <Text>{project.name}</Text>
+                      <Text style={{fontFamily: 'Oxygen'}}>{project.name}</Text>
                     </ListItem>
                   );
                 })
@@ -236,6 +237,7 @@ class CustomDrawer extends Component {
           </List>
           <LogoutButton navigation={nav} />
         </Content>
+				</ScrollView>
       </Container>
     );
   }

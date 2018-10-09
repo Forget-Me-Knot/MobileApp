@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Card, ListItem, Avatar } from 'react-native-elements'
+import { StyleSheet, Text, View, Image } from 'react-native';
+import { Divider } from 'react-native-material-ui'
 import firebase from '../firebase';
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
+		alignItems: 'center',
+		width: '100%'
   },
 });
 
@@ -41,16 +44,25 @@ export default class Home extends Component {
   }
 
   render() {
+		console.log(this.state)
     const project = this.state.project;
     const members = this.state.members;
     return (
-      <View style={styles.container}>
-        {project ? <Text>{project.name}</Text> : null}
-        <Text>MEMBERS:</Text>
-        {members.map(member => (
-          <Text key={member.email}>{member.displayName}</Text>
-        ))}
-      </View>
+				<Card title={project.name} style={{width: '100%'}}>
+				{members.map(member => (
+          <ListItem key={member.email} title={member.displayName} hideChevron
+						style={{width: '100%'}}>
+						{' '}
+						<Avatar
+            	rounded
+              icon={{ name: 'user', type: 'font-awesome' }}
+              size="xsmall"
+              containerStyle={{marginLeft: 20}}
+              overlayContainerStyle={{backgroundColor: `#${project.color}`}}
+            />
+					</ListItem>
+				))}
+				</Card>
     );
   }
 }
