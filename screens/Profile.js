@@ -3,12 +3,6 @@ import { ScrollView } from 'react-native';
 import firebase from '../firebase';
 import { Card, Button, ListItem, List, Text } from 'react-native-elements';
 
-// const styles = StyleSheet.create({
-//   container: {
-//     alignItems: 'center',
-//   },
-// });
-
 export default class Profile extends Component {
   constructor(props) {
     super(props);
@@ -71,16 +65,14 @@ export default class Profile extends Component {
     return (
       <ScrollView>
         <Card>
-          <Text h4>PROFILE:</Text>
+          <Text h4 style={{textAlign: 'center'}}>PROFILE</Text>
           {user ? (
             <Card>
-              <Text>NAME:</Text>
-              <Text>{user.displayName}</Text>
-              <Text>EMAIL:</Text>
-              <Text>{user.email}</Text>
+              <Text>Name: {user.displayName}</Text>
+              <Text>E-mail: {user.email}</Text>
             </Card>
           ) : null}
-          <Text h4>{`\nPROJECTS:`}</Text>
+          <Text h4 style={{textAlign: 'center'}}>{`\nPROJECTS`}</Text>
           {projects ? (
             <List>
               {projects.map(project => (
