@@ -12,10 +12,10 @@ class ToDo extends Component {
     this.handleCheck = this.handleCheck.bind(this);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this._mounted = true;
-    const self = this;
-    firebase.auth().onAuthStateChanged(function(user) {
+    var self = this;
+    await firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
         const ref = firebase.database().ref();
         ref.on('value', function(snapshot) {
@@ -47,17 +47,7 @@ class ToDo extends Component {
     });
   }
 
-  // componentDidUpdate(prevProps) {
-  //   const props = this.props;
-  //   if (prevProps !== props.tasks || prevProps.projects !== props.projects) {
-  //     this.setState({
-  //       projects: props.projects,
-  //       tasks: props.tasks,
-  //     });
-  //   }
-  // }
-
-  componentWillMount() {
+  componentWillUnmount() {
     this._mounted = false;
   }
 
@@ -67,10 +57,11 @@ class ToDo extends Component {
     for (var key in state) {
       if (state[key] === true) {
         deleted.push(key);
+        this.setState({ [key]: !this.state[key] });
       }
     }
     deleted.map(todo => {
-      return firebase
+      firebase
         .database()
         .ref('tasks')
         .child(todo)
@@ -85,12 +76,13 @@ class ToDo extends Component {
       .ref('tasks/' + key)
       .update({
         completed: !this.state[key],
-      });
-    this.setState({ [key]: !this.state[key] });
+      })
+      .then(this.setState({ [key]: !this.state[key] }));
   }
 
   //make outside funcition. then bind to item.
   render() {
+		console.log(this.state)
     const nav = this.props.navigation;
     const tasks = this.state.tasks;
     return (
@@ -114,7 +106,7 @@ class ToDo extends Component {
                             backgroundColor: 'white',
                           }}
                           checkedColor={'#' + task.color}
-                          checked={this.state.checked}
+                          //checked={this.state.checked}
                           checkedIcon="dot-circle-o"
                           uncheckedIcon="circle-o"
                           checked={this.state[task.key]}

@@ -34,7 +34,8 @@
     "react-native-router-flux": "^4.0.4",
     "react-native-vector-icons": "^5.0.0",
     "react-navigation": "^2.16.0",
-    "whatwg-fetch": "^2.0.4"
+    "whatwg-fetch": "^2.0.4",
+    "react-reveal-text": "^0.1.1"
   },
   "devDependencies": {
     "jest-expo": "30.0.0"
