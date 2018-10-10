@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, Image } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { createStackNavigator } from 'react-navigation';
 import AppTabNavigator from './AppTabNavigator';
@@ -17,7 +17,11 @@ const AppStackNavigator = createStackNavigator({
   AppTabNavigator: {
     screen: AppTabNavigator,
     navigationOptions: ({ navigation }) => ({
-      title: 'Forget Me Knot',
+			headerTitle: (
+				<Image source={require('../assets/images/fmk.png')} style={{width: 150, height: 60}} />
+			),
+			headerTintColor: '#000000',
+			headerBackTitle: null,
       headerLeft: (
         <TouchableOpacity onPress={() => navigation.toggleDrawer()}>
           <View style={{ paddingHorizontal: 10 }}>
@@ -31,7 +35,7 @@ const AppStackNavigator = createStackNavigator({
             <Icon name="add" />
           </View>
         </TouchableOpacity>
-      ),
+			),
     }),
   },
   Login: {
@@ -70,6 +74,8 @@ const AppStackNavigator = createStackNavigator({
     screen: CreatePhoto,
     headerRight: null,
   },
+}, {
+	cardStyle: {backgroundColor: '#FFFFFF'}
 });
 
 export default AppStackNavigator;

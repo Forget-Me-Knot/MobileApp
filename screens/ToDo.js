@@ -82,6 +82,7 @@ class ToDo extends Component {
 
   //make outside funcition. then bind to item.
   render() {
+		console.log(this.state)
     const nav = this.props.navigation;
     const tasks = this.state.tasks;
     return (
