@@ -54,7 +54,7 @@ export default class Home extends Component {
     }
     return (
       <Card title={project.name} style={{ width: '100%' }}>
-        <Avatar
+        {/* <Avatar
           size="large"
           alignSelf="center"
           rounded
@@ -65,7 +65,7 @@ export default class Home extends Component {
           overlayContainerStyle={{
             backgroundColor: `#${project.color}`,
           }}
-        />
+        /> */}
         {members.map(member => (
           <ListItem
             key={member.email}
