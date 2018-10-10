@@ -92,8 +92,8 @@ export default class CreateProject extends Component {
           buttonStyle={{
             width: '100%',
             height: 45,
-            borderRadius: 5,
-            marginTop: 10,
+						marginTop: 10,
+						backgroundColor: '#242424'
           }}
           onPress={() => {
             this.handleSubmit();

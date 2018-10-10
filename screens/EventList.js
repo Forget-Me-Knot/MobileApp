@@ -1,12 +1,14 @@
 import React from 'react';
 import { ScrollView, View } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
-import { Header, Title, Avatar } from 'native-base';
+import { Header, Title } from 'native-base';
+import firebase from '../firebase'
 
 export default class EventList extends React.Component {
   constructor(props) {
     super(props);
-    this._mounted = false;
+		this._mounted = false;
+		this.delete = this.delete.bind(this)
   }
 
   componentDidMount() {
@@ -15,27 +17,32 @@ export default class EventList extends React.Component {
 
   componentWillMount() {
     this._mounted = false;
-  }
+	}
+
+	delete(key){
+		return firebase
+			.database()
+			.ref('events')
+			.child(key)
+			.remove()
+	}
 
   render() {
     return (
       <ScrollView>
         <View>
-          <List containerStyle={{ marginBottom: 150 }}>
-            <Header>
-              <Title>{this.props.curMonth}</Title>
-            </Header>
+          <List containerStyle={{ marginBottom: 45 }}>
             {this.props.curEvents.length ? (
               this.props.curEvents.map(l => (
                 <ListItem
-                  //needs delete button
                   leftIcon={{
                     name: 'lens',
                     color: `#${l.color}`,
-                  }}
+									}}
                   key={l.key}
-                  title={l.name}
-                  hideChevron
+									title={l.name}
+									rightIcon={{ name: 'delete', style: { marginRight: 10 }}}
+									onPressRightIcon={() => this.delete(l.key)}
                 />
               ))
             ) : (
