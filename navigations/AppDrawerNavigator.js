@@ -10,9 +10,10 @@ import {
   Text,
   View,
   List,
-  ListItem,
+	ListItem,
+	Footer
 } from 'native-base';
-import { Avatar } from 'react-native-elements';
+import { Avatar, Divider } from 'react-native-elements';
 import AppStackNavigator from './AppStackNavigator';
 import Login from '../screens/Login';
 import Todo from '../screens/ToDo';
@@ -38,22 +39,18 @@ const logOut = function() {
 
 const LogoutButton = props => {
   return firebase.auth().currentUser ? (
-    <View>
-      <Button full light onPress={() => props.navigation.navigate('Create')}>
-        <Text style={{ fontFamily: 'Oxygen' }}>Create Project</Text>
+    <Footer style={{
+			flexDirection: 'column',
+			height: 90,
+		}}>
+      <Button full light onPress={() => props.navigation.navigate('Create')} style={{borderColor: '#c0c0c0'}}>
+        <Text style={{fontFamily: 'Oxygen'}}>Create Project</Text>
       </Button>
-      <Button
-        // style={{ backgroundColor: '#F2F2F2' }}
-        full
-        light
-        onPress={() => {
-          logOut();
-          props.navigation.navigate('Login');
-        }}
-      >
-        <Text style={{ fontFamily: 'Oxygen' }}>LOGOUT</Text>
+			<Divider style={{backgroundColor: '#c0c0c0'}} />
+			<Button full light onPress={() => {logOut(); props.navigation.navigate('Login');}} >
+        <Text style={{fontFamily: 'Oxygen'}}>LOGOUT</Text>
       </Button>
-    </View>
+    </Footer>
   ) : null;
 };
 
@@ -103,60 +100,59 @@ class CustomDrawer extends Component {
     const nav = this.props.navigation;
     return (
       <Container>
-        <ScrollView>
-          <Header style={{ height: 80 }}>
-            <Body>
-              <Image
-                style={{ height: 30, width: 30 }}
-                source={require('../assets/reminder.png')}
-              />
-            </Body>
-          </Header>
-          <Content
-            contentContainerStyle={{
-              flex: 1,
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-            }}
-          >
-            <List>
-              <ListItem
-                style={{
-                  marginLeft: 0,
-                  paddingLeft: 10,
-                }}
-                onPress={() => nav.navigate('Profile')}
-              >
-                <Text style={{ fontFamily: 'Oxygen' }}>Profile</Text>
-              </ListItem>
-              <ListItem
-                style={{
-                  marginLeft: 0,
-                  paddingLeft: 10,
-                }}
-                onPress={() => nav.navigate('Todo')}
-              >
-                <Text style={{ fontFamily: 'Oxygen' }}>To-do</Text>
-              </ListItem>
-              <ListItem
-                style={{
-                  marginLeft: 0,
-                  paddingLeft: 10,
-                }}
-                onPress={() => nav.navigate('Photos')}
-              >
-                <Text style={{ fontFamily: 'Oxygen' }}>Photos</Text>
-              </ListItem>
-              <ListItem
-                style={{
-                  marginLeft: 0,
-                  paddingLeft: 10,
-                  backgroundColor: '#F2F2F2',
-                }}
-              >
-                <Text style={{ fontFamily: 'Oxygen' }}>Personal projects</Text>
-              </ListItem>
-
+        <Header style={{ height: 80 }}>
+          <Body>
+            <Image
+              style={{ height: 30, width: 30 }}
+              source={require('../assets/reminder.png')}
+            />
+          </Body>
+        </Header>
+        <Content
+          contentContainerStyle={{
+            flex: 1,
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+          }}
+        >
+				<ScrollView>
+          <List>
+            <ListItem
+              style={{
+                marginLeft: 0,
+                paddingLeft: 10,
+              }}
+              onPress={() => nav.navigate('Profile')}
+            >
+              <Text style={{fontFamily: 'Oxygen'}}>Profile</Text>
+            </ListItem>
+            <ListItem
+              style={{
+                marginLeft: 0,
+                paddingLeft: 10,
+              }}
+              onPress={() => nav.navigate('Todo')}
+            >
+              <Text style={{fontFamily: 'Oxygen'}}>To-do</Text>
+            </ListItem>
+            <ListItem
+              style={{
+                marginLeft: 0,
+                paddingLeft: 10,
+              }}
+              onPress={() => nav.navigate('Photos')}
+            >
+              <Text style={{fontFamily: 'Oxygen'}}>Photos</Text>
+            </ListItem>
+            <ListItem
+              style={{
+                marginLeft: 0,
+                paddingLeft: 10,
+                backgroundColor: '#F2F2F2',
+              }}
+            >
+              <Text style={{fontFamily: 'Oxygen'}}>Personal projects</Text>
+            </ListItem>
               {this.state.personal
                 ? this.state.personal.map(project => {
                     return (
@@ -210,9 +206,13 @@ class CustomDrawer extends Component {
                     return (
                       <ListItem
                         key={project.key}
+                        title={project.name}
                         style={{
                           marginLeft: 0,
                           paddingLeft: 10,
+                        }}
+                        container={{
+                          flex: 1,
                         }}
                         onPress={() =>
                           nav.navigate('ProjectHome', {
@@ -223,8 +223,8 @@ class CustomDrawer extends Component {
                         {' '}
                         <Avatar
                           rounded
-                          icon={{ name: 'users', type: 'font-awesome' }}
-                          size={50}
+                          icon={{ name: 'user', type: 'font-awesome' }}
+                          size="xsmall"
                           containerStyle={{
                             marginRight: 20,
                           }}
@@ -236,13 +236,13 @@ class CustomDrawer extends Component {
                           {project.name}
                         </Text>
                       </ListItem>
-                    );
-                  })
-                : null}
-            </List>
-            <LogoutButton navigation={nav} />
-          </Content>
-        </ScrollView>
+                  );
+                })
+              : null}
+          </List>
+					</ScrollView>
+        </Content>
+				<LogoutButton navigation={nav} />
       </Container>
     );
   }
