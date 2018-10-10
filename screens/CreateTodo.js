@@ -97,7 +97,6 @@ export default class CreateEvent extends Component {
   }
 
   render() {
-		console.log(this.state)
     const projects = this.state.projects;
     const members = this.state.members;
     const self = this;
