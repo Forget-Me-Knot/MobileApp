@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import firebase from '../firebase';
 import { View, Text, TouchableOpacity, Picker } from 'react-native';
-import { Card, Button, FormLabel, FormInput } from 'react-native-elements';
+import { Card, Button, FormLabel, FormInput, Divider } from 'react-native-elements';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 
 export default class CreateEvent extends Component {
@@ -97,8 +97,8 @@ export default class CreateEvent extends Component {
     const nav = this.props.navigation;
     return (
       <View>
-        <Card>
-          <FormLabel>SELECT PROJECT: </FormLabel>
+        <Card containerStyle={{padding: 20, shadowOpacity: 0, shadowColor: 'white', borderWidth: 0}}>
+					<FormLabel labelStyle={{color: 'black'}}>SELECT PROJECT</FormLabel>
           <Picker
             selectedValue={this.state.selectedProject}
             itemStyle={{ height: 80, width: 200 }}
@@ -114,9 +114,9 @@ export default class CreateEvent extends Component {
               />
             ))}
           </Picker>
-          <FormLabel>Event Name</FormLabel>
+          <FormLabel labelStyle={{color: 'black'}}>Event Name</FormLabel>
           <FormInput onChangeText={name => this.setState({ name })} />
-          <FormLabel>
+          <FormLabel labelStyle={{color: 'black'}}>
             {'DATE: ' +
               this.state.date.month +
               '/' +
@@ -124,14 +124,14 @@ export default class CreateEvent extends Component {
               '/' +
               this.state.date.year}
           </FormLabel>
-        </Card>
-        <Button
+					<Button
           title="SELECT DATE"
           buttonStyle={{
+						alignContent: 'center',
             width: '100%',
             height: 45,
-            borderRadius: 5,
-            marginTop: 10,
+						marginTop: 10,
+						backgroundColor: '#242424'
           }}
           onPress={() => this._showDateTimePicker()}
         />
@@ -140,14 +140,15 @@ export default class CreateEvent extends Component {
           buttonStyle={{
             width: '100%',
             height: 45,
-            borderRadius: 5,
-            marginTop: 10,
+						marginTop: 10,
+						backgroundColor: '#242424'
           }}
           onPress={() => {
             this.handleSubmit();
             nav.navigate('Calendar');
           }}
         />
+        </Card>
         <View style={{ flex: 1 }}>
           <TouchableOpacity onPress={this._showDateTimePicker}>
             <Text>Show DatePicker</Text>

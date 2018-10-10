@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ScrollView } from 'react-native';
 import firebase from '../firebase';
-import { Card, Button, ListItem, List, Text } from 'react-native-elements';
+import { Card, Button, ListItem, List, Text, Divider } from 'react-native-elements';
 
 export default class Profile extends Component {
   constructor(props) {
@@ -64,15 +64,16 @@ export default class Profile extends Component {
     const nav = this.props.navigation;
     return (
       <ScrollView>
-        <Card>
-          <Text h4 style={{textAlign: 'center'}}>PROFILE</Text>
+        <Card containerStyle={{padding: 20, shadowOpacity: 0, shadowColor: 'white', borderWidth: 0}}>
+          <Text h4 style={{textAlign: 'center', fontFamily: 'Abril'}}>Profile</Text>
+					<Divider style={{backgroundColor: '#c0c0c0', marginTop: 15}} />
           {user ? (
-            <Card>
-              <Text>Name: {user.displayName}</Text>
-              <Text>E-mail: {user.email}</Text>
-            </Card>
+						<Card containerStyle={{shadowOpacity: 0, shadowColor: 'white', borderWidth: 0}}>
+              <Text style={{fontFamily: 'Oxygen'}}>Name: {user.displayName}</Text>
+              <Text style={{fontFamily: 'Oxygen'}}>E-mail: {user.email}</Text>
+						</Card>
           ) : null}
-          <Text h4 style={{textAlign: 'center'}}>{`\nPROJECTS`}</Text>
+          <Text h4 style={{textAlign: 'center', fontFamily: 'Abril'}}>{`\nProjects`}</Text>
           {projects ? (
             <List>
               {projects.map(project => (
@@ -89,27 +90,28 @@ export default class Profile extends Component {
                   }
                   style={{
                     marginLeft: 0,
-                    paddingLeft: 10,
+										paddingLeft: 10,
                   }}
                   container={{
                     flex: 1,
-                  }}
+									}}
                 >
-                  <Text>{project.name}</Text>
+                  <Text style={{fontFamily: 'Oxygen'}}>{project.name}</Text>
                 </ListItem>
-              ))}
-            </List>
-          ) : null}
-          <Button
+							))}
+							          <Button
             title="CREATE PROJECT"
             buttonStyle={{
               width: '100%',
               height: 45,
-              borderRadius: 5,
-              marginTop: 10,
+							marginTop: 10,
+							backgroundColor: '#242424',
+							alignContent: 'center'
             }}
             onPress={() => nav.navigate('Create')}
           />
+            </List>
+          ) : null}
         </Card>
       </ScrollView>
     );
