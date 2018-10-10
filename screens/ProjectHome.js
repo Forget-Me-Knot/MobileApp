@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import { Card, ListItem, Avatar } from 'react-native-elements';
-import { StyleSheet, Text, View, Image } from 'react-native';
-import { Divider } from 'react-native-material-ui';
-import firebase from '../firebase';
+import React, { Component } from "react";
+import { Card, ListItem, Avatar } from "react-native-elements";
+import { StyleSheet, Text, View, Image, ImageBackground } from "react-native";
+import { Divider } from "react-native-material-ui";
+import firebase from "../firebase";
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
-    width: '100%',
-  },
+    alignItems: "center",
+    width: "100%"
+  }
 });
 
 export default class Home extends Component {
@@ -16,7 +16,7 @@ export default class Home extends Component {
     super(props);
     this.state = {
       members: [],
-      project: {},
+      project: {}
     };
   }
 
@@ -25,9 +25,9 @@ export default class Home extends Component {
     const self = this;
     firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
-        const project = navigation.getParam('project');
+        const project = navigation.getParam("project");
         const ref = firebase.database().ref();
-        ref.on('value', function(snapshot) {
+        ref.on("value", function(snapshot) {
           const users = snapshot.val().users;
           let projectMembers = [];
           for (var key in users) {
@@ -38,7 +38,7 @@ export default class Home extends Component {
           self.setState({ members: projectMembers, project: project });
         });
       } else {
-        console.log('not logged in');
+        console.log("not logged in");
       }
     });
   }
@@ -48,33 +48,52 @@ export default class Home extends Component {
     const members = this.state.members;
     let icon;
     if (members.length === 1) {
-      icon = 'user';
+      icon = "user";
     } else {
-      icon = 'users';
+      icon = "users";
     }
     return (
-      <Card title={project.name} style={{ width: '100%' }}>
-        {/* <Avatar
+      <ImageBackground
+        source={require("../assets/images/bg.jpg")}
+        style={{
+          width: "100%",
+          height: "100%",
+          flex: 1
+          // justifyContent: "center"
+        }}
+      >
+        <Avatar
           size="large"
           alignSelf="center"
           rounded
-          icon={{ name: `${icon}`, type: 'font-awesome' }}
+          icon={{ name: `${icon}`, type: "font-awesome" }}
           containerStyle={{
             marginRight: 20,
+            marginTop: 20
           }}
           overlayContainerStyle={{
-            backgroundColor: `#${project.color}`,
+            backgroundColor: `#${project.color}`
           }}
-        /> */}
-        {members.map(member => (
-          <ListItem
-            key={member.email}
-            title={member.displayName}
-            hideChevron
-            style={{ width: '100%' }}
-          />
-        ))}
-      </Card>
+        />
+
+        <Card
+          title={project.name}
+          style={{ width: "100%" }}
+          // backgroundColor={`#${project.color}`}
+        >
+          <Text h3 style={{ textAlign: "center" }}>
+            Members:
+          </Text>
+          {members.map(member => (
+            <ListItem
+              key={member.email}
+              title={member.displayName}
+              hideChevron
+              style={{ width: "100%" }}
+            />
+          ))}
+        </Card>
+      </ImageBackground>
     );
   }
 }
