@@ -45,10 +45,12 @@ export default class Home extends Component {
 
   constructor() {
     super();
-    this.state = { show: false };
+		this.state = { show: false };
+		this._mounted = false
   }
 
   componentDidMount() {
+		this._mounted = true
     let message;
     const date = new Date();
     const hour = date.getHours();
@@ -78,7 +80,11 @@ export default class Home extends Component {
         });
       }
     });
-  }
+	}
+
+	componentWillMount(){
+		this._mounted = false
+	}
 
   render() {
 		const user = this.state.user ? this.state.user : ' '
