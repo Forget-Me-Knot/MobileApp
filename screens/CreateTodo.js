@@ -13,70 +13,76 @@ export default class CreateEvent extends Component {
 
   componentDidMount() {
     const self = this;
-    firebase.auth().onAuthStateChanged(function(user) {
-      const ref = firebase.database().ref();
-      ref.on('value', function(snapshot) {
-        const projects = snapshot.val().projects;
-        let myProjects = [];
-        let members = [];
-        for (var key in projects) {
-          if (projects[key].members.includes(user.email)) {
-            const name = projects[key].name;
-            members = projects[key].members;
-            myProjects.push({ name, members, key });
-          }
+    firebase.auth().onAuthStateChanged(async function(user) {
+      const projects = await firebase
+        .database()
+        .ref('/projects')
+        .once('value')
+        .then(snap => snap.val());
+      let myProjects = [];
+      let members = [];
+      for (var key in projects) {
+        if (projects[key].members.includes(user.email)) {
+          const name = projects[key].name;
+          members = projects[key].members;
+          myProjects.push({ name, members, key });
         }
-        self.setState({
-          projects: myProjects,
-          selectedProject: myProjects[0].name,
-          members: myProjects[0].members,
-          selectedMember: members[0],
-        });
+      }
+      self.setState({
+        projects: myProjects,
+        selectedProject: myProjects[0].name,
+        members: myProjects[0].members,
+        selectedMember: members[0],
       });
     });
   }
 
-  handleSubmit() {
+  async handleSubmit() {
     const nav = this.props.navigation;
     const self = this;
     const assigned = this.state.selectedMember;
     const projectName = this.state.selectedProject;
     let projectId;
     const content = this.state.name;
-    const newKey = firebase
+    const newKey = await firebase
       .database()
       .ref('tasks/')
       .push().key;
-    const ref = firebase.database().ref();
-    ref.on('value', function(snapshot) {
-      const users = snapshot.val().users;
-      const projects = snapshot.val().projects;
-      for (var key in projects) {
-        if (projects[key].name === projectName) {
-          projectId = key;
-        }
+    const users = await firebase
+      .database()
+      .ref('/users')
+      .once('value')
+      .then(snap => snap.val());
+    const projects = await firebase
+      .database()
+      .ref('/projects')
+      .once('value')
+      .then(snap => snap.val());
+    for (var key in projects) {
+      if (projects[key].name === projectName) {
+        projectId = key;
       }
-      let task;
-      for (var key in users) {
-        if (users[key].email === assigned) {
-          task = {
-            projectId,
-            assigned: users[key].displayName,
-            completed: false,
-            content,
-          };
-        }
+    }
+    let task;
+    for (var key in users) {
+      if (users[key].email === assigned) {
+        task = {
+          projectId,
+          assigned: users[key].displayName,
+          completed: false,
+          content,
+        };
       }
-      firebase
-        .database()
-        .ref('tasks/')
-        .child(newKey)
-        .set(task);
-      self.setState({
-        todo: '',
-        assignMember: '',
-        assignProject: '',
-      });
+    }
+    await firebase
+      .database()
+      .ref('tasks/')
+      .child(newKey)
+      .set(task);
+    self.setState({
+      todo: '',
+      assignMember: '',
+      assignProject: '',
     });
     nav.navigate('Todo');
   }
@@ -97,7 +103,6 @@ export default class CreateEvent extends Component {
   }
 
   render() {
-		console.log(this.state)
     const projects = this.state.projects;
     const members = this.state.members;
     const self = this;

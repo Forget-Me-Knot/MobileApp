@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { Card, ListItem, Avatar } from 'react-native-elements'
+import { Card, ListItem, Avatar } from 'react-native-elements';
 import { StyleSheet, Text, View, Image } from 'react-native';
-import { Divider } from 'react-native-material-ui'
+import { Divider } from 'react-native-material-ui';
 import firebase from '../firebase';
 
 const styles = StyleSheet.create({
   container: {
-		alignItems: 'center',
-		width: '100%'
+    alignItems: 'center',
+    width: '100%',
   },
 });
 
@@ -44,25 +44,37 @@ export default class Home extends Component {
   }
 
   render() {
-		console.log(this.state)
     const project = this.state.project;
     const members = this.state.members;
+    let icon;
+    if (members.length === 1) {
+      icon = 'user';
+    } else {
+      icon = 'users';
+    }
     return (
-				<Card title={project.name} style={{width: '100%'}}>
-				{members.map(member => (
-          <ListItem key={member.email} title={member.displayName} hideChevron
-						style={{width: '100%'}}>
-						{' '}
-						<Avatar
-            	rounded
-              icon={{ name: 'user', type: 'font-awesome' }}
-              size="xsmall"
-              containerStyle={{marginLeft: 20}}
-              overlayContainerStyle={{backgroundColor: `#${project.color}`}}
-            />
-					</ListItem>
-				))}
-				</Card>
+      <Card title={project.name} style={{ width: '100%' }}>
+        {/* <Avatar
+          size="large"
+          alignSelf="center"
+          rounded
+          icon={{ name: `${icon}`, type: 'font-awesome' }}
+          containerStyle={{
+            marginRight: 20,
+          }}
+          overlayContainerStyle={{
+            backgroundColor: `#${project.color}`,
+          }}
+        /> */}
+        {members.map(member => (
+          <ListItem
+            key={member.email}
+            title={member.displayName}
+            hideChevron
+            style={{ width: '100%' }}
+          />
+        ))}
+      </Card>
     );
   }
 }
