@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Image } from 'react-native';
-import { Button } from 'react-native-elements';
+import { StyleSheet, SafeAreaView, ScrollView, View, Text } from 'react-native';
+import { Button, Tile, Avatar, Title } from 'react-native-elements';
 import firebase from '../firebase';
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
+  root: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
   },
 });
 
@@ -17,64 +20,91 @@ export default class Photos extends Component {
 
   componentDidMount() {
     const self = this;
-    firebase.auth().onAuthStateChanged(function(user) {
-      const ref = firebase.database().ref();
-      ref.on('value', function(snapshot) {
-        const photos = snapshot.val().photos;
-        const projects = snapshot.val().projects;
-        let myPhotos = [];
-        let myProjects = [];
-        let colors = {};
-        for (var key in projects) {
-          if (projects[key].members.includes(user.email)) {
-            myProjects.push(key);
-            colors[key] = projects[key].color;
-          }
+    firebase.auth().onAuthStateChanged(async function(user) {
+      const photos = await firebase
+        .database()
+        .ref('photos')
+        .once('value')
+        .then(snap => snap.val());
+      const projects = await firebase
+        .database()
+        .ref('/projects')
+        .once('value')
+        .then(snap => snap.val());
+      let myPhotos = [];
+      let myProjects = [];
+      let colors = {};
+      for (var key in projects) {
+        if (projects[key].members.includes(user.email)) {
+          myProjects.push(key);
+          colors[key] = projects[key].color;
         }
-        for (var id in photos) {
-          if (myProjects.includes(photos[id].projectId + '')) {
-            myPhotos.push({
-              ...photos[id],
-              key: id,
-              color: colors[photos[id].projectId],
-            });
-          }
+      }
+      for (var id in photos) {
+        if (myProjects.includes(photos[id].projectId + '')) {
+          myPhotos.push({
+            ...photos[id],
+            key: id,
+            color: colors[photos[id].projectId],
+          });
         }
-        self.setState({ photos: myPhotos });
-      });
+      }
+      self.setState({ photos: myPhotos });
     });
   }
 
   render() {
+    const photos = this.state.photos;
     const nav = this.props.navigation;
     return (
-      <View style={styles.container}>
-        {this.state.photos
-          ? this.state.photos.map(photo => (
-              <Image
-                key={photo.key}
-                style={{
-                  width: 100,
-                  height: 100,
-                  margin: 10,
-                }}
-                source={{ uri: photo.images[0].uri }}
-              />
-            ))
-          : null}
-        <Button
-          title="NEW PHOTO"
-          buttonStyle={{
-            width: '100%',
-            height: 45,
-            borderRadius: 5,
-            marginTop: 10,
-          }}
-          onPress={() => {
-            nav.navigate('CreatePhoto');
-          }}
-        />
-      </View>
+      <SafeAreaView>
+        <ScrollView>
+          {photos
+            ? photos.map(photo => (
+                /* <Tile>
+                  <Image
+                    styleName="large-banner"
+                    source={{
+                      uri:
+                        'https://shoutem.github.io/img/ui-toolkit/examples/image-5.png',
+                    }}
+                  />
+                  <View styleName="content">
+                    <Title>MAUI BY AIR THE BEST WAY AROUND THE ISLAND</Title>
+                    <View styleName="horizontal space-between">
+                      <Caption>1 hour ago</Caption>
+                      <Caption>15:34</Caption>
+                    </View>
+                  </View>
+                </Tile> */
+                <View style={styles.root} key={photo.key}>
+                  <Tile
+                    imageSrc={{ uri: `${photo.url}` }}
+                    title={photo.content}
+                    titleStyle={{ fontSize: 20 }}
+                    icon={{ name: 'lens', color: `#${photo.color}` }}
+                    contentContainerStyle={{
+                      height: 30,
+                    }}
+                    featured={true}
+                  />
+                </View>
+              ))
+            : null}
+          <Button
+            title="NEW PHOTO"
+            buttonStyle={{
+              width: '100%',
+              height: 45,
+              borderRadius: 5,
+              marginTop: 10,
+            }}
+            onPress={() => {
+              nav.navigate('CreatePhoto');
+            }}
+          />
+        </ScrollView>
+      </SafeAreaView>
     );
   }
 }

@@ -65,22 +65,22 @@ export default class CreateEvent extends Component {
     });
   };
 
-  handleSubmit() {
+  async handleSubmit() {
     const projId = this.state.selectedProject;
-    let project;
-    const curProj = firebase.database().ref('projects/' + projId);
-    curProj.on('value', function(snapshot) {
-      project = snapshot.val();
-    });
-    const newKey = firebase
+    const color = await firebase
+      .database()
+      .ref(`projects/${projId}/color`)
+      .once('value')
+      .then(snap => snap.val());
+    const newKey = await firebase
       .database()
       .ref('notes/')
       .push().key;
-    firebase
+    await firebase
       .database()
       .ref('events/' + newKey)
       .set({
-        color: project.color,
+        color: color,
         date: {
           dateString: this.state.date.dateString,
           day: parseInt(this.state.date.day),

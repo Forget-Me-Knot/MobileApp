@@ -1,8 +1,15 @@
+<<<<<<< HEAD
+import React, { Component } from 'react';
+import { Card, ListItem, Avatar } from 'react-native-elements';
+import { StyleSheet, Text, View, Image } from 'react-native';
+import firebase from '../firebase';
+=======
 import React, { Component } from "react";
 import { Card, ListItem, Avatar } from "react-native-elements";
 import { StyleSheet, Text, View, Image, ImageBackground } from "react-native";
 import { Divider } from "react-native-material-ui";
 import firebase from "../firebase";
+>>>>>>> master
 
 const styles = StyleSheet.create({
   container: {
