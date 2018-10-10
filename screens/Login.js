@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import firebase from '../firebase';
-import { View, Keyboard } from 'react-native';
+import { View, Keyboard, Image } from 'react-native';
 import { Card, Button, FormLabel, FormInput } from 'react-native-elements';
 
 export default class Login extends Component {
@@ -39,10 +39,15 @@ export default class Login extends Component {
           alignContent: 'center',
         }}
       >
-        <Card
-          title="Forget-Me-Knot"
-          style={{ justifyContent: 'center', alignContent: 'center'}}
-        >
+        <Card>
+          <Image
+            source={require('../assets/images/fmk.png')}
+            style={{
+              width: 150,
+              height: 60,
+              alignSelf: 'center',
+            }}
+          />
           <FormLabel>E-mail</FormLabel>
           <FormInput
             onChangeText={email => this.setState({ email })}

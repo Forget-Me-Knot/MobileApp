@@ -80,9 +80,7 @@ class ToDo extends Component {
       .then(this.setState({ [key]: !this.state[key] }));
   }
 
-  //make outside funcition. then bind to item.
   render() {
-		console.log(this.state)
     const nav = this.props.navigation;
     const tasks = this.state.tasks;
     return (

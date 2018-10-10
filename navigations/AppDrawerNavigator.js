@@ -67,29 +67,30 @@ class CustomDrawer extends Component {
     const self = this;
     let groupProjects;
     let userProjects;
-    firebase.auth().onAuthStateChanged(function(user) {
+    firebase.auth().onAuthStateChanged(async function(user) {
       if (user) {
-        var ref = firebase.database().ref('projects');
-        ref.on('value', function(snapshot) {
-          groupProjects = [];
-          userProjects = [];
-          let projects = snapshot.val();
-          for (let key in projects) {
-            if (projects[key].members) {
-              const members = projects[key].members;
-              const name = projects[key].name;
-              const color = projects[key].color;
-              if (members.includes(user.email) && members.length > 1) {
-                groupProjects.push({ name, key, color, members });
-              } else if (members[0] === user.email) {
-                userProjects.push({ name, key, color, members });
-              }
+        const projects = await firebase
+          .database()
+          .ref('projects')
+          .once('value')
+          .then(snap => snap.val());
+        groupProjects = [];
+        userProjects = [];
+        for (let key in projects) {
+          if (projects[key].members) {
+            const members = projects[key].members;
+            const name = projects[key].name;
+            const color = projects[key].color;
+            if (members.includes(user.email) && members.length > 1) {
+              groupProjects.push({ name, key, color, members });
+            } else if (members[0] === user.email) {
+              userProjects.push({ name, key, color, members });
             }
           }
-          self.setState({
-            groups: groupProjects,
-            personal: userProjects,
-          });
+        }
+        self.setState({
+          groups: groupProjects,
+          personal: userProjects,
         });
       }
     });
@@ -152,75 +153,62 @@ class CustomDrawer extends Component {
             >
               <Text style={{fontFamily: 'Oxygen'}}>Personal projects</Text>
             </ListItem>
-
-            {this.state.personal
-              ? this.state.personal.map(project => {
-                  return (
-                    <ListItem
-                      key={project.key}
-                      title={project.name}
-                      style={{
-                        marginLeft: 0,
-                        paddingLeft: 10,
-                      }}
-                      container={{
-                        flex: 1,
-                      }}
-                      onPress={() =>
-                        nav.navigate('ProjectHome', {
-                          project: project,
-                        })
-                      }
-                    >
-                      {' '}
-                      <Avatar
-                        rounded
-                        icon={{ name: 'user', type: 'font-awesome' }}
-                        size="xsmall"
-                        containerStyle={{
-                          marginRight: 20,
+              {this.state.personal
+                ? this.state.personal.map(project => {
+                    return (
+                      <ListItem
+                        key={project.key}
+                        title={project.name}
+                        style={{
+                          marginLeft: 0,
+                          paddingLeft: 10,
                         }}
-                        overlayContainerStyle={{
-                          backgroundColor: `#${project.color}`,
+                        container={{
+                          flex: 1,
                         }}
-                      />
-                      <Text style={{fontFamily: 'Oxygen'}}>{project.name}</Text>
-                    </ListItem>
-                  );
-                })
-              : null}
+                        onPress={() =>
+                          nav.navigate('ProjectHome', {
+                            project: project,
+                          })
+                        }
+                      >
+                        {' '}
+                        <Avatar
+                          rounded
+                          icon={{ name: 'user', type: 'font-awesome' }}
+                          size="xsmall"
+                          containerStyle={{
+                            marginRight: 20,
+                          }}
+                          overlayContainerStyle={{
+                            backgroundColor: `#${project.color}`,
+                          }}
+                        />
+                        <Text style={{ fontFamily: 'Oxygen' }}>
+                          {project.name}
+                        </Text>
+                      </ListItem>
+                    );
+                  })
+                : null}
 
-            <ListItem
-              style={{
-                marginLeft: 0,
-                paddingLeft: 10,
-                backgroundColor: '#F2F2F2',
-              }}
-            >
-              <Text style={{fontFamily: 'Oxygen'}}>Group projects</Text>
-            </ListItem>
-            {this.state.groups
-              ? this.state.groups.map(project => {
-                  return (
-                    <ListItem
-                      key={project.key}
-                      style={{
-                        marginLeft: 0,
-                        paddingLeft: 10,
-                      }}
-                      onPress={() =>
-                        nav.navigate('ProjectHome', {
-                          project: project,
-                        })
-                      }
-                    >
-                      {' '}
-                      <Avatar
-                        rounded
-                        icon={{ name: 'users', type: 'font-awesome' }}
-                        size={50}
-                        containerStyle={{
-                          marginRight: 20,
+              <ListItem
+                style={{
+                  marginLeft: 0,
+                  paddingLeft: 10,
+                  backgroundColor: '#F2F2F2',
+                }}
+              >
+                <Text style={{ fontFamily: 'Oxygen' }}>Group projects</Text>
+              </ListItem>
+              {this.state.groups
+                ? this.state.groups.map(project => {
+                    return (
+                      <ListItem
+                        key={project.key}
+                        style={{
+                          marginLeft: 0,
+                          paddingLeft: 10,
                         }}
                         overlayContainerStyle={{
                           backgroundColor: `#${project.color}`,
