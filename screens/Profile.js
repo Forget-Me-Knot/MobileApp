@@ -3,12 +3,6 @@ import { ScrollView } from 'react-native';
 import firebase from '../firebase';
 import { Card, Button, ListItem, List, Text } from 'react-native-elements';
 
-// const styles = StyleSheet.create({
-//   container: {
-//     alignItems: 'center',
-//   },
-// });
-
 export default class Profile extends Component {
   constructor(props) {
     super(props);
@@ -90,6 +84,11 @@ export default class Profile extends Component {
                   rightIcon={{ name: 'delete', style: { marginRight: 10 } }}
                   leftIcon={{ name: 'lens', color: '#' + project.color }}
                   onPressRightIcon={() => this.deleteProject(project.key)}
+                  onPress={() =>
+                    nav.navigate('ProjectHome', {
+                      project: project,
+                    })
+                  }
                   style={{
                     marginLeft: 0,
                     paddingLeft: 10,
