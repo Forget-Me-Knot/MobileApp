@@ -41,7 +41,7 @@ export default class Login extends Component {
       >
         <Card
           title="Forget-Me-Knot"
-          style={{ justifyContent: 'center', alignContent: 'center' }}
+          style={{ justifyContent: 'center', alignContent: 'center'}}
         >
           <FormLabel>E-mail</FormLabel>
           <FormInput
@@ -61,8 +61,8 @@ export default class Login extends Component {
             buttonStyle={{
               width: '100%',
               height: 45,
-              borderRadius: 5,
-              marginTop: 10,
+							marginTop: 10,
+							backgroundColor: '#242424'
             }}
             onPress={() => this.loginSubmit(nav)}
           />
@@ -70,8 +70,8 @@ export default class Login extends Component {
             buttonStyle={{
               width: '100%',
               height: 45,
-              borderRadius: 5,
-              marginTop: 10,
+							marginTop: 10,
+							backgroundColor: '#242424'
             }}
             title="SIGN UP AS NEW USER"
             onPress={() => nav.navigate('Signup')}
@@ -81,8 +81,8 @@ export default class Login extends Component {
             buttonStyle={{
               width: '100%',
               height: 45,
-              borderRadius: 5,
-              marginTop: 10,
+							marginTop: 10,
+							backgroundColor: '#242424'
             }}
             onPress={() => nav.navigate('App')}
           />

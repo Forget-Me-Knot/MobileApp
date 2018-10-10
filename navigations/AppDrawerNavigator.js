@@ -11,8 +11,9 @@ import {
   View,
   List,
 	ListItem,
+	Footer
 } from 'native-base';
-import { Avatar } from 'react-native-elements';
+import { Avatar, Divider } from 'react-native-elements';
 import AppStackNavigator from './AppStackNavigator';
 import Login from '../screens/Login';
 import Todo from '../screens/ToDo';
@@ -38,22 +39,18 @@ const logOut = function() {
 
 const LogoutButton = props => {
   return firebase.auth().currentUser ? (
-    <View>
-      <Button full light onPress={() => props.navigation.navigate('Create')}>
+    <Footer style={{
+			flexDirection: 'column',
+			height: 90,
+		}}>
+      <Button full light onPress={() => props.navigation.navigate('Create')} style={{borderColor: '#c0c0c0'}}>
         <Text style={{fontFamily: 'Oxygen'}}>Create Project</Text>
       </Button>
-      <Button
-        // style={{ backgroundColor: '#F2F2F2' }}
-        full
-        light
-        onPress={() => {
-          logOut();
-          props.navigation.navigate('Login');
-        }}
-      >
+			<Divider style={{backgroundColor: '#c0c0c0'}} />
+			<Button full light onPress={() => {logOut(); props.navigation.navigate('Login');}} >
         <Text style={{fontFamily: 'Oxygen'}}>LOGOUT</Text>
       </Button>
-    </View>
+    </Footer>
   ) : null;
 };
 
@@ -102,7 +99,6 @@ class CustomDrawer extends Component {
     const nav = this.props.navigation;
     return (
       <Container>
-				<ScrollView>
         <Header style={{ height: 80 }}>
           <Body>
             <Image
@@ -118,6 +114,7 @@ class CustomDrawer extends Component {
             justifyContent: 'space-between',
           }}
         >
+				<ScrollView>
           <List>
             <ListItem
               style={{
@@ -235,9 +232,9 @@ class CustomDrawer extends Component {
                 })
               : null}
           </List>
-          <LogoutButton navigation={nav} />
+					</ScrollView>
         </Content>
-				</ScrollView>
+				<LogoutButton navigation={nav} />
       </Container>
     );
   }
