@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, Animated } from 'react-native';
+import { StyleSheet, Text, View, Animated, ImageBackground } from 'react-native';
 import firebase from '../firebase';
 
 class FadeView extends Component {
@@ -84,10 +84,14 @@ export default class Home extends Component {
 		const user = this.state.user ? this.state.user : ' '
     return (
       <View style={styles.container}>
-				<FadeView>
-							<Text style={{fontFamily: 'Abril', fontSize: 35, textAlign: 'center', margin: 5}}>{this.state.message}</Text>
-							<Text style={{fontFamily: 'Abril', fontSize: 20, textAlign: 'center', margin: 5}}>{user}</Text>
-				</FadeView>
+				<ImageBackground source={require('../assets/images/bg.jpg')}
+					style={{width: '100%', height: '100%', flex: 1, justifyContent: 'center'}}
+				>
+					<FadeView>
+						<Text style={{fontFamily: 'Abril', fontSize: 35, textAlign: 'center', margin: 5}}>{this.state.message}</Text>
+						<Text style={{fontFamily: 'Abril', fontSize: 20, textAlign: 'center', margin: 5}}>{user}</Text>
+					</FadeView>
+				</ImageBackground>
       </View>
     );
   }
