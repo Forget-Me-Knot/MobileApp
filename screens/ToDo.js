@@ -15,38 +15,34 @@ class ToDo extends Component {
   async componentDidMount() {
     this._mounted = true;
     var self = this;
-    firebase.auth().onAuthStateChanged(async function(user) {
+    await firebase.auth().onAuthStateChanged(function(user) {
       if (user) {
-        const projects = await firebase
-          .database()
-          .ref('/projects')
-          .once('value')
-          .then(snap => snap.val());
-        const tasks = await firebase
-          .database()
-          .ref('/tasks')
-          .once('value')
-          .then(snap => snap.val());
-        let myProjects = [];
-        let colors = {};
-        let myTasks = [];
-        for (var key in projects) {
-          if (projects[key].members.includes(user.email)) {
-            myProjects.push(key);
-            colors[key] = projects[key].color;
+        const ref = firebase.database().ref();
+        ref.on('value', function(snapshot) {
+          const tasks = snapshot.val().tasks;
+          const projects = snapshot.val().projects;
+
+          let myProjects = [];
+          let colors = {};
+          let myTasks = [];
+          for (var key in projects) {
+            if (projects[key].members.includes(user.email)) {
+              myProjects.push(key);
+              colors[key] = projects[key].color;
+            }
           }
-        }
-        for (var id in tasks) {
-          if (myProjects.includes(tasks[id].projectId + '')) {
-            myTasks.push({
-              ...tasks[id],
-              key: id,
-              color: colors[tasks[id].projectId],
-            });
-            self.setState({ [id]: tasks[id].completed });
+          for (var id in tasks) {
+            if (myProjects.includes(tasks[id].projectId + '')) {
+              myTasks.push({
+                ...tasks[id],
+                key: id,
+                color: colors[tasks[id].projectId],
+              });
+              self.setState({ [id]: tasks[id].completed });
+            }
           }
-        }
-        self.setState({ tasks: myTasks });
+          self.setState({ tasks: myTasks });
+        });
       }
     });
   }
@@ -88,7 +84,7 @@ class ToDo extends Component {
     const nav = this.props.navigation;
     const tasks = this.state.tasks;
     return (
-      <SafeAreaView>
+      <SafeAreaView style={{ marginTop: 10 }}>
         <ScrollView>
           <List>
             {tasks
@@ -125,8 +121,8 @@ class ToDo extends Component {
             buttonStyle={{
               width: '100%',
               height: 45,
-							marginTop: 10,
-							backgroundColor: '#242424'
+              borderRadius: 5,
+              marginTop: 10,
             }}
             onPress={() => {
               nav.navigate('CreateTodo');
@@ -137,9 +133,8 @@ class ToDo extends Component {
             buttonStyle={{
               width: '100%',
               height: 45,
-							marginTop: 10,
-							marginBottom: 5,
-							backgroundColor: '#242424'
+              borderRadius: 5,
+              marginTop: 10,
             }}
             onPress={() => {
               this.handleSubmit();
