@@ -83,6 +83,11 @@ export default class Profile extends Component {
                   rightIcon={{ name: 'delete', style: { marginRight: 10 } }}
                   leftIcon={{ name: 'lens', color: '#' + project.color }}
                   onPressRightIcon={() => this.deleteProject(project.key)}
+                  onPress={() =>
+                    nav.navigate('ProjectHome', {
+                      project: project,
+                    })
+                  }
                   style={{
                     marginLeft: 0,
 										paddingLeft: 10,
