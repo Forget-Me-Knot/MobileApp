@@ -84,7 +84,7 @@ class ToDo extends Component {
     const nav = this.props.navigation;
     const tasks = this.state.tasks;
     return (
-      <SafeAreaView style={{ marginTop: 10 }}>
+      <SafeAreaView>
         <ScrollView>
           <List>
             {tasks
@@ -121,8 +121,8 @@ class ToDo extends Component {
             buttonStyle={{
               width: '100%',
               height: 45,
-              borderRadius: 5,
-              marginTop: 10,
+							marginTop: 10,
+							backgroundColor: '#242424'
             }}
             onPress={() => {
               nav.navigate('CreateTodo');
@@ -133,8 +133,9 @@ class ToDo extends Component {
             buttonStyle={{
               width: '100%',
               height: 45,
-              borderRadius: 5,
-              marginTop: 10,
+							marginTop: 10,
+							marginBottom: 5,
+							backgroundColor: '#242424'
             }}
             onPress={() => {
               this.handleSubmit();
