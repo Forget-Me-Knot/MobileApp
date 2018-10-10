@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Card, ListItem, Avatar } from 'react-native-elements';
 import { StyleSheet, Text, View, Image } from 'react-native';
-import { Divider } from 'react-native-material-ui';
 import firebase from '../firebase';
 
 const styles = StyleSheet.create({

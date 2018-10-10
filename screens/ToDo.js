@@ -15,34 +15,38 @@ class ToDo extends Component {
   async componentDidMount() {
     this._mounted = true;
     var self = this;
-    await firebase.auth().onAuthStateChanged(function(user) {
+    firebase.auth().onAuthStateChanged(async function(user) {
       if (user) {
-        const ref = firebase.database().ref();
-        ref.on('value', function(snapshot) {
-          const tasks = snapshot.val().tasks;
-          const projects = snapshot.val().projects;
-
-          let myProjects = [];
-          let colors = {};
-          let myTasks = [];
-          for (var key in projects) {
-            if (projects[key].members.includes(user.email)) {
-              myProjects.push(key);
-              colors[key] = projects[key].color;
-            }
+        const projects = await firebase
+          .database()
+          .ref('/projects')
+          .once('value')
+          .then(snap => snap.val());
+        const tasks = await firebase
+          .database()
+          .ref('/tasks')
+          .once('value')
+          .then(snap => snap.val());
+        let myProjects = [];
+        let colors = {};
+        let myTasks = [];
+        for (var key in projects) {
+          if (projects[key].members.includes(user.email)) {
+            myProjects.push(key);
+            colors[key] = projects[key].color;
           }
-          for (var id in tasks) {
-            if (myProjects.includes(tasks[id].projectId + '')) {
-              myTasks.push({
-                ...tasks[id],
-                key: id,
-                color: colors[tasks[id].projectId],
-              });
-              self.setState({ [id]: tasks[id].completed });
-            }
+        }
+        for (var id in tasks) {
+          if (myProjects.includes(tasks[id].projectId + '')) {
+            myTasks.push({
+              ...tasks[id],
+              key: id,
+              color: colors[tasks[id].projectId],
+            });
+            self.setState({ [id]: tasks[id].completed });
           }
-          self.setState({ tasks: myTasks });
-        });
+        }
+        self.setState({ tasks: myTasks });
       }
     });
   }

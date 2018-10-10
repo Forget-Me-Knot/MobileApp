@@ -15,9 +15,11 @@ export default class CalendarView extends React.Component {
     };
     this._mounted = false;
   }
+
   static navigationOptions = {
     header: null,
   };
+
   componentDidMount() {
     this._mounted = true;
     const user = firebase.auth().currentUser;
