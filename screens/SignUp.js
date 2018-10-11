@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Card, Button, FormLabel, FormInput } from 'react-native-elements';
-import { View, Keyboard, TouchableOpacity } from 'react-native';
+import { View, Keyboard } from 'react-native';
 import firebase from '../firebase';
 
 export default class SignUp extends Component {

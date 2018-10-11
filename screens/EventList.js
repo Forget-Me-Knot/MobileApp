@@ -1,7 +1,6 @@
 import React from 'react';
 import { ScrollView, View } from 'react-native';
-import { List, ListItem } from 'react-native-elements';
-import { Header, Title } from 'native-base';
+import { List, ListItem } from 'react-native-elements'
 import firebase from '../firebase'
 
 export default class EventList extends React.Component {

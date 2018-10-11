@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, SafeAreaView, ScrollView, View, Text } from 'react-native';
-import { Button, Tile, Avatar, Title } from 'react-native-elements';
+import { StyleSheet, SafeAreaView, ScrollView, View } from 'react-native';
+import { Button, Tile} from 'react-native-elements';
 import firebase from '../firebase';
 
 const styles = StyleSheet.create({
@@ -61,22 +61,6 @@ export default class Photos extends Component {
         <ScrollView>
           {photos
             ? photos.map(photo => (
-                /* <Tile>
-                  <Image
-                    styleName="large-banner"
-                    source={{
-                      uri:
-                        'https://shoutem.github.io/img/ui-toolkit/examples/image-5.png',
-                    }}
-                  />
-                  <View styleName="content">
-                    <Title>MAUI BY AIR THE BEST WAY AROUND THE ISLAND</Title>
-                    <View styleName="horizontal space-between">
-                      <Caption>1 hour ago</Caption>
-                      <Caption>15:34</Caption>
-                    </View>
-                  </View>
-                </Tile> */
                 <View style={styles.root} key={photo.key}>
                   <Tile
                     imageSrc={{ uri: `${photo.url}` }}

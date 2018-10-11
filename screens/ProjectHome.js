@@ -1,15 +1,7 @@
 import React, { Component } from 'react';
 import { Card, ListItem, Avatar } from 'react-native-elements';
-import { StyleSheet, Text, View, Image, ImageBackground } from 'react-native';
-import { Divider } from 'react-native-material-ui';
+import { StyleSheet, Text, ImageBackground } from 'react-native';
 import firebase from '../firebase';
-
-const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    width: '100%',
-  },
-});
 
 export default class Home extends Component {
   constructor(props) {
@@ -59,7 +51,6 @@ export default class Home extends Component {
           width: '100%',
           height: '100%',
           flex: 1,
-          // justifyContent: "center"
         }}
       >
         <Avatar
@@ -76,11 +67,7 @@ export default class Home extends Component {
           }}
         />
 
-        <Card
-          title={project.name}
-          style={{ width: '100%' }}
-          // backgroundColor={`#${project.color}`}
-        >
+        <Card title={project.name} style={{ width: '100%' }}>
           <Text h3 style={{ textAlign: 'center' }}>
             Members:
           </Text>
