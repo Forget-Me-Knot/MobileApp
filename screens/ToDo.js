@@ -43,6 +43,8 @@ class ToDo extends Component {
           }
           self.setState({ tasks: myTasks });
         });
+      } else {
+        console.log('not logged in');
       }
     });
   }
@@ -104,7 +106,6 @@ class ToDo extends Component {
                             backgroundColor: 'white',
                           }}
                           checkedColor={'#' + task.color}
-                          //checked={this.state.checked}
                           checkedIcon="dot-circle-o"
                           uncheckedIcon="circle-o"
                           checked={this.state[task.key]}
