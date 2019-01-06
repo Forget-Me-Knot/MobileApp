@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import firebase from '../firebase';
-import { View, Keyboard, Image } from 'react-native';
+import { View, Keyboard, Image, Alert } from 'react-native';
 import { Card, Button, FormLabel, FormInput } from 'react-native-elements';
 
 export default class Login extends Component {
@@ -21,10 +21,11 @@ export default class Login extends Component {
           nav.navigate('App');
         })
         .catch(function(error) {
-          console.log(error.message);
+          // console.log(error.message);
+          Alert.alert(error.message);
         });
     }
-    this.setState = { email: '', pass: '' };
+    // this.setState = { email: '', pass: '' };
     Keyboard.dismiss();
   }
 
@@ -36,7 +37,7 @@ export default class Login extends Component {
           flexDirection: 'column',
           flex: 1,
           justifyContent: 'center',
-          alignContent: 'center',
+          alignContent: 'center'
         }}
       >
         <Card>
@@ -45,7 +46,7 @@ export default class Login extends Component {
             style={{
               width: 150,
               height: 60,
-              alignSelf: 'center',
+              alignSelf: 'center'
             }}
           />
           <FormLabel>E-mail</FormLabel>
@@ -66,8 +67,8 @@ export default class Login extends Component {
             buttonStyle={{
               width: '100%',
               height: 45,
-							marginTop: 10,
-							backgroundColor: '#242424'
+              marginTop: 10,
+              backgroundColor: '#242424'
             }}
             onPress={() => this.loginSubmit(nav)}
           />
@@ -75,8 +76,8 @@ export default class Login extends Component {
             buttonStyle={{
               width: '100%',
               height: 45,
-							marginTop: 10,
-							backgroundColor: '#242424'
+              marginTop: 10,
+              backgroundColor: '#242424'
             }}
             title="SIGN UP AS NEW USER"
             onPress={() => nav.navigate('Signup')}
@@ -86,8 +87,8 @@ export default class Login extends Component {
             buttonStyle={{
               width: '100%',
               height: 45,
-							marginTop: 10,
-							backgroundColor: '#242424'
+              marginTop: 10,
+              backgroundColor: '#242424'
             }}
             onPress={() => nav.navigate('App')}
           />
